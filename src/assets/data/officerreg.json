@@ -1,0 +1,40 @@
+{
+    "controls": [
+        {
+          "name": "ap",
+          "label": "AP Number",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "username",
+          "label": "Prefered Username",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "emailAddress",
+          "label": "Email Address",
+          "value": "",
+          "type": "email",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "phone",
+          "label": "Phone Number",
+          "value": "",
+          "type": "tel",
+          "validators": {
+            "required": true
+          }
+        }
+     ]
+}

@@ -1,0 +1,27 @@
+    <ion-list>
+      <ion-list-header>
+        <ion-label class="mt-10">Report Incident</ion-label>
+      </ion-list-header>
+      
+      <ion-item (click)="navigate('pb', 'Police Brutality')">
+        <ion-avatar class="icon-bg" slot="start">
+          <ion-icon name="brutality"></ion-icon>
+        </ion-avatar>
+        <ion-label class="ion-text-wrap">
+          <h4>Police Brutality</h4>
+          <p>Report incidence of police brutality, fill a simple form</p>
+        </ion-label>
+        <ion-button fill="outline" > Open</ion-button>
+      </ion-item>
+      <ion-item (click)="navigate('sa', 'Simple Accident')" lines="none">
+        <ion-avatar class="icon-bg" slot="start">
+          <ion-icon name="accident-car"></ion-icon>
+        </ion-avatar>
+        <ion-label class="ion-text-wrap">
+          <h4>Simple Accident</h4>
+          <p class="text-small text-nowrap">Report traffic accident, fill a simple form</p>
+        </ion-label>
+        <ion-button fill="outline" > Open</ion-button>
+      </ion-item>
+    </ion-list>
+

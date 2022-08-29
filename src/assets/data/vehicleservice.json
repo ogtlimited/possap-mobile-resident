@@ -1,0 +1,23 @@
+{
+    "controls": [
+        {
+          "name": "vehicleIDType",
+          "label": "Vehicle ID Type",
+          "value": "",
+          "type": "selects",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "vehicleID",
+          "label": "Vehicle ID",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        }
+       
+      ]
+}

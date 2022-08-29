@@ -1,0 +1,70 @@
+<app-header [isHome]="true" [showProfile]="true" [showSos]="true" title="Home"></app-header>
+
+
+<ion-content>
+<ion-grid>
+  <ion-slides pager="false" [options]="slideOpts">
+    <ion-slide *ngFor="let speaker of speakers; let i = index">
+      <ion-card class="item-card" [ngStyle]="{background: getBg(i)}">
+        <div class="card-overlay bg-gradient opacity-60"></div>
+        <ion-card-header>
+          <ion-item detail="false" lines="none" class="speaker-item"
+            routerLink="/app/tabs/speakers/speaker-details/{{speaker.id}}">
+            <ion-label>
+              <ion-badge color="warning" slot="start">Possap</ion-badge>
+
+            </ion-label>
+          </ion-item>
+        </ion-card-header>
+
+        <ion-card-content class="pt-64 zIndex">
+
+          <span class="ion-text-wrap slide-details">
+            You can pay for services such as Special protection services, Guards service, Police extracts etc.
+          </span>
+
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-row>
+    <ion-col size="12">
+      <ion-card class="search-card mt-0">
+        <ion-card-header class="pb-0 pl-2">
+          <ion-item detail="false" lines="none" class="speaker-item">
+            <ion-avatar slot="start">
+              <ion-icon name="file-plus"></ion-icon>
+            </ion-avatar>
+            <ion-label>
+              <h3>Application Status</h3>
+              <span>search & find your application status</span>
+            </ion-label>
+          </ion-item>
+        </ion-card-header>
+
+        <ion-card-content class="pl-2 pr-16">
+          <ion-row>
+            <ion-col size="9">
+              <ion-searchbar searchIcon="none" mode="ios" [(ngModel)]="searchTerm"></ion-searchbar>
+
+            </ion-col>
+            <ion-col size="1">
+
+              <ion-button (click)="submit()" class="ion-text-capitalize searchBtn">
+                <ion-icon name="search-f"></ion-icon>
+              </ion-button>
+
+
+            </ion-col>
+            <ion-col></ion-col>
+
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+   <app-most-used></app-most-used>
+    <app-report-incidence></app-report-incidence>
+    <app-my-map></app-my-map>
+</ion-grid>
+</ion-content>

@@ -1,0 +1,32 @@
+ion-label {
+    font-size: 15px !important;
+    font-weight: 600;
+  }
+
+  .file{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: 1.5px solid #000;
+    border-radius: 8px;
+
+    ion-icon{
+      color: gray;
+    }
+
+  }
+
+  .file-label{
+    margin-top: 8px;
+    display: inline-block;
+    width: fit-content;
+  }
+  ion-input {
+    --placeholder-font-style: 12px
+  }
+  input::focus {
+    font-size: 17px;
+  }

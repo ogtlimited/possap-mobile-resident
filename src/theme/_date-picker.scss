@@ -1,0 +1,49 @@
+@import "./variables.scss";
+@import "./mixins/mixins";
+
+ion-datetime {
+  max-width: 100%;
+  position: relative;
+  &::part(icon) {
+    display: none !important;
+  }
+  button {
+    @extend .text-normal;
+  }
+  --placeholder-opacity: 1;
+  --ion-placeholder-color: var(--app-select-placeholder-color);
+  --placeholder-color: var(--app-select-placeholder-color);
+  --background: var(--app-input-bg) !important;
+  background: var(--background);
+  --border-radius: 4px 4px 0 0;
+  --padding-start: 8px;
+  --padding-end: 40px;
+  --highlight-height: 1px;
+  --padding-top: 12px;
+  --padding-bottom: 10px;
+}
+.custom-datepicker {
+  .picker-toolbar {
+    contain: none;
+    padding: rem(12) rem(8);
+    height: auto;
+    .picker-toolbar-button {
+      @include flexbox();
+      .picker-button {
+        height: auto;
+        @extend .text-normal;
+        padding: rem(8) rem(16);
+        color: $dark-green;
+      }
+    }
+  }
+  .picker-columns {
+    border-top: rem(1) solid $medium-grey-2;
+    .picker-opt {
+      &.picker-opt-selected {
+        color: $dark-green;
+        font-weight: bold;
+      }
+    }
+  }
+}

@@ -1,0 +1,106 @@
+<!-- <app-header title=""></app-header> -->
+<ion-content class="">
+  <div class="login-logo">
+    <img src="assets/custom-icons/possap-icon.svg" alt="Ionic logo">
+    <!-- <ion-label color="primary" class="pos-abs" slot="end">Sign up</ion-label> -->
+    <ion-button *ngIf="!showForgotPasswordPage" color="primary" class="pos-abs" fill="clear" routerLink="/signup" routerDirection="forward">Sign up</ion-button>
+  </div>
+  <ion-row *ngIf="!showForgotPasswordPage" class="px-16 mb-20">
+    <ion-col>
+      <h4 class="signin">
+        Sign in to Possap Admin
+      </h4>
+      <ion-label class="enterDetails">
+        Enter your details below
+      </ion-label>
+    </ion-col>
+
+  </ion-row>
+  <ion-row *ngIf="showForgotPasswordPage" class="px-16 mb-20">
+    <ion-col>
+      <h4 class="signin">
+        Forgot your Password ?
+      </h4>
+      <ion-label class="enterDetails ion-text-center">
+        Please enter the email address associated with your account and We will email you a link to reset your password.
+      </ion-label>
+    </ion-col>
+
+  </ion-row>
+  <ion-radio-group *ngIf="!showForgotPasswordPage" [value]="userType">
+    <ion-row>
+      <ion-col class="ion-no-padding" size="6">
+        <ion-card (click)="changeUser('resident')">
+          <ion-item class="ml-16 py-24" lines="none">
+            <ion-label class="pt-16">Resident</ion-label>
+            <ion-radio class="pos-absolute" mode="md" slot="start" value="resident"></ion-radio>
+          </ion-item>
+
+        </ion-card>
+
+      </ion-col>
+      <ion-col class="ion-no-padding" size="6">
+        <ion-card (click)="changeUser('officer')">
+          <ion-item class="ml-16 py-24" lines="none">
+            <ion-label class="pt-16">Officer</ion-label>
+            <ion-radio class="pos-absolute" mode="md" slot="start" value="officer"></ion-radio>
+          </ion-item>
+
+        </ion-card>
+
+      </ion-col>
+
+
+    </ion-row>
+  </ion-radio-group>
+
+
+  <div *ngIf="!showForgotPasswordPage" class="container">
+    <app-resident-form *ngIf="userType === 'resident'"></app-resident-form>
+    <app-officer-form *ngIf="userType === 'officer'"></app-officer-form>
+  </div>
+
+  <div *ngIf="showForgotPasswordPage" class="container">
+    <form (ngSubmit)="submitForgotPassword()" [formGroup]="forgotPassword" class="form-container pt-4">
+      <div *ngIf="!showForgotPasswordPageComplete">
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
+        <div *ngIf="(femail.dirty || femail.touched) && femail.errors" class="errors">
+          <span *ngIf="femail.errors?.required">Email is required</span>
+          <span *ngIf="femail.errors?.femail">Email is invalid</span>
+        </div>
+
+      </div>
+      <div *ngIf="showForgotPasswordPageComplete">
+
+        <ion-item>
+          <ion-label position="floating">Verification Code</ion-label>
+          <ion-input type="text" formControlName="verificationCode"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Enter New Password</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <div *ngIf="(fpwd.dirty || fpwd.touched) && fpwd.errors" class="errors">
+          <span *ngIf="fpwd.errors?.required">Email is required</span>
+          <span *ngIf="fpwd.errors?.fpwd">Email is invalid</span>
+        </div>
+      </div>
+
+
+      <ion-button expand="block" class="login mt-24 mx-12" type="submit" [disabled]="!forgotPassword.valid">Submit
+      </ion-button>
+      <div class="flex ion-justify-content-between sign-up">
+
+        <ion-button color="dark" fill="clear" (click)="showForgotPasswordPage= !showForgotPasswordPage">
+          <ion-icon color="dark" name="arrow-left"></ion-icon>Back
+        </ion-button>
+      </div>
+
+
+    </form>
+  </div>
+
+</ion-content>

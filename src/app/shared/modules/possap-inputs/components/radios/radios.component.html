@@ -1,0 +1,52 @@
+<ion-item class="form-group w-100 bg-inherit" [formGroup]="formGroup">
+    <ion-radio-group formControlName="radio" class="w-100">
+        <ion-label slot="start" class="mb-8 input-label" position="stacked" [ngClass]="config?.inputLabel?.classes" [color]="config?.inputLabel?.color">{{ config?.inputLabel?.text }}</ion-label>
+        <ng-container *ngFor="let item of items; first as isFirst; last as isLast">
+            <ion-item [ngClass]="config?.itemRefWrapperClasses" *ngIf="config?.itemTemplateRef">
+                <ion-radio slot="start" value="item?.id"></ion-radio>
+                <ng-container [ngTemplateOutlet]="config?.itemTemplateRef" [ngTemplateOutletContext]="{
+            item: item,
+            first: isFirst,
+            last: isLast
+          }"></ng-container>
+            </ion-item>
+            <ng-container *ngIf="!config?.itemTemplateRef">
+                <ng-container *ngIf="config?.mode === 'chip'" [ngTemplateOutlet]="radioChipRef" [ngTemplateOutletContext]="{
+            item: item,
+            first: isFirst,
+            last: isLast
+          }"></ng-container>
+
+                <ng-container *ngIf="config?.mode === 'item' || !config?.mode" [ngTemplateOutlet]="radioItemRef" [ngTemplateOutletContext]="{
+            item: item,
+            first: isFirst,
+            last: isLast
+          }"></ng-container>
+            </ng-container>
+        </ng-container>
+    </ion-radio-group>
+</ion-item>
+
+<ng-template #radioItemRef let-item="item" let-last="last" let-first="first">
+    <ion-item lines="none" [class]="'radio-item-wrapper ' + config?.itemClasses" [ngClass]="{
+      last: last,
+      first: first
+    }">
+        <ion-label class="radio-label">{{ item?.label }}</ion-label>
+        <ion-radio slot="start" [value]="item?.id" class="radio-btn"></ion-radio>
+    </ion-item>
+</ng-template>
+
+<ng-template #radioChipRef let-item="item" let-last="last" let-first="first">
+    <ion-chip class="chip-radio" [color]="
+      controlValue !== item?.id ? 'omn-radio-chip' : 'omn-radio-chip-active'
+    " [ngClass]="{
+      'ml-0': first,
+      'mr-0': last
+    }" [outline]="true" (click)="toggleRadio(item)">
+        <ion-radio class="chip-radio-element ion-hide" [value]="item?.id" #rD></ion-radio>
+        <ion-label [color]="
+        controlValue !== item?.id ? 'omn-radio-chip' : 'omn-radio-chip-active'
+      " class="chip-radio-label text-weight-medium">{{ item?.label }}</ion-label>
+    </ion-chip>
+</ng-template>

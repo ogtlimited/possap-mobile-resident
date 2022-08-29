@@ -1,0 +1,40 @@
+{
+    "controls": [
+        {
+          "name": "from",
+          "label": "From",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "to",
+          "label": "To",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+       {
+          "name": "title",
+          "label": "Title",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+       {
+          "name": "body",
+          "label": "Body",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        }
+     ]
+}

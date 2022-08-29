@@ -1,0 +1,33 @@
+<ion-tabs>
+  <div (click)="presentModal()" class="outcast-button">
+    <div class="outcast-inner"></div>
+    <ion-icon name="eye"></ion-icon> 
+    <ion-label>Possap eye</ion-label>
+  </div>
+  <ion-tab-bar slot="bottom">
+    
+    <ion-tab-button tab="home">
+      <ion-icon name="custom-home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="requests">
+      <ion-icon name="file-plus"></ion-icon>
+      <ion-label>Request</ion-label>
+    </ion-tab-button>
+    <div tab="tab3" class="custom-tab">
+      <ion-icon name="add"></ion-icon>
+    </div>
+
+    <ion-tab-button tab="services">
+      <ion-icon name="package"></ion-icon>
+      <ion-label>Services</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="about">
+      <ion-icon name="information-circle"></ion-icon>
+      <ion-label>Information</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

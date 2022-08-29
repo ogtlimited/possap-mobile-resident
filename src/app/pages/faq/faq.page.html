@@ -1,0 +1,14 @@
+<app-header [showBack]="true" title="FAQ"></app-header>
+
+<ion-content class="ion-padding">
+  <ion-accordion-group>
+    <ion-accordion *ngFor="let faq of faqData" [value]="faq.question">
+      <ion-item slot="header">
+        <ion-label>{{faq.question}}</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        {{faq.answer}}
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-content>

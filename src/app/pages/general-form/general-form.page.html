@@ -1,0 +1,5 @@
+<app-header [showBack]="true" [title]="title"></app-header>
+
+<ion-content>
+  <app-form [jsonFormData]="jsonFormData" (emitForm)="submitForm($event)"></app-form>
+</ion-content>

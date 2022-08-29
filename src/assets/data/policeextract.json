@@ -1,0 +1,13 @@
+{
+    "controls": [
+        {
+          "name": "id",
+          "label": "id",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        }
+    ]
+}

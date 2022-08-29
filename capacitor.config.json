@@ -1,0 +1,6 @@
+{
+	"appId": "io.possap-resident.com",
+	"appName": "possap-mobile-resident",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

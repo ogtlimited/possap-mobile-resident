@@ -1,0 +1,40 @@
+{
+    "controls": [
+        {
+          "name": "audio",
+          "label": "Audio Recording",
+          "value": "",
+          "type": "file",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "video",
+          "label": "Video Recording",
+          "value": "",
+          "type": "file",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "photo",
+          "label": "Photograph",
+          "value": "",
+          "type": "file",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "description",
+          "label": "Description",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        }
+      ]
+}

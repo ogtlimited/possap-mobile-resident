@@ -1,0 +1,48 @@
+
+<ion-content class="ion-padding">
+  <div class="login-logo">
+    <img src="assets/custom-icons/possap-icon.svg" alt="Ionic logo">
+    <!-- <ion-label color="primary" class="pos-abs" slot="end">Sign up</ion-label> -->
+    <ion-button color="primary" class="pos-abs" fill="clear" routerLink="/login" routerDirection="forward">Login</ion-button>
+  </div>
+  <ion-row *ngIf="!showVerify" class="px-16 mb-5">
+    <ion-col>
+      <h4 class="signin">
+        Sign up to POSSAP
+      </h4>
+      <ion-label class="enterDetails">
+        Enter your details below
+      </ion-label>
+    </ion-col>
+
+  </ion-row>
+
+
+  <div *ngIf="!showVerify" class="container pb-32">
+    <app-resident-form (emitFormValue)="signup($event)" *ngIf="userType === 'resident'" ></app-resident-form>
+  </div>
+  <ion-row *ngIf="showVerify" class="px-32 h-100 pt-8 pb-7">
+    <ion-col>
+        <div class="text-center mb-8 ion-text-center">
+            <ion-text color="primary" class="alt-font x-large mb-5 text-center">
+              Verification code
+            </ion-text>
+        </div>
+        <div class="ion-text-center pb-5">
+            <ion-label class="text-small">
+               Enter the 6 digit code sent to your phone.
+            </ion-label>
+        </div>
+        <div class="ion-text-center pt-20">
+            <app-passcode [errorLogin]="InvalidCode" (doPassForm)="continue($event)"></app-passcode>
+        </div>
+        <div class="ion-text-center">
+            <ion-text *ngIf="errorLogin" class="text-small color-red">
+                {{ errorLogin }}
+            </ion-text>
+        </div>
+    </ion-col>
+</ion-row>
+</ion-content>
+
+<!-- <ion-button expand="block" routerLink="/menu/home">Login</ion-button> -->

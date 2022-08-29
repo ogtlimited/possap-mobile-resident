@@ -1,0 +1,62 @@
+ion-slide {
+    // width: 30% !important;
+    width: unset !important;
+  }
+
+  
+ion-slides {
+    height: 100%;
+  }
+
+  .swiper-slide {
+    display: block;
+  }
+.item-card {
+    height: 200px;
+    border-radius: 24px;
+  }
+
+
+  .card-overlay {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
+  }
+  .card-style .card-overlay {
+    border-radius: 20px;
+  }
+  ion-item,
+  ion-list {
+    --background: none;
+    background: none;
+
+  }
+  
+  
+  .search-card {
+      border-radius: 24px;
+    ion-icon,
+    h3 {
+      color: #000;
+    }
+    span {
+      color: initial;
+      font-size: 12px;
+    }
+  }
+  .searchBtn {
+    height: 36px;
+    margin-top: 12px;
+  }
+  .slide-details{
+      text-align: left;
+      font-size: 10px;
+  }
+  .zIndex{
+      z-index: 10;
+  
+  }
+  

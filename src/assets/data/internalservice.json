@@ -1,0 +1,33 @@
+{
+    "controls": [
+        {
+          "name": "name",
+          "label": "Name",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+      {
+          "name": "title",
+          "label": "Title",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+      
+        {
+          "name": "features",
+          "label": "Features",
+          "value": "",
+          "type": "select",
+          "validators": {
+            "required": true
+          }
+        }
+      
+     ]
+}

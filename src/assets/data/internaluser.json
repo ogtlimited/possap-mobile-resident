@@ -1,0 +1,86 @@
+{"controls": [
+    {
+      "name": "fullName",
+      "label": "Full Name",
+      "value": "",
+      "type": "text",
+      "validators": {
+        "required": true
+      }
+    },
+    {
+      "name": "formation",
+      "label": "Formation",
+      "value": "",
+      "type": "select",
+      "validators": {
+        "required": true
+      }
+    },
+   {
+      "name": "department",
+      "label": "Department",
+      "value": "",
+      "type": "select",
+      "validators": {
+        "required": true
+      }
+    },
+   {
+      "name": "section",
+      "label": "section",
+      "value": "",
+      "type": "select",
+      "validators": {
+        "required": true
+      }
+    },
+  {
+      "name": "subsection",
+      "label": "Subsection",
+      "value": "",
+      "type": "select",
+      "validators": {
+        "required": true
+      }
+    },
+  {
+      "name": "role",
+      "label": "Role",
+      "value": "",
+      "type": "select",
+      "validators": {
+        "required": true
+      }
+    },
+  {
+      "name": "services",
+      "label": "Services",
+      "value": "",
+      "type": "select",
+      "validators": {
+        "required": true
+      }
+    },
+   {
+      "name": "approvalRole",
+      "label": "Approval Role",
+      "value": "",
+      "type": "select",
+      "validators": {
+        "required": true
+      }
+    },
+   {
+      "name": "services",
+      "label": "Services",
+      "value": "",
+      "type": "select",
+      "validators": {
+        "required": true
+      }
+    }
+  
+ ]
+
+}

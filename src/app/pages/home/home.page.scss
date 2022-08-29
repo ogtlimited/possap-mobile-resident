@@ -1,0 +1,67 @@
+.item-card {
+    background-size: cover !important;
+    background-position: 0 0 !important;
+    height: 200px;
+    color: #fff;
+    border-radius: 24px;
+  }
+  .opacity-60 {
+    opacity: 0.6 !important;
+  }
+  .bg-gradient {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 20%,
+      rgba(0, 0, 0, 0.1) 30%,
+      rgba(0, 0, 0, 0.8) 70%,
+      black 100%
+    ) !important;
+  }
+  .card-overlay {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
+  }
+  .card-style .card-overlay {
+    border-radius: 20px;
+  }
+  ion-item,
+  ion-list {
+    --background: none;
+    background: none;
+    color: #fff;
+  }
+  
+  
+  .search-card {
+      border-radius: 24px;
+    ion-icon,
+    h3 {
+      color: #000;
+    }
+    span {
+      color: initial;
+      font-size: 12px;
+    }
+  }
+  .searchBtn {
+    height: 36px;
+    margin-top: 12px;
+    ion-icon {
+      color: #fff;
+    }
+  }
+  .slide-details{
+      color: #fff !important;
+      text-align: left;
+      font-size: 10px;
+  }
+  .zIndex{
+      z-index: 10;
+  
+  }
+  

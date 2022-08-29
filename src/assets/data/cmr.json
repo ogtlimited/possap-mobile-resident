@@ -1,0 +1,59 @@
+{
+    "controls": [
+        {
+            "name": "vehicleMake",
+            "label": "Vehicle Make",
+            "value": "",
+            "type": "text",
+            "validators": {
+                "required": true
+            }
+        },
+        {
+            "name": "vehicleColor",
+            "label": "Vehicle Color",
+            "value": "",
+            "type": "text",
+            "validators": {
+                "required": true
+            }
+        },
+        {
+            "name": "year",
+            "label": "Year",
+            "value": "",
+            "type": "date",
+            "validators": {
+                "required": true
+            }
+        },
+        {
+            "name": "carModel",
+            "label": "Model",
+            "value": "",
+            "type": "text",
+            "validators": {
+                "required": true
+            }
+        },
+        {
+            "name": "proofOfOwnership",
+            "label": "Proof Of Ownership",
+            "value": "",
+            "type": "file",
+            "validators": {
+                "required": true
+            }
+        },
+        {
+            "name": "registrationPapers",
+            "label": "Registration Papers",
+            "value": "",
+            "type": "file",
+            "validators": {
+                "required": true
+            }
+        }
+    ]
+    
+}

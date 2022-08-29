@@ -1,0 +1,28 @@
+<ion-header [translucent]="true" no-shadow no-border>
+  <ion-toolbar>
+    <ion-button *ngIf="showBack" (click)="back()" fill="clear" slot="start">
+      <ion-icon  color="dark" name="arrow-left"></ion-icon>
+    </ion-button>
+    <ion-buttons *ngIf="isHome"  slot="start">
+      <ion-menu-button>
+        <ion-icon name="align-left" color="dark" ></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+
+
+    <ion-title>
+     <div class="ion-text-wrap text-nowrap">
+      {{title}}
+     </div>
+    </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button *ngIf="showProfile"  (click)="goToCart()" style="width: 40px;">
+        <ion-badge class="badge-one" *ngIf="cartTotal > 0" >{{ cartTotal }}</ion-badge>
+        <ion-icon name="user"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="showSos"  (click)="goto()">
+        <ion-icon color="danger" name="sos"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

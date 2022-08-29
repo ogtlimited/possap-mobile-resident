@@ -1,0 +1,34 @@
+<app-header title="Request"></app-header>
+
+<ion-content fullscreen="true">
+
+
+  <ion-grid fixed>
+
+
+    <ion-list>
+      <!-- Sliding item with text options on both sides -->
+      <ion-item *ngFor="let item of speakers; let i = index" class="ion-no-padding py-12">
+        <div class="abbrev" slot="start" [ngStyle]="{background: item.bg}">
+          {{item.name | abbrev}}
+        </div>
+        <ion-label>
+          <ion-text color="dark">
+            <h5>{{item.name}}</h5>
+          </ion-text>
+          <p>Paragraph line 1</p>
+        </ion-label>
+        <ion-icon name="info" >
+
+        </ion-icon>
+        <!-- <ion-badge [color]="i % 2 === 0 ? 'success' : i % 3 === 0 ? 'warning' : 'primary'">
+          {{i % 2 === 0 ? 'Approved' : i % 3 === 0 ? 'Pending' : 'Rejected'}}
+        </ion-badge> -->
+      </ion-item>
+
+
+
+
+    </ion-list>
+  </ion-grid>
+</ion-content>

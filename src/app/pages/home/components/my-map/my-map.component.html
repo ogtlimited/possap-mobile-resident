@@ -1,0 +1,25 @@
+<ion-row>
+  <ion-col>
+    <ion-card class="search-card">
+      <img (click)="navigate()" src="assets/img/location-search.png" />
+      <ion-card-header>
+        <ion-card-subtitle>Destination</ion-card-subtitle>
+        <ion-card-title>MY MAP</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-avatar class="icon-bg" slot="start">
+            <ion-icon name="police-station"></ion-icon>
+
+          </ion-avatar>
+          <ion-label class="ion-text-wrap">
+            <h4>12.3 KM</h4>
+            <p class="text-small text-nowrap">Nearest Police Station</p>
+            <small class="">Kubwa Police Station</small>
+          </ion-label>
+          <ion-button fill="outline">View</ion-button>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row>

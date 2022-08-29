@@ -1,0 +1,33 @@
+<app-header [showBack]="true" title="Settings"></app-header>
+<ion-content>
+  <ion-row class="mt-24">
+    <ion-col size="12" size-md="6">
+      <ion-card class="search-card mt-0">
+        <ion-card-content class="pl-2 pr-16">
+          <ion-list>
+            <ion-item>
+              <ion-icon slot="start" name="globe"></ion-icon>
+              <ion-label>Change Language</ion-label>
+              <ion-select value="en" (ionChange)="langchange($event)" [interfaceOptions]="customActionSheetOptions"
+                interface="action-sheet" placeholder="Change Language">
+                <ion-select-option value="en">English</ion-select-option>
+                <ion-select-option value="ha">Hausa</ion-select-option>
+                <ion-select-option value="ig">Igbo</ion-select-option>
+                <ion-select-option value="yo">Yoruba</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" class="mt-5">
+              <ion-icon slot="start" name="bell-f"></ion-icon>
+              <ion-label>Notification</ion-label>
+              <ion-toggle color="primary"></ion-toggle>
+            </ion-item>
+
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+      
+    </ion-col>
+  </ion-row>
+
+
+</ion-content>

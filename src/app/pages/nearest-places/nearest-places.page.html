@@ -1,0 +1,32 @@
+<ion-content>
+  <ion-grid class="pos-abs">
+    <ion-button (click)="back()" fill="clear">
+      <ion-icon color="dark" name="x-circle"></ion-icon>
+    </ion-button>
+    <h1>MY MAP</h1>
+  </ion-grid>
+  <capacitor-google-map id="map" #map></capacitor-google-map>
+
+  <div class="footer">
+    <app-places-card *ngIf="location !== 'MY MAP'"></app-places-card>
+    <div *ngIf="location === 'MY MAP'">
+
+      <h1>Where are you going today</h1>
+      <ion-segment scrollable value="heart">
+        <ion-segment-button (click)="mapLocation('police station')" value="police-station">
+          <ion-label>Police Stations</ion-label>
+          <ion-icon name="police-station-2"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button (click)="mapLocation('gas station')" value="gas-station">
+          <ion-label>Gas Stations</ion-label>
+          <ion-icon name="gas-station"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button (click)="mapLocation('bank')" value="bank">
+          <ion-label>Gas Stations</ion-label>
+          <ion-icon name="bank"></ion-icon>
+        </ion-segment-button>
+  
+      </ion-segment>
+    </div>
+  </div>
+</ion-content>

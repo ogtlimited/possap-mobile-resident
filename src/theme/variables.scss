@@ -1,0 +1,211 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+/** Ionic CSS Variables **/
+
+:root {
+  --ion-font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --ion-default-font: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --ion-background-color: #f5f9fc;
+  --ion-background-color-rgb: 245, 249, 252;
+	--ion-color-primary: #2f4cb0;
+	--ion-color-primary-rgb: 47,76,176;
+	--ion-color-primary-contrast: #ffffff;
+	--ion-color-primary-contrast-rgb: 255,255,255;
+	--ion-color-primary-shade: #29439b;
+	--ion-color-primary-tint: #445eb8;
+
+	--ion-color-secondary: #5260ff;
+	--ion-color-secondary-rgb: 82,96,255;
+	--ion-color-secondary-contrast: #ffffff;
+	--ion-color-secondary-contrast-rgb: 255,255,255;
+	--ion-color-secondary-shade: #4854e0;
+	--ion-color-secondary-tint: #6370ff;
+
+	--ion-color-tertiary: #5260ff;
+	--ion-color-tertiary-rgb: 82,96,255;
+	--ion-color-tertiary-contrast: #ffffff;
+	--ion-color-tertiary-contrast-rgb: 255,255,255;
+	--ion-color-tertiary-shade: #4854e0;
+	--ion-color-tertiary-tint: #6370ff;
+
+	--ion-color-success: #2dd36f;
+	--ion-color-success-rgb: 45,211,111;
+	--ion-color-success-contrast: #000000;
+	--ion-color-success-contrast-rgb: 0,0,0;
+	--ion-color-success-shade: #28ba62;
+	--ion-color-success-tint: #42d77d;
+
+	--ion-color-warning: #ffc409;
+	--ion-color-warning-rgb: 255,196,9;
+	--ion-color-warning-contrast: #000000;
+	--ion-color-warning-contrast-rgb: 0,0,0;
+	--ion-color-warning-shade: #e0ac08;
+	--ion-color-warning-tint: #ffca22;
+
+	--ion-color-danger: #eb445a;
+	--ion-color-danger-rgb: 235,68,90;
+	--ion-color-danger-contrast: #ffffff;
+	--ion-color-danger-contrast-rgb: 255,255,255;
+	--ion-color-danger-shade: #cf3c4f;
+	--ion-color-danger-tint: #ed576b;
+
+	--ion-color-medium: #92949c;
+	--ion-color-medium-rgb: 146,148,156;
+	--ion-color-medium-contrast: #000000;
+	--ion-color-medium-contrast-rgb: 0,0,0;
+	--ion-color-medium-shade: #808289;
+	--ion-color-medium-tint: #9d9fa6;
+
+	--ion-color-light: #f4f5f8;
+	--ion-color-light-rgb: 244,245,248;
+	--ion-color-light-contrast: #000000;
+	--ion-color-light-contrast-rgb: 0,0,0;
+	--ion-color-light-shade: #d7d8da;
+	--ion-color-light-tint: #f5f6f9;
+
+}
+
+// disabled
+// Custom variables.
+$baseFontSizePx: 14px;
+$grid-breakpoints: ();
+$grid-breakpoints: map-merge(
+  (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+  ),
+  $grid-breakpoints
+);
+$spacers: ();
+$spacers: map-merge(
+  (
+    0: 0,
+    1: 1px,
+    2: 2px,
+    3: 3px,
+    4: 4px,
+    5: 5px,
+    6: 6px,
+    8: 8px,
+    11: 11px,
+    10: 10px,
+    12: 12px,
+    13: 13px,
+    14: 14px,
+    15: 15px,
+    16: 16px,
+    17: 17px,
+    18: 18px,
+    19: 19px,
+    20: 20px,
+    21: 21px,
+    22: 22px,
+    23: 23px,
+    24: 24px,
+    26: 26px,
+    27: 27px,
+    28: 28px,
+    30: 30px,
+    32: 32px,
+    36: 36px,
+    37: 37px,
+    38: 38px,
+    40: 40px,
+    42: 42px,
+    44: 44px,
+    46: 46px,
+    48: 48px,
+    52: 52px,
+    56: 56px,
+    60: 60px,
+    64: 64px,
+    72: 72px,
+    73: 73px,
+    80: 80px,
+    90: 90px,
+    93: 93px,
+    96: 96px,
+    149: 149px,
+    128: 128px,
+    112: rem(112),
+  ),
+  $spacers
+);
+$alt-font: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+$pass-font: 'pass-font', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+
+/** Custom colors **/
+
+// Colors
+$white: #ffffff;
+$blue: #0087ea;
+$danger: #ef6d53;
+$warning: #ef6d53;
+//Primary
+$green: #008641;
+$red: #e1261c;
+$black: #191a1a;
+$blue: #0087ea;
+//Secondary
+$secondary-grey: #747c78;
+$secondary-blue: #0077cc;
+$grey: #636463;
+$grey3: #8b8b8b;
+$grey-4: #4c4f51;
+$grey-5: #4a4f4c;
+$grey-6: #343439;
+$medium-grey: #a7aaac;
+$medium-grey-2: #d1d4d2;
+$medium-grey-3: #d1d4d2;
+$light-grey: #d1d3d4;
+$light-grey-2: #f7f8f7;
+$light-green-5: #bfe2d0;
+$ultra-light-grey: #f2f9f5;
+$ultra-light-grey-2: #f2f2f3;
+$dark-grey: #454545;
+//Tertiary
+$dark-green: #006330;
+$dark-green-b: #004220;
+$medium-green: #bfe2ce;
+$medium-green-2: #a7aca9;
+$medium-green-3: #bfe2d0;
+$light-green: #e5f2ec;
+$light-green-3: #2d7d43;
+$ultra-light-green: #f2f9f5;
+$light-red: #c32328;
+$alt-bg: #f5f9fc;
+$deep-blue: #1c5393;
+$light-blue: #236faa;
+$yellow: #f7ce23;
+$yellow-2: #f5d800;
+$bg-dark: #1a1919;
+$light-green-2: #5fb63d;
+$light-green-5: #bfe2d0;
+$box-shadow-1: 0 3px 10px -2px rgba(0, 0, 0, 0.2),
+  0 1px 2px 0 rgba(0, 0, 0, 0.15);
+$box-shadow-2: 0 14px 10px -6px rgba(0, 99, 48, 0.25);
+$box-shadow-31: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
+$box-shadow-32: 0 10px 20px 0 rgba(0, 0, 0, 0.12);
+$box-shadow-3: 0 2px 5px 0 rgba(0, 0, 0, 0.12),
+  0 10px 20px 0 rgba(0, 0, 0, 0.12);
+$box-shadow-4: 0 0 2px 1px rgba(0, 0, 0, 0.08);
+$alert-shadow-1: 0 15px 10px -6px rgba(0, 0, 0, 0.25);
+$green-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);
+$green-gradient-45: linear-gradient(
+  135deg,
+  rgba($green, 0.45) 0%,
+  rgba($dark-green, 0.45) 100%
+);
+$red-gradient: linear-gradient(135deg, $green 0%, $dark-green 100%);
+$white-layer-gradient: linear-gradient(
+  180deg,
+  #ffffff 0%,
+  rgba(255, 255, 255, 0.67) 30.25%,
+  rgba(255, 255, 255, 0) 100%
+);
+$backdrop-opacity: 0.8;
+$backdrop-color: rgba($medium-green-2, $backdrop-opacity);

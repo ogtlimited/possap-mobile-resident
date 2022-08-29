@@ -1,0 +1,58 @@
+{
+    "controls": [
+        {
+          "name": "fullName",
+          "label": "Full Name",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "userName",
+          "label": "Prefered username",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "dob",
+          "label": "Date of Birth",
+          "value": "",
+          "type": "date",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "email",
+          "label": "Email Address",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "phoneNumber",
+          "label": "Phone Number",
+          "value": "",
+          "type": "tel",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "nin",
+          "label": "NIN",
+          "value": "",
+          "type": "number",
+          "validators": {
+            "required": false
+          }
+        }
+      ]
+}

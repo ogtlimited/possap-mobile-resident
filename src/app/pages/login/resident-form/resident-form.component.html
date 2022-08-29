@@ -1,0 +1,34 @@
+<form (ngSubmit)="login()" [formGroup]="residentForm" class="form-container">
+  <ion-item>
+    <ion-label position="floating">Email</ion-label>
+    <ion-input type="email" formControlName="email"></ion-input>
+  </ion-item>
+  <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+    <span *ngIf="email.errors?.required">Email is required</span>
+    <span *ngIf="email.errors?.email">Email is invalid</span>
+  </div>
+  <ion-item>
+    <ion-label position="floating">Password</ion-label>
+    <ion-input [type]="hide ? 'password' : 'text'" formControlName="password"></ion-input>
+    <ion-icon class="mt-32" (click)="hide = !hide" size="small" name="eye" slot="end"></ion-icon>
+  </ion-item>
+  <div class="flex ion-justify-content-between sign-up">
+    <ion-button class="color-tertiary-grey" fill="clear">
+      <span>Forgot Password?</span>
+    </ion-button>
+    <ion-button color="dark" fill="clear" (click)="showForgotPasswordPage= !showForgotPasswordPage"
+      routerDirection="forward">Reset</ion-button>
+  </div>
+
+  <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
+    <span *ngIf="password.errors?.required">Password is required</span>
+    <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
+  </div>
+  <div class="ion-padding">
+
+    <ion-button expand="block" class="login mt-16" type="submit" [disabled]="!residentForm.valid">Log in</ion-button>
+  </div>
+
+
+
+</form>

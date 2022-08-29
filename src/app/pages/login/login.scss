@@ -1,0 +1,96 @@
+.login-logo {
+  padding: 20px 0 10px;
+  min-height: 100px;
+  padding: 24px;
+  // text-align: center;
+}
+ion-item{
+  --background: transparent
+}
+
+ion-content{
+  --padding: 0 16px;
+}
+.pos-abs{
+  position: absolute;
+  top: 2%;
+  right: 0;
+}
+.errors {
+  font-size: small;
+  color: rgb(223, 65, 65);
+  padding-left: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.login-logo img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.list {
+  margin-bottom: 0;
+}
+
+.remember {
+  line-height: 1.57;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+.forgot {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.5714285714285714;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.signin {
+  font-weight: 700;
+  line-height: 1.5;
+  font-size: 1.25rem;
+  font-family: Public Sans,sans-serif;
+  margin-bottom: 0.35em;
+  margin-bottom: 4px;
+}
+.enterDetails {
+  margin: 0;
+  line-height: 1.5;
+  font-size: .85rem;
+  font-family: Public Sans,sans-serif;
+  font-weight: 400;
+  color: #637381;
+}
+.note {
+  background-color: #fff;
+  color: #212B36;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 8px;
+  box-shadow: none;
+  background-image: none;
+  line-height: 1.5714285714285714;
+  font-size: 0.875rem;
+  font-weight: 400;
+  background-color: rgb(241, 249, 255);
+  display: flex;
+  padding: 6px 16px;
+  color: rgb(46, 80, 102);
+  color: #04297A;
+  background-color: #D0F2FF;
+  margin-bottom: 24px;
+}
+
+.pos-absolute{
+  position: absolute;
+  top: -2px;
+  right: 0;
+}
+
+ion-label, span {
+  font-size: 15px !important;
+}
+
+ion-item {
+  --min-height: 28px !important;
+}

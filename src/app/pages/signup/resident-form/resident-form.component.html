@@ -1,0 +1,126 @@
+<form (ngSubmit)="signup()" [formGroup]="residentForm" class="form-container">
+  <ion-item class="form" mode="md">
+    <ion-label position="floating">NIN</ion-label>
+    <ion-input type="text" formControlName="nin"></ion-input>
+  </ion-item>
+  <div *ngIf="(nin.dirty || nin.touched) && nin.errors" class="errors">
+    <span *ngIf="nin.errors?.required">NIN is required</span>
+    <span *ngIf="nin.errors?.minlength">NIN must be 11 digit</span>
+    <span *ngIf="nin.errors?.maxlength">NIN can not exceed 11 digit</span>
+  </div>
+ <ion-row>
+  <ion-col>
+    <ion-card *ngIf="gotNIN"  class="mx-0">
+      <div class="overlay"></div>
+      <ion-card-header>
+        <ion-card-title color="primary" class="ion-text-center ion-color-success">FEDERAL REPUBLIC OF NIGERIA</ion-card-title>
+        <ion-card-subtitle class="ion-text-center color-white">DIGITAL IDENTITY CARD</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+       <ion-row>
+        <ion-col size="4">
+          <img [src]="userImage" alt="">
+
+        </ion-col>
+        <ion-col size="8">
+
+
+          <ion-label class="mb-5 flex">
+            <p class="color-white">
+              Surname <br />
+              <span>
+                {{ninData?.surname}}
+              </span>
+            </p>
+          </ion-label>
+          <ion-label class="mb-5 flex">
+            <p class="color-white">
+              Given name <br />
+              <span>
+                {{ninData?.firstname}} {{ninData?.middlename}}
+              </span>
+            </p>
+          </ion-label>
+          <ion-label class="mb-5 flex">
+            <p class="color-white">
+              Date of Birth <br />
+              <span>
+                {{ninData?.birthdate}}
+              </span>
+            </p>
+          </ion-label>
+         <ion-row class="mb-5 flex">
+          <ion-label class="mr-15">
+            <p class="color-white">
+              Nationality <br />
+              <span>
+                {{ninData?.birthcountry | titlecase}}
+              </span>
+            </p>
+          </ion-label>
+          <ion-label>
+            <p class="color-white">
+              Gender <br />
+              <span>
+                {{ninData?.gender | titlecase}}
+              </span>
+            </p>
+          </ion-label>
+         </ion-row>
+        </ion-col>
+       </ion-row>
+       
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+ </ion-row>
+  <ion-item class="form" mode="md">
+    <ion-label position="floating">Full Name</ion-label>
+    <ion-input type="text" formControlName="fullName"></ion-input>
+  </ion-item>
+  <div *ngIf="(fullName.dirty || fullName.touched) && fullName.errors" class="errors">
+    <span *ngIf="fullName.errors?.required">Full name is required</span>
+  </div>
+  <!-- <ion-item class="form" mode="md">
+    <ion-label position="floating">Username</ion-label>
+    <ion-input type="text" formControlName="username"></ion-input>
+  </ion-item>
+  <div *ngIf="(username.dirty || username.touched) && username.errors" class="errors">
+    <span *ngIf="username.errors?.required">Username is required</span>
+  </div> -->
+  <ion-item class="form" mode="md">
+    <ion-label position="floating">Email</ion-label>
+    <ion-input type="email" formControlName="email"></ion-input>
+  </ion-item>
+  <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+    <span *ngIf="email.errors?.required">Email is required</span>
+    <span *ngIf="email.errors?.email">Email is invalid</span>
+  </div>
+  <ion-item class="form" mode="md">
+    <ion-label position="stacked">Date of birth</ion-label>
+    <ion-input type="text" formControlName="dob"></ion-input>
+  </ion-item>
+  <div *ngIf="(dob.dirty || dob.touched) && dob.errors" class="errors">
+    <span *ngIf="dob.errors?.required">Date of birth is required</span>
+  </div>
+  <ion-item class="form" mode="md">
+    <ion-label position="floating">Phone</ion-label>
+    <ion-input type="tel-country-code" formControlName="phone"></ion-input>
+  </ion-item>
+  <div *ngIf="(phone.dirty || phone.touched) && phone.errors" class="errors">
+    <span *ngIf="phone.errors?.required">Phone is required</span>
+    <span *ngIf="phone.errors?.minlength">Phone is invalid</span>
+    <span *ngIf="phone.errors?.maxlength">Phone is invalid</span>
+  </div>
+  <ion-item class="form" mode="md">
+    <ion-label position="floating">Password</ion-label>
+    <ion-input [type]="hide ? 'password' : 'text'" formControlName="password"></ion-input>
+
+    <ion-icon class="mt-32" (click)="hide = !hide" name="eye" size="small" slot="end"></ion-icon>
+  </ion-item>
+  <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
+    <span *ngIf="password.errors?.required">Password is required</span>
+    <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
+  </div>
+  <ion-button class="login mt-32" type="submit" expand="block" [disabled]="!residentForm.valid">Sign up</ion-button>
+</form>

@@ -1,0 +1,68 @@
+{
+    "controls": [
+        {
+          "name": "description",
+          "label": "Description of Incident",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "dateTime",
+          "label": "Date and time",
+          "value": "",
+          "type": "date",
+          "validators": {
+            "required": true
+          }
+        },
+       {
+          "name": "carModel",
+          "label": "Modal",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "audioAttachment",
+          "label": "Audio",
+          "value": "",
+          "type": "file",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "videoAttachment",
+          "label": "Video",
+          "value": "",
+          "type": "file",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "photoAttachment",
+          "label": "Photo",
+          "value": "",
+          "type": "file",
+          "validators": {
+            "required": true
+          }
+        },
+   
+        {
+          "name": "location",
+          "label": "Location",
+          "value": "",
+          "type": "text",
+          "validators": {
+            "required": true
+          }
+        }
+      ]
+}

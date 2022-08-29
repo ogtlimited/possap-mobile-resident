@@ -1,0 +1,12 @@
+<app-header title="SOS Request"></app-header>
+
+<ion-content>
+  <capacitor-google-map id="map" #map></capacitor-google-map>
+</ion-content>
+<ion-footer class="py-24 flex ion-justify-content-center">
+  <!-- <app-slide-to-confirm></app-slide-to-confirm> -->
+  <!-- <ion-card class="button pt-9">Send SOS</ion-card> -->
+  <div (click)="presentAlert()" class="request-loader">
+    <span>Send SOS</span>
+  </div>
+</ion-footer>

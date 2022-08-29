@@ -1,0 +1,26 @@
+<ion-item class="form-group w-100" [formGroup]="formGroup" lines="full">
+  <ion-label class="mb-8 input-label" position="stacked" [ngClass]="config?.inputLabel?.classes"
+    [color]="config?.inputLabel?.color">{{ config?.inputLabel?.text }}</ion-label>
+  <ion-row class="ion-no-padding flex flex-column w-100 flex-1 position-relative">
+    <ion-col class="ion-no-padding flex-1 w-100">
+      <ion-input [type]="config?.type" #input formControlName="input" [placeholder]="config?.placeholder"
+        [maxlength]="config?.maxLength" [minlength]="config?.minLength" [size]="config?.size"
+        [step]="config?.spinnerConfig?.step" [min]="config?.min" [max]="config?.max" [disabled]="config?.disabled"
+        [clearInput]="config?.clearable" [autocorrect]="config?.autoCorrect" [autocomplete]="config?.autoComplete"
+        [autocapitalize]="config?.autoCapitalize !== '' ? config?.autoCapitalize : 'none'"
+        [inputmode]="config?.inputMode" [class]="config?.inputClasses" [ngClass]="{
+          'has-spinners ion-text-center': config?.spinnerConfig
+        }"
+        (ionFocus)="onMouseDown()"
+        ></ion-input>
+    </ion-col>
+    <ion-col class="position-absolute w-auto input-spinner" *ngIf="config?.spinnerConfig" (click)="decrement()">
+      <ion-icon name="md-minus" color="omn-medium" class="icon-16 p-12">
+      </ion-icon>
+    </ion-col>
+    <ion-col class="position-absolute w-auto input-spinner right-0" *ngIf="config?.spinnerConfig" (click)="increment()">
+      <ion-icon name="md-plus" color="omn-medium" class="icon-16 p-12">
+      </ion-icon>
+    </ion-col>
+  </ion-row>
+</ion-item>

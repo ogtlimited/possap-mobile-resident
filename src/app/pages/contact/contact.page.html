@@ -1,0 +1,53 @@
+<app-header [showBack]="true" title="Contact"></app-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="submitForm()" [formGroup]="contactForm" class="form-container pt-4">
+    <ion-card>
+      <ion-card-header>
+        <h5 class="">Feel free to contact us. <br>We'll be glad to hear from you</h5>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-item>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input type="text" formControlName="name"></ion-input>
+        </ion-item>
+        <div *ngIf="(name.dirty || name.touched) && name.errors" class="errors">
+          <span *ngIf="name.errors?.required">Name is required</span>
+        </div>
+    
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
+        <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+          <span *ngIf="email.errors?.required">Email is required</span>
+          <span *ngIf="email.errors?.email">Email is invalid</span>
+        </div>
+        <ion-item>
+          <ion-label position="floating">Subject</ion-label>
+          <ion-input type="text" formControlName="subject"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Message</ion-label>
+          <ion-input type="text" formControlName="body"></ion-input>
+        </ion-item>
+        <div *ngIf="(body.dirty || body.touched) && body.errors" class="errors">
+          <span *ngIf="body.errors?.required">Body is required</span>
+        </div>
+    
+    
+    
+    
+    
+        <ion-button expand="block" class="login mt-24 mx-12" type="submit" [disabled]="!contactForm.valid">Submit
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+
+
+  </form>
+</ion-content>

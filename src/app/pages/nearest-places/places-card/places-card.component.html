@@ -1,0 +1,44 @@
+<ion-slides  pager="false" [options]="slideOpts">
+  <ion-slide  *ngFor="let speaker of speakers; let i = index">
+    <ion-card class="item-card">
+      
+      <ion-card-header>
+        <ion-item lines="none">
+          <ion-avatar>
+            <ion-icon name="police-station-2"></ion-icon>
+          </ion-avatar>
+          <ion-label class="ion-text-wrap">
+            <h4>12.3 KM</h4>
+            <p class="text-small text-nowrap">Kubwa Police Station</p>
+            <small class="">Gado Nasco Rd</small>
+          </ion-label>
+          <ion-badge class="ion-color-omn-disabled-icon ">00:15 min</ion-badge>
+
+        </ion-item>
+      </ion-card-header>
+
+      <ion-card-content class="pt-32 zIndex">
+        <ion-row>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-icon name="navigate-outline"></ion-icon>
+              <ion-label>Direction</ion-label>
+              
+
+            </ion-item>
+          </ion-col>
+        
+            <ion-col size="6">
+              <ion-item lines="none">
+              <ion-icon name="share-social-outline"></ion-icon>
+              <ion-label>Share</ion-label>
+              </ion-item>
+            </ion-col>
+        
+           
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ion-slide>
+</ion-slides>
+

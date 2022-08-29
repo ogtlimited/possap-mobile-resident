@@ -1,0 +1,55 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Skip</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <swiper [slidesPerView]="1" (swiper)="setSwiperInstance($event)" (slideChangeTransitionStart)="onSlideChangeStart()">
+    <ng-template swiperSlide>
+      <div class="slide-container">
+      <img width="100px" src="assets/custom-icons/possap-icon.svg" class="slide-image" />
+      <h2 class="slide-title">
+        Welcome to
+        <b>Possap Admin</b>
+      </h2>
+      <p>
+        <b>Possap Admin</b> is Police Specialized Automation Services (POSSAP) Portal for handling request
+        use.
+      </p>
+    </div>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <div class="slide-container">
+      <img src="assets/img/ica-slidebox-img-2.png" class="slide-image" />
+      <h2 class="slide-title">Request</h2>
+      <p>
+        <b>Possap Admin</b> handle all request coming from Possap Client</p>
+        </div>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <div class="slide-container">
+      <img src="assets/img/ica-slidebox-img-3.png" class="slide-image" />
+      <h2 class="slide-title">Possap Admin Flow?</h2>
+      <p>
+        <b>Possap Admin</b> is a powerful set of services and features built on top of Possap Clients that brings a totally new
+        level of.....</p>
+        </div>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <div class="slide-container">
+      <img src="assets/img/ica-slidebox-img-4.png" class="slide-image" />
+      <h2 class="slide-title">Ready to Play?</h2>
+      <ion-button fill="clear" (click)="startApp()">
+        Continue
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+      </div>
+    </ng-template>
+  </swiper>
+</ion-content>
