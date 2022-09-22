@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-label class="ion-text-center">{{control.placeholder}}</ion-label>
+
+    <ion-buttons slot="end">
+      <ion-button [disabled]="!selected" color="light" (click)="save()">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-item (click)="selectItem(i.key)" *ngFor="let i of list">
+    <ion-label>{{i.value}}</ion-label>
+    <ion-checkbox [value]="i.key" slot="end"></ion-checkbox>
+  </ion-item>
+</ion-content>

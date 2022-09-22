@@ -1,3 +1,4 @@
+import { AbbrevPipe } from './../../core/pipes/abbrev.pipe';
 import { SharedModule } from './../../components/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,6 +18,6 @@ import { ServicesPage } from './services.page';
     ServicesPageRoutingModule,
     SharedModule
   ],
-  declarations: [ServicesPage]
+  declarations: [ServicesPage, AbbrevPipe]
 })
 export class ServicesPageModule {}

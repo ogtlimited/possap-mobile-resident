@@ -1,61 +1,68 @@
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <!-- myForm.value[control?.showIf?.value] === control?.showIf?.equals -->
+  <ng-container *ngFor="let control of jsonFormData?.controls">
 
-     
-  <ion-item [lines]="control.type === 'file' ? 'none' :'full'" *ngFor="let control of jsonFormData?.controls">
-    <ion-label position="stacked" *ngIf="control.type !== 'file'">{{ control.label }}</ion-label>
-    <ion-input
-      *ngIf="
-        [
-          'text',
-          'password',
-          'email',
-          'number',
-          'search',
-          'date',
-          'tel',
-          'url'
-        ].includes(control.type)
-      "
-      [type]="control.type"
-      [formControlName]="control.name"
-      [placeholder]="control.label"
-      [value]="control.value"
-    ></ion-input>
-    <div class="flex flex-column my-8" *ngIf="control.type === 'file'" >
-      <ion-label class="file-label">{{control.label}}</ion-label>
+    <ion-item *ngIf="canRender(control.name, control)" [lines]="control.type === 'file' ? 'none' :'full'">
+      <ion-label position="stacked" *ngIf="control.type !== 'file' && control.type !== 'checkbox' ">{{ control.label }}</ion-label>
+      <ion-input *ngIf="
+          [
+            'text',
+            'password',
+            'email',
+            'number',
+            'search',
+            'date',
+            'tel',
+            'url'
+          ].includes(control.type)
+          && canRender(control.name, control)" [type]="control.type" [formControlName]="control.name"
+        [placeholder]="control.label" [value]="control.value">
+      </ion-input>
+      <div class="flex flex-column my-8" *ngIf="control.type === 'file' && canRender(control.name, control)">
+        <ion-label class="file-label">{{control.label}}</ion-label>
         <div class="file">
           <ion-icon name="camera"></ion-icon>
 
         </div>
-    </div>
-    <ion-textarea
-      *ngIf="control.type === 'textarea'"
-      [formControlName]="control.name"
-      [value]="control.value"
-    ></ion-textarea>
-    <ion-checkbox
-      *ngIf="control.type === 'checkbox'"
-      [formControlName]="control.name"
-      [checked]="control.value"
-    ></ion-checkbox>
-    <ion-toggle
-      *ngIf="control.type === 'toggle'"
-      [formControlName]="control.name"
-      [checked]="control.value"
-    ></ion-toggle>
-    <ion-range
-      *ngIf="control.type === 'range'"
-      [min]="control.options.min"
-      [max]="control.options.max"
-      [formControlName]="control.name"
-    >
-      <ion-icon
-        size="small"
-        slot="start"
-        [name]="control.options.icon"
-      ></ion-icon>
-      <ion-icon slot="end" [name]="control.options.icon"></ion-icon>
-    </ion-range>
-  </ion-item>
-  <ion-button expand="full" type="submit">Submit</ion-button>
+      </div>
+      <ion-textarea rows="2" *ngIf="control.type === 'textarea' && canRender(control.name, control)"
+        [formControlName]="control.name" [value]="control.value" [placeholder]="control?.placeholder">
+      </ion-textarea>
+      <ion-label *ngIf="control.type === 'checkbox' && canRender(control.name, control)">{{ control.label }}</ion-label>
+      <ion-checkbox class="my-16" slot="start" *ngIf="control.type === 'checkbox' && canRender(control.name, control)"
+        [formControlName]="control.name" [checked]="control.value">
+      </ion-checkbox>
+      <ion-toggle *ngIf="control.type === 'radio' && canRender(control.name, control)" [formControlName]="control.name"
+        mode="md" [value]="control.value">
+      </ion-toggle>
+      <ng-container *ngIf="control.type === 'select' && canRender(control.name, control)">
+        <!-- {{myForm.value[control?.showIf?.value] | json}} {{control?.showIf?.equals}} -->
+        <!-- [hidden]="control[control.showIf.value] === control.showIf.equals" -->
+        <ion-select *ngIf="!control.api" [formControlName]="control.name"
+          [placeholder]="control.placeholder" [multiple]="control.config.multiple">
+          <ion-select-option *ngFor="let item of getOptions(control)" [value]="item.key">{{item.value}}
+          </ion-select-option>
+        </ion-select>
+        <ion-input *ngIf="control.api" (click)="selectChange(control)" [formControlName]="control.name"
+          [placeholder]="control.placeholder" [multiple]="control?.config?.multiple || false">
+
+        </ion-input>
+      </ng-container>
+      <ion-toggle *ngIf="control.type === 'toggle' && canRender(control.name, control)" [formControlName]="control.name"
+        [checked]="control.value">
+      </ion-toggle>
+      <ion-range *ngIf="control.type === 'range' && canRender(control.name, control)" [min]="control.rangeoptions.min"
+        [max]="control.rangeoptions.max" [formControlName]="control.name">
+        <ion-icon size="small" slot="start" [name]="control.rangeoptions.icon"></ion-icon>
+        <ion-icon slot="end" [name]="control.rangeoptions.icon"></ion-icon>
+      </ion-range>
+    </ion-item>
+  </ng-container>
+  <ion-row class="px-10">
+    <ion-col>
+      <ion-button expand="full" type="submit">Submit</ion-button>
+
+    </ion-col>
+
+  </ion-row>
 </form>

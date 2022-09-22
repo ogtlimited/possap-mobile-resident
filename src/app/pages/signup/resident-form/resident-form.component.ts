@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/member-ordering */
+/* eslint-disable no-underscore-dangle */
 import { LoadingController } from '@ionic/angular';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -10,8 +12,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./resident-form.component.scss'],
 })
 export class ResidentFormComponent implements OnInit {
-  residentForm: FormGroup;
   @Output() emitFormValue: EventEmitter<any> = new EventEmitter();
+  residentForm: FormGroup;
   hide = false;
   gotNIN = false;
   ninData: any = {};

@@ -5,13 +5,15 @@ import { CommonModule } from "@angular/common";
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
-import { HeaderComponent } from "./header/header.component";
+
 import { FormComponent } from './dynamic-form/form/form.component';
+import { HeaderComponent } from './header/header.component';
+import { SelectComponent } from './select/select.component';
 
 
 @NgModule({
-  declarations: [HeaderComponent, PasscodeComponent, SlideToConfirmComponent, FormComponent],
+  declarations: [HeaderComponent, PasscodeComponent, SlideToConfirmComponent, FormComponent, SelectComponent],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
-  exports: [HeaderComponent, PasscodeComponent, SlideToConfirmComponent, FormComponent],
+  exports: [HeaderComponent, PasscodeComponent, SlideToConfirmComponent, FormComponent, SelectComponent],
 })
 export class SharedModule {}

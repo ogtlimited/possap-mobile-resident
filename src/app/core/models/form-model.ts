@@ -16,15 +16,33 @@ export interface JsonFormControlOptions {
   step?: string;
   icon?: string;
 }
+export interface JsonFormControlSelectOptions {
+  key?: string;
+  value?: string;
+}
+export interface JsonFormControlShowIf {
+  equals?: string;
+  value?: string;
+}
 
 export interface JsonFormControls {
   name: string;
   label: string;
   value: string;
+  placeholder: string;
   type: string;
-  options?: JsonFormControlOptions;
+  showIf?: JsonFormControlShowIf;
+  rangeoptions?: JsonFormControlOptions;
+  options?: JsonFormControlSelectOptions[];
+  config: {
+    multiple: boolean;
+  };
   required: boolean;
   validators: JsonFormValidators;
+  api: {
+    body?: any;
+    path: string;
+  };
 }
 
 export interface JsonFormData {

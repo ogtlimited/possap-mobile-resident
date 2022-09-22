@@ -64,3 +64,11 @@ ion-item.forms {
     --inner-padding-bottom: 28px;
   }
 }
+
+.select-modal {
+  --width: fit-content;
+  --min-width: 80%;
+  --height: 50% !important;
+  --border-radius: 16px;
+  // --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}

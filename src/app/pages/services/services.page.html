@@ -13,12 +13,13 @@
         <ion-card-content class="pl-2 px-5">
           <ion-row>
             <ion-col class="ion-text-wrap ion-text-center" size="3" *ngFor="let service of services">
-              <div (click)="navigate(service.code, service.title)" class="icon-bg">
-                <ion-icon [name]="service.icon"></ion-icon>
+              <div (click)="navigate(service.id, service.name, 'restful')" class="icon-bg">
+                <!-- <ion-icon [name]="service.icon"></ion-icon> -->
+                <span>{{service.name | abbrev}}</span>
               </div>
               <ion-label class="ion-text-wrap ion-text-center">
                 <span>
-                  {{service.title}}
+                  {{service.name}}
                 </span>
               </ion-label>
             </ion-col>

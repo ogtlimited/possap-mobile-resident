@@ -7,7 +7,9 @@ export const baseEndpoints = {
     user: serverBaseUrl + '/users',
     upload: serverBaseUrl + '/upload',
     nin: serverBaseUrl + '/helper/verifyNIN',
-    eag: serverBaseUrl + '/eag'
+    eag: serverBaseUrl + '/eag',
+    service: serverBaseUrl + '/possap-services',
+    helper: serverBaseUrl + '/helper'
   };
 export const authEndpoints = {
     login: baseEndpoints.auth + '/login',
@@ -26,5 +28,6 @@ export const miscEndpoint = {
     policeData: baseEndpoints + '/police-data',
     tacticalPath: baseEndpoints + '/tactical-squad',
 };
+
 
 
