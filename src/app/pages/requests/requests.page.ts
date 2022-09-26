@@ -12,7 +12,7 @@ import { RequestService } from './../../core/request/request.service';
 export class RequestsPage implements OnInit {
   speakers: any[] = [];
   letters = '0123456789ABCDEF';
-  requests = [];
+  request = [];
 
   constructor(public confData: ConferenceData, private reqS: RequestService) {}
 
@@ -27,8 +27,8 @@ export class RequestsPage implements OnInit {
 
   ngOnInit() {
     this.reqS.get(baseEndpoints.requests).subscribe((res: any) => {
-      console.log(res);
-      this.requests = res.data;
+      console.log(res.data);
+      this.request = res.data;
     });
   }
   getRandomColor() {
