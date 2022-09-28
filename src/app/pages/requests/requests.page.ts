@@ -1,5 +1,6 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConferenceData } from '../../providers/conference-data';
 
 @Component({
@@ -8,35 +9,37 @@ import { ConferenceData } from '../../providers/conference-data';
   styleUrls: ['./requests.page.scss'],
 })
 export class RequestsPage implements OnInit {
-
   speakers: any[] = [];
   letters = '0123456789ABCDEF';
 
-  constructor(public confData: ConferenceData) {}
+  constructor(
+    public confData: ConferenceData,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ionViewDidEnter() {
     this.confData.getSpeakers().subscribe((speakers: any[]) => {
-      this.speakers = speakers.map(e => ({...e, bg: this.getRandomColor()}));
+      this.speakers = speakers.map((e) => ({
+        ...e,
+        bg: this.getRandomColor(),
+      }));
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   getRandomColor() {
     let color = '#'; // <-----------
-    for (var i = 0; i < 6; i++) {
-        color += this.letters[Math.floor(Math.random() * 16)];
+    for (let i = 0; i < 6; i++) {
+      color += this.letters[Math.floor(Math.random() * 16)];
     }
-    return color
-}
-  favorite(){
-
+    return color;
   }
-  share(){
-
+  gotoDetail(id): void {
+    console.log(id);
+    this.router.navigate(['./details', id], { relativeTo: this.route });
   }
-  unread(){
-
-  }
-
+  favorite() {}
+  share() {}
+  unread() {}
 }

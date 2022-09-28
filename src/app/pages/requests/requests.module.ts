@@ -9,6 +9,7 @@ import { IonicModule } from '@ionic/angular';
 import { RequestsPageRoutingModule } from './requests-routing.module';
 
 import { RequestsPage } from './requests.page';
+import { RequestDetailsComponent } from './request-details/request-details.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { RequestsPage } from './requests.page';
     RequestsPageRoutingModule,
     SharedModule
   ],
-  declarations: [RequestsPage, AbbrevPipe]
+  declarations: [RequestsPage, AbbrevPipe, RequestDetailsComponent]
 })
 export class RequestsPageModule {}

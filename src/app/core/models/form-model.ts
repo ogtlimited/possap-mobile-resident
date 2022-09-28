@@ -20,6 +20,10 @@ export interface JsonFormControlSelectOptions {
   key?: string;
   value?: string;
 }
+export interface JsonFormControlRadioOptions {
+  label?: string;
+  value?: string;
+}
 export interface JsonFormControlShowIf {
   equals?: string;
   value?: string;
@@ -34,6 +38,7 @@ export interface JsonFormControls {
   showIf?: JsonFormControlShowIf;
   rangeoptions?: JsonFormControlOptions;
   options?: JsonFormControlSelectOptions[];
+  radioOptions: JsonFormControlRadioOptions[];
   config: {
     multiple: boolean;
   };

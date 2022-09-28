@@ -3,7 +3,8 @@
   <ng-container *ngFor="let control of jsonFormData?.controls">
 
     <ion-item *ngIf="canRender(control.name, control)" [lines]="control.type === 'file' ? 'none' :'full'">
-      <ion-label position="stacked" *ngIf="control.type !== 'file' && control.type !== 'checkbox' ">{{ control.label }}</ion-label>
+      <ion-label position="stacked" *ngIf="control.type !== 'file' && control.type !== 'checkbox' ">{{ control.label }}
+      </ion-label>
       <ion-input *ngIf="
           [
             'text',
@@ -32,14 +33,22 @@
       <ion-checkbox class="my-16" slot="start" *ngIf="control.type === 'checkbox' && canRender(control.name, control)"
         [formControlName]="control.name" [checked]="control.value">
       </ion-checkbox>
-      <ion-toggle *ngIf="control.type === 'radio' && canRender(control.name, control)" [formControlName]="control.name"
-        mode="md" [value]="control.value">
-      </ion-toggle>
+      <ng-container *ngIf="control.type === 'radio' && canRender(control.name, control)">
+        <ion-radio-group mode="md" [formControlName]="control.name" [value]="control.value">
+          <ion-item *ngFor="let radio of control.radioOptions" lines="none">
+            <ion-label>{{radio.label}}</ion-label>
+            <ion-radio slot="start" [value]="radio.value"></ion-radio>
+          </ion-item>
+
+      
+
+        </ion-radio-group>
+      </ng-container>
       <ng-container *ngIf="control.type === 'select' && canRender(control.name, control)">
         <!-- {{myForm.value[control?.showIf?.value] | json}} {{control?.showIf?.equals}} -->
         <!-- [hidden]="control[control.showIf.value] === control.showIf.equals" -->
-        <ion-select *ngIf="!control.api" [formControlName]="control.name"
-          [placeholder]="control.placeholder" [multiple]="control.config.multiple">
+        <ion-select *ngIf="!control.api" [formControlName]="control.name" [placeholder]="control.placeholder"
+          [multiple]="control.config.multiple">
           <ion-select-option *ngFor="let item of getOptions(control)" [value]="item.key">{{item.value}}
           </ion-select-option>
         </ion-select>

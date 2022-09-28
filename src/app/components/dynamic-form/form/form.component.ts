@@ -126,7 +126,8 @@ export class FormComponent implements OnChanges, OnInit {
       return true;
     } else {
       return (
-        this.myForm.value[control?.showIf?.value] === control?.showIf?.equals
+        this.myForm.value[control?.showIf?.value] === control?.showIf?.equals ||
+        this.myForm.value[control?.showIf?.value].includes(control?.showIf?.equals)
       );
       return false;
     }

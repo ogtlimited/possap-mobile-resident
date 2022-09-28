@@ -8,7 +8,7 @@
 
     <ion-list>
       <!-- Sliding item with text options on both sides -->
-      <ion-item *ngFor="let item of speakers; let i = index" class="ion-no-padding py-12">
+      <ion-item (click)="gotoDetail(i)" *ngFor="let item of speakers; let i = index" class="ion-no-padding py-12">
         <div class="abbrev" slot="start" [ngStyle]="{background: item.bg}">
           {{item.name | abbrev}}
         </div>
