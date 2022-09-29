@@ -10,6 +10,7 @@ import { ConferenceData } from 'src/app/providers/conference-data';
 })
 export class RequestDetailsComponent implements OnInit {
   request: any = {};
+  approvers = [1, 2, 3, 4, 5];
   private routeSub: Subscription;
   constructor(private route: ActivatedRoute, public confData: ConferenceData) {}
 

@@ -1,19 +1,33 @@
+import { AbbrevPipe } from './../core/pipes/abbrev.pipe';
 import { SlideToConfirmComponent } from './slide-to-confirm/slide-to-confirm.component';
 import { PasscodeComponent } from './passcode/passcode.component';
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { IonicModule } from "@ionic/angular";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
 import { FormComponent } from './dynamic-form/form/form.component';
 import { HeaderComponent } from './header/header.component';
 import { SelectComponent } from './select/select.component';
 
-
 @NgModule({
-  declarations: [HeaderComponent, PasscodeComponent, SlideToConfirmComponent, FormComponent, SelectComponent],
+  declarations: [
+    HeaderComponent,
+    PasscodeComponent,
+    SlideToConfirmComponent,
+    FormComponent,
+    SelectComponent,
+    AbbrevPipe,
+  ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
-  exports: [HeaderComponent, PasscodeComponent, SlideToConfirmComponent, FormComponent, SelectComponent],
+  exports: [
+    HeaderComponent,
+    PasscodeComponent,
+    SlideToConfirmComponent,
+    FormComponent,
+    SelectComponent,
+    AbbrevPipe,
+  ],
 })
 export class SharedModule {}

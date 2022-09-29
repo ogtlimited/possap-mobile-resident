@@ -19,6 +19,6 @@ import { RequestDetailsComponent } from './request-details/request-details.compo
     RequestsPageRoutingModule,
     SharedModule
   ],
-  declarations: [RequestsPage, AbbrevPipe, RequestDetailsComponent]
+  declarations: [RequestsPage, RequestDetailsComponent]
 })
 export class RequestsPageModule {}
