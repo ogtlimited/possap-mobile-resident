@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConferenceData } from 'src/app/providers/conference-data';
+import { baseEndpoints } from './../../../core/config/endpoints';
+import { RequestService } from './../../../core/request/request.service';
 
 @Component({
   selector: 'app-request-details',
@@ -11,8 +13,13 @@ import { ConferenceData } from 'src/app/providers/conference-data';
 export class RequestDetailsComponent implements OnInit {
   request: any = {};
   approvers = [1, 2, 3, 4, 5];
+  approvalWorkflow = [];
   private routeSub: Subscription;
-  constructor(private route: ActivatedRoute, public confData: ConferenceData) {}
+  constructor(
+    private route: ActivatedRoute,
+    public confData: ConferenceData,
+    private reqS: RequestService
+  ) {}
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe((params) => {
@@ -22,9 +29,13 @@ export class RequestDetailsComponent implements OnInit {
   }
 
   fetchData(id) {
-    this.confData.getSpeakers().subscribe((sp) => {
-      console.log(sp);
-      this.request = sp[0];
+    this.reqS.get(baseEndpoints.requests + '/' + id).subscribe((res: any) => {
+      console.log('testt', res.data);
+      this.request = res.data;
+      this.approvalWorkflow = [
+        ...res.data.service.approvalWorkFlow,
+        'Completed',
+      ];
     });
   }
 }
