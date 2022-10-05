@@ -1,15 +1,15 @@
-import { isEmpty } from "lodash";
+import { isEmpty } from 'lodash';
 /* eslint-disable no-underscore-dangle */
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
-import { ModalController } from "@ionic/angular";
-import { Location } from "@angular/common";
-import { Component, Input, OnInit } from "@angular/core";
+import { ModalController } from '@ionic/angular';
+import { Location } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: "app-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.scss"],
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   @Input() title;
@@ -38,16 +38,16 @@ export class HeaderComponent implements OnInit {
     }
   }
   goToCart() {
-    this.router.navigate(["menu/home/cart-orders"]);
+    this.router.navigate(['menu/home/cart-orders']);
   }
 
-  goto(){
-    this.router.navigate(["sos"]);
+  goto() {
+    this.router.navigate(['sos']);
   }
   async presentModal() {
     const modal = await this.modalController.create({
       component: '',
-      cssClass: "fullscreen",
+      cssClass: 'fullscreen',
     });
     await modal.present();
   }

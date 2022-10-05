@@ -28,7 +28,7 @@ export class SignupPage implements OnInit {
   confirmP = 'password';
   residentForm: FormGroup;
   officerForm: FormGroup;
-
+  user;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -48,11 +48,12 @@ export class SignupPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     console.log(val);
-    setTimeout(async () => {
-      await loading.dismiss();
-      this.showVerify = true;
-    }, 2500);
-    return;
+    this.user = val;
+    // setTimeout(async () => {
+    //   await loading.dismiss();
+    //   this.showVerify = true;
+    // }, 2500);
+    // return;
     this.authService.signup(val).subscribe(
       async (res) => {
         await loading.dismiss();
@@ -92,16 +93,16 @@ export class SignupPage implements OnInit {
     await loading.present();
     // to be removed
 
-    setTimeout(() => {
-      loading.dismiss();
-      this.router.navigate(['menu/home']);
-    }, 2000);
+    // setTimeout(() => {
+    //   loading.dismiss();
+    //   this.router.navigate(['menu/home']);
+    // }, 2000);
 
     // continue
     const value = passForm.get('passcode').value;
     const obj = {
       verificationCode: value,
-      email: this.email.value,
+      email: this.user.email,
     };
     console.log(value); //30919176644
     this.authService.activateAccount(obj).subscribe(

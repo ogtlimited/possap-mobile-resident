@@ -8,7 +8,7 @@
   <ion-row *ngIf="!showForgotPasswordPage" class="px-16 mb-20">
     <ion-col>
       <h4 class="signin">
-        Sign in to Possap Admin
+        Sign in to Possap
       </h4>
       <ion-label class="enterDetails">
         Enter your details below
@@ -27,7 +27,7 @@
     </ion-col>
 
   </ion-row>
-  <ion-radio-group *ngIf="!showForgotPasswordPage" [value]="userType">
+  <!-- <ion-radio-group *ngIf="!showForgotPasswordPage" [value]="userType">
     <ion-row>
       <ion-col class="ion-no-padding" size="6">
         <ion-card (click)="changeUser('resident')">
@@ -52,12 +52,12 @@
 
 
     </ion-row>
-  </ion-radio-group>
+  </ion-radio-group> -->
 
 
   <div *ngIf="!showForgotPasswordPage" class="container">
-    <app-resident-form *ngIf="userType === 'resident'"></app-resident-form>
-    <app-officer-form *ngIf="userType === 'officer'"></app-officer-form>
+    <app-resident-form (emitForm)="login($event)"></app-resident-form>
+    
   </div>
 
   <div *ngIf="showForgotPasswordPage" class="container">

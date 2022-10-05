@@ -18,6 +18,6 @@ import { ServicesPage } from './services.page';
     ServicesPageRoutingModule,
     SharedModule
   ],
-  declarations: [ServicesPage, AbbrevPipe]
+  declarations: [ServicesPage]
 })
 export class ServicesPageModule {}

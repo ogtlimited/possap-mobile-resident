@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+/* eslint-disable @typescript-eslint/member-ordering */
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -8,10 +9,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ResidentFormComponent implements OnInit {
   residentForm: FormGroup;
-  hide= false;
+  hide = false;
   showForgotPasswordPage = false;
   showForgotPasswordPageComplete = false;
-  constructor(private fb: FormBuilder,) { }
+  @Output() emitForm: EventEmitter<any> = new EventEmitter();
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.residentForm = this.fb.group({
@@ -28,9 +30,7 @@ export class ResidentFormComponent implements OnInit {
     return this.residentForm.get('password');
   }
 
-  login(){
-
+  login() {
+    this.emitForm.next(this.residentForm.value);
   }
-
-
 }

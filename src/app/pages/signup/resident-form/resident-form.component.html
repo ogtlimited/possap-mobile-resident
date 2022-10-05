@@ -97,11 +97,11 @@
     <span *ngIf="email.errors?.email">Email is invalid</span>
   </div>
   <ion-item class="form" mode="md">
-    <ion-label position="stacked">Date of birth</ion-label>
-    <ion-input type="text" formControlName="dob"></ion-input>
+    <ion-label position="floating">Gender</ion-label>
+    <ion-input type="text" formControlName="gender"></ion-input>
   </ion-item>
-  <div *ngIf="(dob.dirty || dob.touched) && dob.errors" class="errors">
-    <span *ngIf="dob.errors?.required">Date of birth is required</span>
+  <div *ngIf="(gender.dirty || gender.touched) && gender.errors" class="errors">
+    <span *ngIf="gender.errors?.required">Gender is required</span>
   </div>
   <ion-item class="form" mode="md">
     <ion-label position="floating">Phone</ion-label>
@@ -111,6 +111,27 @@
     <span *ngIf="phone.errors?.required">Phone is required</span>
     <span *ngIf="phone.errors?.minlength">Phone is invalid</span>
     <span *ngIf="phone.errors?.maxlength">Phone is invalid</span>
+  </div>
+  <ion-item class="form" mode="md">
+    <ion-label position="floating">State</ion-label>
+    <ion-input type="text" formControlName="state"></ion-input>
+  </ion-item>
+  <div *ngIf="(state.dirty || state.touched) && state.errors" class="errors">
+    <span *ngIf="state.errors?.required">State is required</span>
+  </div>
+  <ion-item class="form" mode="md">
+    <ion-label position="floating">LGA</ion-label>
+    <ion-input type="text" formControlName="lga"></ion-input>
+  </ion-item>
+  <div *ngIf="(lga.dirty || lga.touched) && lga.errors" class="errors">
+    <span *ngIf="lga.errors?.required">LGA is required</span>
+  </div>
+  <ion-item class="form" mode="md">
+    <ion-label position="floating">Address</ion-label>
+    <ion-input type="text" formControlName="address"></ion-input>
+  </ion-item>
+  <div *ngIf="(address.dirty || address.touched) && address.errors" class="errors">
+    <span *ngIf="address.errors?.required">Address is required</span>
   </div>
   <ion-item class="form" mode="md">
     <ion-label position="floating">Password</ion-label>
