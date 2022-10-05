@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/guards/auth.guard';
 import { CheckTutorial } from './providers/check-tutorial.service';
 
 const routes: Routes = [
@@ -63,6 +64,7 @@ const routes: Routes = [
   },
   {
     path: 'general-form',
+    canLoad: [AuthGuard],
     loadChildren: () => import('./pages/general-form/general-form.module').then( m => m.GeneralFormPageModule)
   }
 ];

@@ -1,3 +1,5 @@
+import { TermAndConditionsComponent } from './term-and-conditions/term-and-conditions.component';
+import { ModalController } from '@ionic/angular';
 import { PossapServicesService } from './../../core/services/possap-services/possap-services.service';
 import { RequestService } from './../../core/request/request.service';
 import {
@@ -18,10 +20,13 @@ export class GeneralFormPage implements OnInit {
   myParam: any;
   jsonFormData;
   title = '';
+  showForm = true;
+  formData;
   constructor(
     private route: ActivatedRoute,
     private possapS: PossapServicesService,
     private reqS: RequestService,
+    private modal: ModalController,
     private cdref: ChangeDetectorRef
   ) {}
 
@@ -35,9 +40,10 @@ export class GeneralFormPage implements OnInit {
         this.possapS.fetchServicesbyId(this.myParam).subscribe((s: any) => {
           // console.log(s);
           this.jsonFormData = {
-            controls: s.data.formSchema
+            controls: s.data.formSchema,
           };
           this.cdref.detectChanges();
+          this.openModal();
         });
       } else {
         this.reqS
@@ -55,5 +61,22 @@ export class GeneralFormPage implements OnInit {
 
   submitForm(val) {
     console.log(val);
+    this.formData = val;
+    this.showForm = false;
+  }
+
+  async openModal() {
+    const modal = await this.modal.create({
+      component: TermAndConditionsComponent,
+      cssClass: 'terms-modal',
+      breakpoints: [0.25],
+      backdropDismiss: false,
+      componentProps: {},
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    console.log(data);
   }
 }

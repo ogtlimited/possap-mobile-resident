@@ -1,3 +1,4 @@
+import { LoadingController } from '@ionic/angular';
 import { PossapServicesService } from './../../core/services/possap-services/possap-services.service';
 import { ActivatedRoute, Router } from '@angular/router';
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
@@ -72,17 +73,26 @@ export class ServicesPage implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private possapS: PossapServicesService
+    private possapS: PossapServicesService,
+    private loader: LoadingController
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loader.create({
+      message: 'Loading...',
+      duration: 3000,
+      cssClass: 'custom-loading',
+    });
+
+    loading.present();
     this.possapS.fetchServices().subscribe((s: any) => {
       console.log(s.data);
+      loading.dismiss();
       this.services = s.data;
     });
   }
 
-  navigate(path, title, type='') {
+  navigate(path, title, type = '') {
     console.log(path);
     this.router.navigate(['/general-form'], {
       queryParams: { service: path, title, type },

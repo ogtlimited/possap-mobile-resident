@@ -1,5 +1,6 @@
 <app-header [showBack]="true" [title]="title"></app-header>
 
 <ion-content>
-  <app-form [jsonFormData]="jsonFormData" (emitForm)="submitForm($event)"></app-form>
+  <app-form *ngIf="showForm" [jsonFormData]="jsonFormData" (emitForm)="submitForm($event)"></app-form>
+  <app-form-preview [jsonFormData]="jsonFormData" [data]="formData" *ngIf="!showForm"></app-form-preview>
 </ion-content>

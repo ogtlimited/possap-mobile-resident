@@ -36,7 +36,7 @@ export class ResidentFormComponent implements OnInit {
         ],
       ],
       fullName: ['', [Validators.required]],
-      dob: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phone: [
         '',
@@ -47,6 +47,9 @@ export class ResidentFormComponent implements OnInit {
         ],
       ],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      state: ['', [Validators.required]],
+      lga: ['', [Validators.required]],
+      address: ['', [Validators.required]],
     });
 
     this.nin.valueChanges.subscribe((e) => {
@@ -66,7 +69,11 @@ export class ResidentFormComponent implements OnInit {
             fullName: this.ninData.surname + ' ' + this.ninData.firstname,
             dob: this.ninData.birthdate,
             email: this.ninData.email,
+            gender: this.ninData.gender === 'm' ? 'Male' : 'Female',
             phone: this.ninData.telephoneno,
+            state: this.ninData.nok_state,
+            lga: this.ninData.nok_lga,
+            address: this.ninData.residence_AdressLine1
           });
           this.gotNIN = true;
           this.loadS.dismiss();
@@ -100,14 +107,23 @@ export class ResidentFormComponent implements OnInit {
   get fullName() {
     return this.residentForm.get('fullName');
   }
-  get dob() {
-    return this.residentForm.get('dob');
+  get gender() {
+    return this.residentForm.get('gender');
   }
   get email() {
     return this.residentForm.get('email');
   }
   get phone() {
     return this.residentForm.get('phone');
+  }
+  get state() {
+    return this.residentForm.get('state');
+  }
+  get lga() {
+    return this.residentForm.get('lga');
+  }
+  get address() {
+    return this.residentForm.get('address');
   }
 
   get password() {
