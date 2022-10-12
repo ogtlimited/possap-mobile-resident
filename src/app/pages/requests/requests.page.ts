@@ -1,3 +1,4 @@
+import { AlertController, LoadingController } from '@ionic/angular';
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,26 +20,42 @@ export class RequestsPage implements OnInit {
     public confData: ConferenceData,
     private router: Router,
     private route: ActivatedRoute,
+    private loader: LoadingController,
+    private alertController: AlertController,
     private reqS: RequestService
   ) {}
 
-  ionViewDidEnter() {
-    this.confData.getSpeakers().subscribe((speakers: any[]) => {
-      this.speakers = speakers.map((e) => ({
-        ...e,
-        bg: this.getRandomColor(),
-      }));
+  async ngOnInit() {
+    const loading = await this.loader.create({
+      message: 'Loading...',
+      duration: 3000,
+      cssClass: 'custom-loading',
     });
-  }
 
-  ngOnInit() {
-    this.reqS.get(baseEndpoints.requests).subscribe((res: any) => {
-      console.log(res.data);
-      this.request = res.data.map((e) => ({
-        ...e,
-        bg: this.getRandomColor(),
-      }));
-    });
+    loading.present();
+    this.reqS.get(baseEndpoints.requests).subscribe(
+      (res: any) => {
+        console.log(res.data);
+        if (res.data.length > 0) {
+          this.request = res.data.map((e) => ({
+            ...e,
+            bg: this.getRandomColor(),
+          }));
+        } else {
+        }
+        this.loader.dismiss();
+      },
+      async (err) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: JSON.stringify(err),
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+        console.log(err);
+      }
+    );
   }
   getRandomColor() {
     let color = '#'; // <-----------

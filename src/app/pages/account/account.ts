@@ -30,7 +30,7 @@ export class AccountPage implements OnInit {
   items = [
     {
       title: 'My Request',
-      url: '/menu/home/my-orders',
+      url: '/app/tabs/requests',
       icon: 'file-plus',
       autoNav: false,
     },

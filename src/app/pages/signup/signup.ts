@@ -38,7 +38,20 @@ export class SignupPage implements OnInit {
     private loadingController: LoadingController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.isAuthenticated.subscribe((isAuth) => {
+      console.log(isAuth);
+      if (isAuth) {
+        // Directly open inside area
+        this.router.navigate(['/app/tabs/home']);
+      }
+    });
+    this.authService.currentUser$.subscribe((e) => {
+      if (e) {
+        this.user = e;
+      }
+    });
+  }
 
   changeUser(val) {
     this.userType = val;
@@ -91,6 +104,7 @@ export class SignupPage implements OnInit {
   async continue(passForm: FormGroup) {
     const loading = await this.loadingController.create();
     await loading.present();
+    console.log(this.user);
     // to be removed
 
     // setTimeout(() => {
@@ -101,14 +115,14 @@ export class SignupPage implements OnInit {
     // continue
     const value = passForm.get('passcode').value;
     const obj = {
-      verificationCode: value,
-      email: this.user.email,
+      code: value,
+      phone: this.user.phone,
     };
     console.log(value); //30919176644
-    this.authService.activateAccount(obj).subscribe(
+    this.authService.activateAccount(obj, this.user.id).subscribe(
       async (res) => {
         await loading.dismiss();
-        this.router.navigate(['menu/home']);
+        this.router.navigate(['/app/tabs/home']);
       },
       async (res) => {
         console.log(res);
