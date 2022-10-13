@@ -2,7 +2,7 @@
 
 <ion-content fullscreen="true">
   <ion-grid fixed>
-    <ion-list>
+    <ion-list *ngIf="request.length > 0">
       <!-- Sliding item with text options on both sides -->
       <ion-item lines="none" (click)="gotoDetail(item.id)" *ngFor="let item of request; let i =index" class="ion-no-padding py-12">
         <div class="abbrev" slot="start" [ngStyle]="{background: item.bg}">
@@ -20,5 +20,8 @@
         </ion-badge> -->
       </ion-item>
     </ion-list>
+    <ion-row class="w-100 h-272 pt-128 flex ion-justify-content-center ion-align-items-center" *ngIf="request.length === 0">
+       You have not created any request
+    </ion-row>
   </ion-grid>
 </ion-content>
