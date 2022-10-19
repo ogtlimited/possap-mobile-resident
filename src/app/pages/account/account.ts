@@ -14,6 +14,7 @@ import {
 import { AuthService } from '../../core/services/auth/auth.service';
 
 import { UserData } from '../../providers/user-data';
+import { PasswordFormComponent } from './password-form/password-form.component';
 
 @Component({
   selector: 'page-account',
@@ -143,6 +144,14 @@ export class AccountPage implements OnInit {
           await alert.present();
         }
       );
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: PasswordFormComponent,
+      cssClass: 'password-modal',
+    });
+    modal.present();
   }
   back() {
     this._location.back();

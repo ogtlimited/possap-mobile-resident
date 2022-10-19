@@ -24,7 +24,7 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-@import './theme/theme';
+@import "./theme/theme";
 /*
  * App CSS
  * ----------------------------------------------------------------------------
@@ -34,19 +34,19 @@
 
 @import "./app/app.scss";
 
-@import '~swiper/scss';
-@import '~@ionic/angular/css/ionic-swiper';
+@import "~swiper/scss";
+@import "~@ionic/angular/css/ionic-swiper";
 
 // placed here instead of tutorial.scss due to slide els not getting ng scoping attribute
 .swiper-slide {
   display: block;
 }
 ion-input {
-  --placeholder-font-style: 'Roboto', sans-serif;
-  --placeholder-opacity: .4
+  --placeholder-font-style: "Roboto", sans-serif;
+  --placeholder-opacity: 0.4;
 }
 
-.errors{
+.errors {
   font-size: 12px;
   color: var(--ion-color-danger) !important;
   padding-left: 18px;
@@ -71,6 +71,13 @@ ion-item.forms {
   --height: 50% !important;
   --border-radius: 16px;
   // --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+.password-modal {
+  --width: fit-content;
+  --min-width: 90%;
+  --max-width: 90%;
+  --height: 50% !important;
+  --border-radius: 16px;
 }
 .terms-modal {
   --width: fit-content;
