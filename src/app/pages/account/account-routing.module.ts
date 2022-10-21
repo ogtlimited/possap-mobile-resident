@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: AccountPage
+  },
+  {
+    path: 'change-password',
+    component: AccountPage
   }
 ];
 

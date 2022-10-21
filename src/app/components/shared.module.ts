@@ -1,3 +1,4 @@
+import { CmrFormComponent } from './dynamic-form/cmr-form/cmr-form.component';
 import { AbbrevPipe } from './../core/pipes/abbrev.pipe';
 import { SlideToConfirmComponent } from './slide-to-confirm/slide-to-confirm.component';
 import { PasscodeComponent } from './passcode/passcode.component';
@@ -19,6 +20,7 @@ import { SelectComponent } from './select/select.component';
     FormComponent,
     SelectComponent,
     AbbrevPipe,
+    CmrFormComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
   exports: [
@@ -28,6 +30,7 @@ import { SelectComponent } from './select/select.component';
     FormComponent,
     SelectComponent,
     AbbrevPipe,
+    CmrFormComponent
   ],
 })
 export class SharedModule {}
