@@ -2,10 +2,13 @@
 <ion-content>
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" />
+      <img
+        alt="Silhouette of a person's head"
+        src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg"
+      />
     </ion-avatar>
     <ion-label slot="end">
-      {{request.name}}
+      {{ request.service.name }}
     </ion-label>
   </ion-item>
   <ion-row class="info">
@@ -20,107 +23,96 @@
   </ion-row>
   <ion-row>
     <ion-item class="mt-16" lines="none" text-wrap>
-      <h2>Police Extract</h2>
+      <h2>{{ request.service.name }}</h2>
     </ion-item>
     <ion-item lines="none" text-wrap>
-      <ion-label class="ion-text-wrap  notice">The Nigeria Police Force reserves the right to approve or deny your
-        request
-        based on its guidelines or availability of resources.</ion-label>
-
+      <ion-label class="ion-text-wrap notice"
+        >The Nigeria Police Force reserves the right to approve or deny your
+        request based on its guidelines or availability of resources.</ion-label
+      >
     </ion-item>
-
   </ion-row>
   <ion-list>
     <ion-item lines="none">
-      <H6 class="h2C">
-        Owner
-      </H6>
+      <H6 class="h2C"> Owner </H6>
     </ion-item>
     <ion-item lines="none">
       <ion-avatar>
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" />
+        <img
+          alt="Silhouette of a person's head"
+          src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg"
+        />
       </ion-avatar>
-
     </ion-item>
     <ion-item lines="none">
       <ion-label class="notice">
-        Sir Abubakar
+        {{ request.owner.fullName }} &nbsp; | &nbsp; {{ request.owner.phone }}
       </ion-label>
-
     </ion-item>
-
   </ion-list>
   <ion-list>
     <ion-item lines="none">
-      <H6 class="h2C">
-        Request Approvers
-      </H6>
+      <H6 class="h2C"> Request Approvers </H6>
     </ion-item>
     <ion-item lines="none">
       <ion-avatar class="mr-12" *ngFor="let i of approvers">
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" />
+        <img
+          alt="Silhouette of a person's head"
+          src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg"
+        />
       </ion-avatar>
-
     </ion-item>
-
   </ion-list>
   <ion-list class="mt-16">
     <ion-item lines="none">
-      <H6 class="h2C">
-        Approval Proccess
-      </H6>
+      <H6 class="h2C"> Approval Proccess </H6>
     </ion-item>
-
   </ion-list>
 
   <ion-list>
     <ion-radio-group value="second">
-    <div class="container">
+      <div class="container">
+        <!-- completed -->
+        <div
+          [ngClass]="
+            item === request.approvalLevel ? 'step active completed' : 'step'
+          "
+          *ngFor="let item of approvalWorkflow; let i = index"
+        >
+          <div class="v-stepper">
+            <div class="circle"></div>
+            <div class="line"></div>
+          </div>
 
-      <!-- completed -->
-      <div class="step">
-        <div class="v-stepper">
-          <div class="circle"></div>
-          <div class="line"></div>
+          <ion-item lines="none" class="content">
+            <ion-label>{{ item }}</ion-label>
+            <ion-radio slot="end" value="first"></ion-radio>
+          </ion-item>
         </div>
 
-        <ion-item lines="none" class="content">
-          <ion-label>Extract First Approval</ion-label>
-          <ion-radio slot="end" value="first"></ion-radio>
-        </ion-item>
-    
+        <!-- active -->
+        <!-- <div class="step active completed">
+          <div class="v-stepper">
+            <div class="circle"></div>
+            <div class="line"></div>
+          </div>
+
+          <ion-item lines="none" class="content">
+            Extract Second Approval
+          </ion-item>
+          <ion-radio checked slot="start" value="second"></ion-radio>
+        </div> -->
+
+        <!-- empty -->
+        <!-- <div class="step">
+          <div class="v-stepper">
+            <div class="circle"></div>
+            <div class="line"></div>
+          </div>
+
+          <ion-item lines="none" class="content"> Completed </ion-item>
+        </div> -->
       </div>
-
-      <!-- active -->
-      <div class="step active completed">
-        <div class="v-stepper">
-          <div class="circle"></div>
-          <div class="line"></div>
-        </div>
-
-        <ion-item lines="none" class="content">
-          Extract Second Approval
-        </ion-item>
-        <ion-radio checked slot="start" value="second"></ion-radio>
-      </div>
-
-      <!-- empty -->
-      <div class="step">
-        <div class="v-stepper">
-          <div class="circle"></div>
-          <div class="line"></div>
-        </div>
-
-        <ion-item lines="none" class="content">
-          Completed
-        </ion-item>
-      </div>
-
-
-
-    </div>
     </ion-radio-group>
-
   </ion-list>
-
 </ion-content>
