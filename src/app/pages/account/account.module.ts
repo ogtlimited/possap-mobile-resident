@@ -5,16 +5,18 @@ import { IonicModule } from '@ionic/angular';
 
 import { AccountPage } from './account';
 import { AccountPageRoutingModule } from './account-routing.module';
+import { PasscodeComponent } from 'src/app/components/passcode/passcode.component';
+import { PasswordFormComponent } from './password-form/password-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
     SharedModule,
-    AccountPageRoutingModule
+    AccountPageRoutingModule,
+    ReactiveFormsModule,
   ],
-  declarations: [
-    AccountPage,
-  ]
+  declarations: [AccountPage, PasswordFormComponent],
 })
-export class AccountModule { }
+export class AccountModule {}
