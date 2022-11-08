@@ -1,5 +1,16 @@
-import { ModalController } from '@ionic/angular';
-import { baseEndpoints } from './../../../core/config/endpoints';
+import {
+  ActionSheetController,
+  LoadingController,
+  ModalController,
+  Platform,
+} from '@ionic/angular';
+import { baseEndpoints, miscEndpoint } from './../../../core/config/endpoints';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from '@capacitor/camera';
 import { RequestService } from './../../../core/request/request.service';
 import {
   Component,
@@ -36,9 +47,12 @@ export class FormComponent implements OnChanges, OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private changeDetectorRef: ChangeDetectorRef,
+    private cdref: ChangeDetectorRef,
     private reqS: RequestService,
-    private modal: ModalController
+    private plt: Platform,
+    private actionSheetCtrl: ActionSheetController,
+    private modal: ModalController,
+    private loader: LoadingController
   ) {
     // console.log(this)
   }
@@ -127,7 +141,9 @@ export class FormComponent implements OnChanges, OnInit {
     } else {
       return (
         this.myForm.value[control?.showIf?.value] === control?.showIf?.equals ||
-        this.myForm.value[control?.showIf?.value].includes(control?.showIf?.equals)
+        this.myForm.value[control?.showIf?.value].includes(
+          control?.showIf?.equals
+        )
       );
       return false;
     }
@@ -166,5 +182,90 @@ export class FormComponent implements OnChanges, OnInit {
     console.log(this.jsonFormData);
     console.log(control);
     console.log(this.myForm.value);
+  }
+
+  async selectImageSource(name) {
+    const buttons = [
+      {
+        text: 'Take Photo',
+        icon: 'camera',
+        handler: () => {
+          this.addImage(CameraSource.Camera, name);
+        },
+      },
+      {
+        text: 'Choose From Gallery',
+        icon: 'image',
+        handler: () => {
+          this.addImage(CameraSource.Photos, name);
+        },
+      },
+    ];
+
+    // Only allow file selection inside a browser
+    // if (!this.plt.is('hybrid')) {
+    //   buttons.push({
+    //     text: 'Choose a File',
+    //     icon: 'attach',
+    //     handler: () => {
+    //       this.fileInput.nativeElement.click();
+    //     }
+    //   });
+    // }
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Select Image Source',
+      buttons,
+    });
+    await actionSheet.present();
+  }
+  async addImage(source: CameraSource, name) {
+    const image = await Camera.getPhoto({
+      quality: 60,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source,
+    });
+    const blobData = this.b64toBlob(
+      image.base64String,
+      `image/${image.format}`
+    );
+    const imageName = 'Give me a name';
+    const formData = new FormData();
+    formData.append('documents', blobData);
+    const loading = await this.loader.create();
+    await loading.present();
+    this.reqS
+      .post(miscEndpoint.mediaUpload, formData)
+      .subscribe(async (e: any) => {
+        console.log(e.data, name);
+        this.myForm.controls[name].setValue(e.data);
+        this.myForm.updateValueAndValidity();
+        console.log(this.myForm.value);
+        await loading.dismiss();
+        this.cdref.detectChanges();
+      });
+    // this.api.uploadImage(blobData, imageName, image.format).subscribe((newImage: ApiImage) => {
+    //   this.images.push(newImage);
+    // });
+  }
+  b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
   }
 }
