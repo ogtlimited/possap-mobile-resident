@@ -16,8 +16,8 @@
     </ion-row> -->
     <ion-row *ngFor="let k of keys; index as i">
       <ion-col>{{ k | titlecase }}</ion-col>
-      <ion-col *ngif="checkImage(values[i])"><img [src]="values[i]" /></ion-col>
-      <ion-col *ngif="!checkImage(values[i])">{{ values[i] }}</ion-col>
+      <ion-col *ngIf="checkImage(values[i])"><img [src]="values[i]" /></ion-col>
+      <ion-col *ngIf="!checkImage(values[i])">{{ values[i] }}</ion-col>
     </ion-row>
   </ion-grid>
 
