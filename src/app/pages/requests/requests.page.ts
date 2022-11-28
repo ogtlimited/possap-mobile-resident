@@ -48,7 +48,7 @@ export class RequestsPage implements OnInit {
       async (err) => {
         const alert = await this.alertController.create({
           header: 'Error',
-          message: JSON.stringify(err),
+          message: 'Failed to connect to server',
           buttons: ['OK'],
         });
 

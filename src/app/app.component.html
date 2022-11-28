@@ -13,9 +13,9 @@
 
               </div>
               <ion-label>
-                <h3>Sir Abubakar</h3>
-                <p><ion-text>abudawud92@gmail.com</ion-text></p>
-                <p> <ion-text>+2347066565263</ion-text></p>
+                <h3>{{user?.fullName || 'Anonymous'}}</h3>
+                <p><ion-text>{{user?.email || ''}}</ion-text></p>
+                <p> <ion-text>{{user?.phone }}</ion-text></p>
               </ion-label>
             </div>
           </ion-col>
@@ -120,17 +120,15 @@
           </ion-item>
         </ion-list>
 
-        <!-- <ion-list lines="none">
-          <ion-list-header>
-            Tutorial
-          </ion-list-header>
+        <ion-list *ngIf="user" lines="none">
+          
           <ion-menu-toggle autoHide="false">
-            <ion-item class="item" button (click)="openTutorial()" detail="false">
-              <ion-icon slot="start" name="hammer"></ion-icon>
-              <ion-label>Show Tutorial</ion-label>
+            <ion-item class="item" button (click)="logout()" detail="false">
+              <ion-icon slot="start" name="log-out-f"></ion-icon>
+              <ion-label>Log out</ion-label>
             </ion-item>
           </ion-menu-toggle>
-        </ion-list> -->
+        </ion-list>
       </ion-content>
     </ion-menu>
 

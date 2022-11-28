@@ -1,7 +1,8 @@
 {
-  "name": "possap-mobile-resident",
+  "name": "Possap Resident",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

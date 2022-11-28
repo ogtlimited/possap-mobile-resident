@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    namespace 'io.possapresident.com'
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "io.possapresident.com"

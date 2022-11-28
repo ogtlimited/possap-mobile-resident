@@ -1,0 +1,40 @@
+{
+  "controls": [
+    {
+      "name": "description",
+      "label": "Description of Incident",
+      "value": "",
+      "type": "text",
+      "validators": {
+        "required": true
+      }
+    },
+    {
+      "name": "dateTime",
+      "label": "Date and time",
+      "value": "",
+      "type": "date",
+      "validators": {
+        "required": true
+      }
+    },
+    {
+      "name": "location",
+      "label": "Area Where Accident / Incident Occured",
+      "value": "",
+      "type": "text",
+      "validators": {
+        "required": true
+      }
+    },
+    {
+      "name": "photoAttachment",
+      "label": "Photo",
+      "value": "",
+      "type": "file",
+      "validators": {
+        "required": true
+      }
+    }
+  ]
+}

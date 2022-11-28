@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-// export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
-export const serverBaseUrl = 'http://localhost:3000/api/v1';
+export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
+// export const serverBaseUrl = 'http://localhost:3000/api/v1';
 export const GoogleMapUrl =
   'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=';
 export const baseEndpoints = {
@@ -24,6 +24,9 @@ export const authEndpoints = {
   updateProfileImage: baseEndpoints.auth + '/update/profile/image',
 };
 
+export const serviceEndpoint = {
+  serviceCharge: baseEndpoints.service + '/service-charge',
+};
 export const miscEndpoint = {
   mediaUpload: baseEndpoints.helper + '/uploadMedia',
   policeData: baseEndpoints + '/police-data',

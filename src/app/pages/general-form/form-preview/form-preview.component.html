@@ -10,13 +10,26 @@
     </ion-label>
   </div>
   <ion-grid class="ion-margin">
-    <!-- <ion-row>
-      <ion-col>Fields</ion-col>
-      <ion-col>Value</ion-col>
-    </ion-row> -->
+    <ion-row>
+      <ion-col>Name</ion-col>
+      <ion-col>{{owner.fullName}}</ion-col>
+    </ion-row>
     <ion-row *ngFor="let k of keys; index as i">
       <ion-col>{{ k | titlecase }}</ion-col>
       <ion-col>{{ values[i] }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Invoice Amount(s) to Pay</ion-col>
+      <ion-col>
+        <div class="mb-14"><ion-label>₦{{serviceCharge?.invoiceAmount || 0}}.00 <small>(Approved Non-Refundable Application Fee)</small></ion-label></div>
+        <div><ion-label>₦1,000.00 <small>(Approved Non-Refundable Processing Fee)</small></ion-label></div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Total Invoice Amount to Pay</ion-col>
+      <ion-col>
+        <ion-label>₦{{serviceCharge?.proccessingFee + serviceCharge?.invoiceAmount}}</ion-label>
+      </ion-col>
     </ion-row>
   </ion-grid>
 
@@ -47,7 +60,7 @@
 
   </ion-row>
 
-  <ion-button class="mt-16" expand="block" color="primary"  routerLink="/material">
+  <ion-button class="mt-16" expand="block" color="primary"  (click)="generateInvoice()">
     Generate Invoice
   </ion-button>
   <ion-item class="ion-text-center" lines="none">
