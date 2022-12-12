@@ -42,7 +42,8 @@ export class SelectComponent implements OnInit {
         .toPromise();
       console.log(field.name);
       console.log(this.control);
-      this.list = res.data.map((s) => ({ key: s, value: s }));
+      this.list = res.data;
+      // this.list = res.data.map((s) => ({ key: s, value: s }));
       this.loader.dismiss();
       // this.jsonFormData.controls = newControl;
       console.log(res.data, this.list);

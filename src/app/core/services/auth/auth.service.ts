@@ -127,6 +127,7 @@ export class AuthService {
 
   logout(): Promise<void> {
     this.isAuthenticated.next(false);
+    this.currentUser$.next(null);
     Storage.remove({ key: CURRENT_USER });
     Storage.remove({ key: 'my_cart' });
     return Storage.remove({ key: TOKEN_KEY });

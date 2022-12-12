@@ -24,6 +24,9 @@ export const authEndpoints = {
   updateProfileImage: baseEndpoints.auth + '/update/profile/image',
 };
 
+export const serviceEndpoint = {
+  serviceCharge: baseEndpoints.service + '/service-charge',
+};
 export const miscEndpoint = {
   mediaUpload: baseEndpoints.helper + '/uploadMedia',
   policeData: baseEndpoints + '/police-data',

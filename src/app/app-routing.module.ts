@@ -66,6 +66,10 @@ const routes: Routes = [
     path: 'general-form',
     canLoad: [AuthGuard],
     loadChildren: () => import('./pages/general-form/general-form.module').then( m => m.GeneralFormPageModule)
+  },
+  {
+    path: 'invoice',
+    loadChildren: () => import('./pages/invoice/invoice.module').then( m => m.InvoicePageModule)
   }
 ];
 

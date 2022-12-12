@@ -2,5 +2,5 @@
 
 <ion-content>
   <app-form *ngIf="showForm" [jsonFormData]="jsonFormData" (emitForm)="submitForm($event)"></app-form>
-  <app-form-preview [jsonFormData]="jsonFormData" [data]="formData" *ngIf="!showForm"></app-form-preview>
+  <app-form-preview [jsonFormData]="jsonFormData" [data]="formData" [owner]="owner" [service]="myParam" [serviceCharge]="serviceCharge" *ngIf="!showForm"></app-form-preview>
 </ion-content>
