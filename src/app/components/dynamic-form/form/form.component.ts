@@ -70,8 +70,8 @@ export class FormComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes);
     if (!changes.jsonFormData.firstChange) {
+      console.log(changes);
       this.createForm(this.jsonFormData.controls);
     }
   }
@@ -139,11 +139,13 @@ export class FormComponent implements OnChanges, OnInit {
     if (!field.showIf) {
       return true;
     } else {
+      console.log(this.myForm.value[control?.showIf?.value], control?.showIf?.equals);
       return (
-        this.myForm.value[control?.showIf?.value] === control?.showIf?.equals ||
-        this.myForm.value[control?.showIf?.value].includes(
-          control?.showIf?.equals
-        )
+        this.myForm.value[control?.showIf?.value] === control?.showIf?.equals
+        // temporarily commenting this lines of code
+        // || this.myForm.value[control?.showIf?.value].includes(
+        //   control?.showIf?.equals
+        // )
       );
       return false;
     }
