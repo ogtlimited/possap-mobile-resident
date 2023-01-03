@@ -19,11 +19,13 @@
           && canRender(control.name, control)" [type]="control.type" [formControlName]="control.name"
         [placeholder]="control.label" [value]="control.value">
       </ion-input>
-      <div class="flex flex-column my-8" *ngIf="control.type === 'file' && canRender(control.name, control)">
+      <div (click)="selectImageSource(control.name)" class="flex flex-column my-8"
+        *ngIf="control.type === 'file' && canRender(control.name, control)">
         <ion-label class="file-label">{{control.label}}</ion-label>
         <div class="file">
-          <ion-icon name="camera"></ion-icon>
 
+          <ion-icon *ngIf="myForm.value[control.name] === ''" name="camera"></ion-icon>
+          <img *ngIf="myForm.value[control.name] !== ''" [src]="myForm.value[control.name]" alt="">
         </div>
       </div>
       <ion-textarea rows="2" *ngIf="control.type === 'textarea' && canRender(control.name, control)"
@@ -40,7 +42,7 @@
             <ion-radio slot="start" [value]="radio.value"></ion-radio>
           </ion-item>
 
-      
+
 
         </ion-radio-group>
       </ng-container>

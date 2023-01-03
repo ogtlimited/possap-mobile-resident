@@ -9,93 +9,84 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { Preferences as Storage } from '@capacitor/preferences';
 
 import { UserData } from './providers/user-data';
+import { AuthService } from './core/services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit {
   appPages = [
     {
       title: 'Home',
       url: '/app/tabs/home',
-      icon: 'calendar'
+      icon: 'calendar',
     },
     {
       title: 'Request',
       url: '/app/tabs/requests',
-      icon: 'people'
+      icon: 'people',
     },
     {
       title: 'About',
       url: '/app/tabs/about',
-      icon: 'information-circle'
-    }
+      icon: 'information-circle',
+    },
   ];
   loggedIn = false;
   dark = false;
+  user = null;
 
   constructor(
     private menu: MenuController,
     private platform: Platform,
     private router: Router,
     private userData: UserData,
-    private toastCtrl: ToastController,
+    private authService: AuthService,
+    private toastCtrl: ToastController
   ) {
     this.initializeApp();
   }
 
   async ngOnInit() {
-    this.checkLoginStatus();
-    this.listenForLoginEvents();
+    this.authService.currentUser$.subscribe((e) => {
+      if(!e){
+        this.user = null;
+      }else{
+        this.user = e;
+      }
+    });
+    this.authService.currentUser().subscribe((e) => {
+      console.log(JSON.parse(e.value));
+      if (e.value) {
+        this.user = JSON.parse(e.value);
+      }
+    });
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       if (this.platform.is('hybrid')) {
-        StatusBar.hide();
+        // StatusBar.hide();
         SplashScreen.hide();
       }
     });
   }
 
-  checkLoginStatus() {
-    return this.userData.isLoggedIn().then(loggedIn => {
-      return this.updateLoggedInStatus(loggedIn);
-    });
-  }
 
-  updateLoggedInStatus(loggedIn: boolean) {
-    setTimeout(() => {
-      this.loggedIn = loggedIn;
-    }, 300);
-  }
 
-  listenForLoginEvents() {
-    window.addEventListener('user:login', () => {
-      this.updateLoggedInStatus(true);
-    });
-
-    window.addEventListener('user:signup', () => {
-      this.updateLoggedInStatus(true);
-    });
-
-    window.addEventListener('user:logout', () => {
-      this.updateLoggedInStatus(false);
-    });
-  }
 
   logout() {
-    this.userData.logout().then(() => {
-      return this.router.navigateByUrl('/app/tabs/schedule');
+    this.authService.logout().then((e) => {
+      console.log('logged out');
     });
   }
 
   openTutorial() {
     this.menu.enable(false);
-    Storage.set({key:'ion_did_tutorial', value: 'true'})
+    Storage.set({ key: 'ion_did_tutorial', value: 'true' });
     this.router.navigateByUrl('/tutorial');
   }
 }

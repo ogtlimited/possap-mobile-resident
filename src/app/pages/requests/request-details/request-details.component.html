@@ -8,7 +8,7 @@
       />
     </ion-avatar>
     <ion-label slot="end">
-      {{ request.service.name }}
+      {{ request?.service?.name }}
     </ion-label>
   </ion-item>
   <ion-row class="info">
@@ -23,7 +23,7 @@
   </ion-row>
   <ion-row>
     <ion-item class="mt-16" lines="none" text-wrap>
-      <h2>{{ request.service.name }}</h2>
+      <h2>{{ request?.service?.name }}</h2>
     </ion-item>
     <ion-item lines="none" text-wrap>
       <ion-label class="ion-text-wrap notice"
@@ -46,7 +46,7 @@
     </ion-item>
     <ion-item lines="none">
       <ion-label class="notice">
-        {{ request.owner.fullName }} &nbsp; | &nbsp; {{ request.owner.phone }}
+        {{ request?.owner?.fullName }} &nbsp; | &nbsp; {{ request?.owner?.phone }}
       </ion-label>
     </ion-item>
   </ion-list>

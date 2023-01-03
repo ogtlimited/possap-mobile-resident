@@ -1,4 +1,4 @@
-import { baseEndpoints } from './../../config/endpoints';
+import { baseEndpoints, serviceEndpoint } from './../../config/endpoints';
 import { Injectable } from '@angular/core';
 import { RequestService } from '../../request/request.service';
 import { GlobalService } from '../global/global.service';
@@ -17,5 +17,11 @@ export class PossapServicesService {
   }
   fetchServicesbyId(id){
     return this.reqS.get(baseEndpoints.service + '/' + id);
+  }
+  postRequest(body){
+    return this.reqS.post(baseEndpoints.requests, body);
+  }
+  getServiceCharge(id){
+    return this.reqS.get(serviceEndpoint.serviceCharge + '/' + id);
   }
 }

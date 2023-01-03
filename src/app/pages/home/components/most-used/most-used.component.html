@@ -5,7 +5,7 @@
       <ion-card-header>
         <ion-card-subtitle>Most Used</ion-card-subtitle>
         <ion-card-title>
-          <ion-label class="serviceTitle">Possap Services</ion-label>
+          <ion-label class="serviceTitle">POSSAP Services</ion-label>
           <ion-label routerLink="/app/tabs/services" color="primary">See All</ion-label>
         </ion-card-title>
       </ion-card-header>
@@ -14,7 +14,7 @@
 
       <ion-card-content class="pl-2 pr-16">
         <ion-list>
-          <ion-item (click)="navigate(service.code, service.title)" *ngFor="let service of services">
+          <ion-item (click)="navigate(service.id, service, 'restful')" *ngFor="let service of services">
             <ion-avatar slot="start">
               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==">
             </ion-avatar>

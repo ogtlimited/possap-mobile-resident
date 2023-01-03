@@ -1,0 +1,55 @@
+<app-header [showBack]="true" [title]="title"></app-header>
+<ion-content>
+  <form [formGroup]="cmrForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Plate Number</ion-label>
+      <ion-input type="plateNumber" formControlName="plateNumber"></ion-input>
+    </ion-item>
+    <div *ngIf="(plateNumber.dirty || plateNumber.touched) && plateNumber.errors" class="errors">
+      <span *ngIf="plateNumber.errors?.required">Plate Number is required</span>
+      <span *ngIf="plateNumber.errors?.plateNumber">Plate Number is invalid</span>
+    </div>
+    <ion-item>
+      <ion-label position="floating">VIN</ion-label>
+      <ion-input type="vin" formControlName="vin"></ion-input>
+    </ion-item>
+    <div *ngIf="(vin.dirty || vin.touched) && vin.errors" class="errors">
+      <span *ngIf="vin.errors?.required">vin is required</span>
+      <span *ngIf="vin.errors?.vin">VIN is invalid</span>
+    </div>
+    <ion-item>
+      <ion-label position="floating">Vehicle color</ion-label>
+      <ion-input type="vehColor" formControlName="vehColor"></ion-input>
+    </ion-item>
+    <div *ngIf="(vehColor.dirty || vehColor.touched) && vehColor.errors" class="errors">
+      <span *ngIf="vehColor.errors?.required">Vehicle color is required</span>
+  
+    </div>
+    <ion-item>
+      <ion-label position="floating">Proof of ownership</ion-label>
+      <ion-input type="ownershipProof" formControlName="ownershipProof"></ion-input>
+    </ion-item>
+    <div *ngIf="(ownershipProof.dirty || ownershipProof.touched) && ownershipProof.errors" class="errors">
+      <span *ngIf="ownershipProof.errors?.required">Proof of ownership is required</span>
+      <span *ngIf="ownershipProof.errors?.ownershipProof">Proof of ownership is invalid</span>
+    </div>
+    <ion-item>
+      <ion-label position="floating">Road worthiness</ion-label>
+      <ion-input type="roadWorthiness" formControlName="roadWorthiness"></ion-input>
+    </ion-item>
+    <div *ngIf="(roadWorthiness.dirty || roadWorthiness.touched) && roadWorthiness.errors" class="errors">
+      <span *ngIf="roadWorthiness.errors?.required">Road worthiness is required</span>
+      <span *ngIf="roadWorthiness.errors?.roadWorthiness">Road worthiness is invalid</span>
+    </div>
+    <ion-item>
+      <ion-label position="floating">Location</ion-label>
+      <ion-input type="pickupLocation" formControlName="pickupLocation"></ion-input>
+    </ion-item>
+    <div *ngIf="(pickupLocation.dirty || pickupLocation.touched) && pickupLocation.errors" class="errors">
+      <span *ngIf="pickupLocation.errors?.required">Location is required</span>
+      <span *ngIf="pickupLocation.errors?.pickupLocation">Location is invalid</span>
+    </div>
+    
+    <ion-button class="mx-10 mt-10" expand="full" type="submit" [disabled]="cmrForm.invalid">Submit</ion-button>
+  </form>
+</ion-content>

@@ -1,0 +1,96 @@
+<app-header [showBack]="true" [title]="title"></app-header>
+
+<ion-content>
+  <div class="content" *ngIf="isSuccess; else payment">
+    <div class="icon-box">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+    </div>
+    <div class="sucess-message">
+      <h5>Payment Successful</h5>
+      <p>Transaction Number: 12345678</p>
+    </div>
+    <div>
+      <p>Amount Paid <span class="text-em">45,000 naira</span></p>
+    </div>
+    <button>Back to home</button>
+  </div>
+  <ng-template #payment>
+    <ion-card>
+
+      <ion-grid class="m-5">
+        <ion-row>
+          <ion-col>Name</ion-col>
+          <ion-col>{{owner.fullName}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Invoice Amount Due</ion-col>
+          <ion-col>
+            <div class="mb-14">
+              <ion-label>₦{{invoice?.amount || 0}}.00 </ion-label>
+            </div>
+
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Invoice Description</ion-col>
+          <ion-col size="6">
+            <ion-label>
+              Approved Non-Refundable Application Fee and Processing Fee for <b>{{details.createAllPossapData.ref}}</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+    <ion-card color="primary">
+      <ion-card-header class="bottom-border">
+        <ion-card-subtitle>Summary</ion-card-subtitle>
+
+      </ion-card-header>
+      <ion-card-content>
+        Amount Due
+        <ion-card-title>{{invoice?.amount || 0}}.00 </ion-card-title>
+      </ion-card-content>
+      <ion-button expand="block" color="light" class="m-16" (click)="setSuccess(true)">Pay Online</ion-button>
+    </ion-card>
+    <ion-row>
+    </ion-row>
+
+    <ion-card>
+      <ion-card-header>
+        <h3>Other Payment Methods</h3>
+      </ion-card-header>
+      <ion-accordion-group #accordionGroup>
+        <ion-accordion value="first" toggleIcon="smartphone" >
+          <ion-item slot="header" color="light">
+            <ion-label>Bank Transfer</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <p class="text-weight-bold color-dark">Follow the steps below to make payments on your mobile banking
+              platforms:</p>
+            <ul class=" text-small color-dark p-16">
+              <li class="mb-8">Login to your bank mobile application and select transfer to bank</li>
+              <li class="mb-8">Select Parkway Readycash as the receiving bank and input your invoice number e.g 1000177970
+                as the receiving bank account number.</li>
+              <li class="mb-8">Enter the exact amount to pay in the “Amount to transfer” field i.e
+                ₦{{invoice?.amount || 0}}.00 and proceed.</li>
+            </ul>
+          </div>
+        </ion-accordion>
+        <ion-accordion value="second" toggleIcon="archive">
+          <ion-item slot="header" color="light">
+            <ion-label>POS, ATM, BANK BRANCH</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <p class="text-weight-bold color-dark">Follow the steps below to make payment at any bank branch:</p>
+            <ul class=" text-small color-dark p-16">
+
+              <li>Go to any bank branch and give the teller your invoice number.</li>
+              <li>Ask the teller to select Bank3D or Ebills- Pay to post payment. You will be issued a receipt and the
+                payment will be uploaded on the POSSAP portal immediately.</li>
+            </ul>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+    </ion-card>
+  </ng-template>
+</ion-content>
