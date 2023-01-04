@@ -47,14 +47,20 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private toastCtrl: ToastController
   ) {
+
+    // Add or remove the "dark" class based on if the media query matches
     this.initializeApp();
   }
 
+  toggleDarkTheme(shouldAdd) {
+    console.log(shouldAdd);
+    document.body.classList.toggle('dark', !shouldAdd);
+  }
   async ngOnInit() {
     this.authService.currentUser$.subscribe((e) => {
-      if(!e){
+      if (!e) {
         this.user = null;
-      }else{
+      } else {
         this.user = e;
       }
     });
@@ -74,9 +80,6 @@ export class AppComponent implements OnInit {
       }
     });
   }
-
-
-
 
   logout() {
     this.authService.logout().then((e) => {

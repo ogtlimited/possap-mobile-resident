@@ -11,6 +11,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormComponent } from './dynamic-form/form/form.component';
 import { HeaderComponent } from './header/header.component';
 import { SelectComponent } from './select/select.component';
+import { NextApprovalLevelPipe } from '../core/pipes/next-approval-level.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SelectComponent } from './select/select.component';
     FormComponent,
     SelectComponent,
     AbbrevPipe,
+    NextApprovalLevelPipe,
     CmrFormComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
@@ -30,7 +32,8 @@ import { SelectComponent } from './select/select.component';
     FormComponent,
     SelectComponent,
     AbbrevPipe,
-    CmrFormComponent
+    CmrFormComponent,
+    NextApprovalLevelPipe
   ],
 })
 export class SharedModule {}

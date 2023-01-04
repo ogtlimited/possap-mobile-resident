@@ -18,7 +18,7 @@
     </ion-item>
     <ion-item lines="none">
       <ion-icon name="location-outline"></ion-icon>
-      <ion-label class="ml-5">Processesor: AMAC Police Division</ion-label>
+      <ion-label class="ml-5">Processesor: NPF-{{request.processor}}</ion-label>
     </ion-item>
   </ion-row>
   <ion-row>
@@ -73,21 +73,18 @@
     <ion-radio-group value="second">
       <div class="container">
         <!-- completed -->
-        <div
-          [ngClass]="
-            item === request.approvalLevel ? 'step active completed' : 'step'
-          "
-          *ngFor="let item of approvalWorkflow; let i = index"
-        >
+        <div [ngClass]="
+            item.id === request.approvalLevel ? 'step active completed' : 'step'
+          " *ngFor="let item of request?.service?.workFlow[0]?.WorkFlowApprovalLevel; let i = index">
           <div class="v-stepper">
             <div class="circle"></div>
             <div class="line"></div>
           </div>
 
-          <ion-item lines="none" class="content">
-            <ion-label>{{ item }}</ion-label>
+          <div class="content">
+            <ion-label class="d-block" [color]="request.approvalLevel === item.id ? 'primary' : 'dark'">{{ item.name }}</ion-label>
             <ion-radio slot="end" value="first"></ion-radio>
-          </ion-item>
+          </div>
         </div>
 
         <!-- active -->

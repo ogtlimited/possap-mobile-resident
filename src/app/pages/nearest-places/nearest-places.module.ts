@@ -9,6 +9,7 @@ import { IonicModule } from '@ionic/angular';
 import { NearestPlacesPageRoutingModule } from './nearest-places-routing.module';
 
 import { NearestPlacesPage } from './nearest-places.page';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { NearestPlacesPage } from './nearest-places.page';
     FormsModule,
     IonicModule,
     NearestPlacesPageRoutingModule,
-    SharedModule
+    SharedModule,
+    LeafletModule,
   ],
   declarations: [NearestPlacesPage, PlacesCardComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

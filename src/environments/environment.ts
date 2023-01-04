@@ -5,6 +5,9 @@
 export const environment = {
   production: false,
   mapsKey: '',
+  mapbox: {
+    accessToken: 'pk.eyJ1Ijoia2hhZGlqYWxhZGFuIiwiYSI6ImNsYW1iMDZsODBkOHMzc29iMnFiYm04aHYifQ.5fKJF4M1NlLrMafVqix3Cg',
+  },
 };
 
 /*

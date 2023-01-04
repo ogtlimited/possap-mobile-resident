@@ -12,7 +12,7 @@ import { RequestService } from './../../../core/request/request.service';
 })
 export class RequestDetailsComponent implements OnInit {
   request: any = {};
-  approvers = [1, 2, 3, 4, 5];
+  approvers = [];
   approvalWorkflow = [];
   private routeSub: Subscription;
   constructor(
@@ -32,10 +32,11 @@ export class RequestDetailsComponent implements OnInit {
     this.reqS.get(baseEndpoints.requests + '/' + id).subscribe((res: any) => {
       console.log('testt', res.data);
       this.request = res.data;
-      this.approvalWorkflow = [
-        ...res.data.service.approvalWorkFlow,
-        'Completed',
-      ];
+      this.approvers = res.data.service.workflow[0].WorkFlowApprovalLevel;
+      // this.approvalWorkflow = [
+      //   ...res.data.service.approvalWorkFlow,
+      //   'Completed',
+      // ];
     });
   }
 }
