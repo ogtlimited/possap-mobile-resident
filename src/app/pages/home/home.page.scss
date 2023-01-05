@@ -64,4 +64,21 @@
       z-index: 10;
   
   }
-  
+  .serviceTitle{
+    font-size: 18px;
+    padding-bottom: 10px;
+}
+.pos-absolute{
+  position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30;
+    height: 30px;
+    background: var(--ion-color-primary);
+    color: #fff;
+    border-radius: 0px 0px 5px 0px;;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

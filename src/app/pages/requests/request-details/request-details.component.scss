@@ -33,7 +33,7 @@ ion-label {
 }
 
 .step {
-  padding: 10px;
+  padding: 5px 15px;
 
   display: flex;
   flex-direction: row;
@@ -102,4 +102,7 @@ ion-label {
   margin-left: 20px;
   display: inline-block;
   width: 100%;
+}
+.d-block{
+  display: block;
 }

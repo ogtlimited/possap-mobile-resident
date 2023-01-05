@@ -12,6 +12,7 @@ export class InvoicePage implements OnInit {
   title = 'Make Payment';
   owner: any;
   invoice;
+  isSuccess: boolean;
   constructor(private route: ActivatedRoute, private authS: AuthService ) {}
 
   ngOnInit() {
@@ -21,5 +22,9 @@ export class InvoicePage implements OnInit {
     );
     this.invoice = this.details.genInvoice;
     console.log(this.details);
+  }
+
+  setSuccess(value: boolean) {
+    this.isSuccess = value;
   }
 }

@@ -1,57 +1,36 @@
 import { GlobalService } from './../../core/services/global/global.service';
 /* eslint-disable @typescript-eslint/naming-convention */
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
-import { environment } from './../../../environments/environment.prod';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { GoogleMap, Marker } from '@capacitor/google-maps';
-import { Geolocation } from '@capacitor/geolocation';
+import { Map, Control, DomUtil, ZoomAnimEvent , Layer, MapOptions, tileLayer, latLng } from 'leaflet';
 import { Location } from '@angular/common';
-
-declare let google;
+import { Observable, Subscriber } from 'rxjs';
+import * as L from 'leaflet';
 
 @Component({
-  selector: 'app-nearest-places',
+  selector: 'app-osm-map',
   templateUrl: './nearest-places.page.html',
   styleUrls: ['./nearest-places.page.scss'],
 })
+
 export class NearestPlacesPage implements OnInit {
-  @ViewChild('map') mapRef: ElementRef;
-  map: GoogleMap;
+  public map: Map;
+  public zoom: number;
   location = 'MY MAP';
   GoogleAutocomplete: any;
+
   constructor(
     private alert: AlertController,
     private loc: Location,
     private globalS: GlobalService
   ) {
-    this.globalS.nearestPlaces('police station').subscribe((e) => {
-      console.log(e);
-    });
+    // this.globalS.nearestPlaces('police station').subscribe((e) => {
+    //   console.log(e);
+    // });
   }
 
-  ngOnInit() {}
-
-  ionViewDidEnter() {
-    this.locateMe();
-    this.createMap();
-  }
-
-  async createMap() {
-    // const boundingRect = this.mapView.nativeElement.getBoundingClientRect() as DOMRect;
-    this.map = await GoogleMap.create({
-      id: 'sos-map',
-      apiKey: environment.mapsKey,
-      element: this.mapRef.nativeElement,
-      forceCreate: true,
-      config: {
-        center: {
-          lat: 33.6,
-          lng: 9.7,
-        },
-        zoom: 8,
-      },
-    });
-    await this.addMarkers();
+  ngOnInit() {
+    this.loadMap();
   }
 
   mapLocation(val) {
@@ -70,56 +49,53 @@ export class NearestPlacesPage implements OnInit {
       }
     );
   }
+
   back() {
     this.loc.back();
   }
 
-  async addMarkers() {
-    const markers: Marker[] = [
-      {
-        coordinate: {
-          lat: 33.7,
-          lng: -117.8,
-        },
-        title: 'localhost',
-        snippet: 'Best place on earth',
-      },
-      {
-        coordinate: {
-          lat: 33.7,
-          lng: -117.2,
-        },
-        title: 'random place',
-        snippet: 'Not sure',
-      },
-    ];
-    await this.map.addMarkers(markers);
-
-    this.map.setOnMarkerClickListener(async (marker) => {
-      console.log(marker);
-      // const modal = await this.modalCtrl.create({
-      //   component: ModalPage,
-      //   componentProps: {
-      //     marker,
-      //   },
-      //   breakpoints: [0, 0.3],
-      //   initialBreakpoint: 0.3,
-      // });
-      // modal.present();
+  private getCurrentPosition(): any {
+    return new Observable((observer: Subscriber<any>) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position: any) => {
+          observer.next({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        console.log([position.coords.latitude, position.coords.longitude]);
+          observer.complete();
+        });
+      } else {
+        observer.error();
+      }
     });
   }
 
-  async locateMe() {
-    const coordinates = await Geolocation.getCurrentPosition();
 
-    if (coordinates) {
-      this.map.setCamera({
-        coordinate: {
-          lat: coordinates.coords.latitude,
-          lng: coordinates.coords.longitude,
-        },
-        zoom: 12,
+  private loadMap(): void {
+    this.map = L.map('map').setView([0, 0], 1);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      attribution: `Map data &copy; <a href="https://www.openstreetmap.org/copyright">
+                          OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>`,
+      // maxZoom: 18,
+      id: 'mapbox/streets-v11',
+      // tileSize: 512,
+      // zoomOffset: -1,
+      accessToken: 'pk.eyJ1Ijoia2hhZGlqYWxhZGFuIiwiYSI6ImNsYW1iMDZsODBkOHMzc29iMnFiYm04aHYifQ.5fKJF4M1NlLrMafVqix3Cg'
+    }).addTo(this.map);
+
+    this.getCurrentPosition()
+    .subscribe((position: any) => {
+      this.map.flyTo([position.latitude, position.longitude], 15);
+
+      const icon = L.icon({
+        iconUrl: 'assets/img/marker-icon.png',
+        shadowUrl: 'assets/img/marker-shadow.png',
+        popupAnchor: [13, 0],
       });
-    }
+
+      const marker = L.marker([position.latitude, position.longitude], { icon }).bindPopup('Angular Leaflet');
+      marker.addTo(this.map);
+    });
   }
 }
