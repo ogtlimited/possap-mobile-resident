@@ -8,6 +8,7 @@ import { AccountPageRoutingModule } from './account-routing.module';
 import { PasscodeComponent } from 'src/app/components/passcode/passcode.component';
 import { PasswordFormComponent } from './password-form/password-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProfileComponentComponent } from './profile-component/profile-component.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     AccountPageRoutingModule,
     ReactiveFormsModule,
   ],
-  declarations: [AccountPage, PasswordFormComponent],
+  declarations: [AccountPage, PasswordFormComponent,ProfileComponentComponent],
 })
 export class AccountModule {}
