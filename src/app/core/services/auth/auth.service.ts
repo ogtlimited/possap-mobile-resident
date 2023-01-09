@@ -103,8 +103,8 @@ export class AuthService {
   }): Observable<any> {
     return this.reqS.post(authEndpoints.forgotPasswordComplete, credentials);
   }
-  changePassword(credentials: { oldPassword; newPassword }): Observable<any> {
-    return this.reqS.post(authEndpoints.changePassword, credentials);
+  changePassword(id,credentials: { oldPassword; newPassword }): Observable<any> {
+    return this.reqS.put(authEndpoints.changePassword + '/' + id, credentials);
   }
   updateUser(id, credentials): Observable<any> {
     return this.reqS.put(baseEndpoints.user + '/' + id, credentials).pipe(
