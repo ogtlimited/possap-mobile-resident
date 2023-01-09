@@ -117,10 +117,13 @@ export class PasswordFormComponent implements OnInit {
         const alert = await this.alertController.create({
           header: 'Password change success',
           message: res.message,
-          buttons: ['OK'],
+          buttons: [{text:'OK', role:'confirm',handler:() => {
+            this.authService.logout();
+
+          },}],
         });
+        this.modal.dismiss();
         await alert.present();
-        this.authService.logout();
       },
       async (res) => {
         await loading.dismiss();
