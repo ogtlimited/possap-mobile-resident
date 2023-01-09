@@ -15,7 +15,12 @@ export class HomePage implements OnInit {
     speed: 400,
   };
 
-  constructor() {}
+  constructor(private confData: ConferenceData) {
+    this.confData.getSpeakers().subscribe((speakers: any[]) => {
+      console.log('speakers', speakers);
+      this.speakers = speakers.slice(0, 3);
+    });
+  }
 
   ionViewDidEnter() {
   }
