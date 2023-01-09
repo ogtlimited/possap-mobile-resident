@@ -23,7 +23,7 @@ export class AuthService {
   currentUser$: BehaviorSubject<any> = new BehaviorSubject<boolean>(null);
   token = '';
 
-  constructor(private reqS: RequestService, private globalS: GlobalService) {
+  constructor(private reqS: RequestService, private globalS: GlobalService, private router: Router) {
     this.loadToken();
     this.currentUser().subscribe((e) => {
       console.log(e);
@@ -130,6 +130,7 @@ export class AuthService {
     this.currentUser$.next(null);
     Storage.remove({ key: CURRENT_USER });
     Storage.remove({ key: 'my_cart' });
+    this.router.navigateByUrl('/login');
     return Storage.remove({ key: TOKEN_KEY });
   }
 }
