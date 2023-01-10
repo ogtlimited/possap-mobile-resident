@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   mapsKey: '',
   mapbox: {
-    accessToken: 'pk.eyJ1Ijoia2hhZGlqYWxhZGFuIiwiYSI6ImNsYW1iMDZsODBkOHMzc29iMnFiYm04aHYifQ.5fKJF4M1NlLrMafVqix3Cg',
+    accessToken: '',
   },
 };
 
@@ -17,5 +17,3 @@ export const environment = {
  * because it will have performance impact when throw error
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
-
-//sk.eyJ1Ijoia2hhZGlqYWxhZGFuIiwiYSI6ImNsY29pYnB0NjBwajMzbmw0M29pdWRhZjIifQ.iHKlavsAM5n_SYPpQhoU-g
