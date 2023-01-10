@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { languageLoader } from './LanguageLoader';
 import { LocalStorageService } from './core/services/storage/LocalStorage.service';
-
+import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { LocalStorageService } from './core/services/storage/LocalStorage.servic
     HttpClientModule,
     FormsModule,
     IonicModule.forRoot({
-      mode: 'ios'
+      mode: 'ios',
     }),
     TranslateModule.forRoot({
       loader: {
@@ -32,7 +32,11 @@ import { LocalStorageService } from './core/services/storage/LocalStorage.servic
     }),
   ],
   declarations: [AppComponent],
-  providers: [LocalStorageService, { provide: 'Window', useValue: window }],
-  bootstrap: [AppComponent]
+  providers: [
+    LocalStorageService,
+    { provide: 'Window', useValue: window },
+    AppRate,
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
