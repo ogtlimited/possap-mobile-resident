@@ -10,6 +10,7 @@ import { Preferences as Storage } from '@capacitor/preferences';
 
 import { UserData } from './providers/user-data';
 import { AuthService } from './core/services/auth/auth.service';
+import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +46,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private userData: UserData,
     private authService: AuthService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private appRate: AppRate
   ) {
 
     // Add or remove the "dark" class based on if the media query matches
@@ -85,6 +87,19 @@ export class AppComponent implements OnInit {
     this.authService.logout().then((e) => {
       console.log('logged out');
     });
+  }
+
+  rate() {
+    // set certain preferences
+    this.appRate.setPreferences({
+      storeAppURL: {
+        ios: '<app_id>',
+        android: 'market://details?id=<package_name>',
+        windows: 'ms-windows-store://review/?ProductId=<store_id>',
+      },
+    });
+
+    this.appRate.promptForRating(true);
   }
 
   openTutorial() {
