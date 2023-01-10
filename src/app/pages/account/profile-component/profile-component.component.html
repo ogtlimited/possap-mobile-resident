@@ -1,0 +1,82 @@
+<form (ngSubmit)="updateUser()" [formGroup]="userForm" class="form-container">
+  <ion-item>
+    <ion-label position="floating">Full Name</ion-label>
+    <ion-input
+      type="text"
+      formControlName="fullName"
+      value="{{ user?.fullName }}"
+      ngModel="{{ user?.fullName }}"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Email</ion-label>
+    <ion-input
+      type="text"
+      formControlName="email"
+      value="{{ user?.email }}"
+      ngModel="{{ user?.email }}"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">NIN</ion-label>
+    <ion-input
+      type="text"
+      formControlName="nin"
+      value="{{ user?.nin }}"
+      ngModel="{{ user?.nin }}"
+      readonly
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Phone</ion-label>
+    <ion-input
+      type="text"
+      formControlName="phone"
+      value="{{ user?.phone }}"
+      ngModel="{{ user?.phone }}"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">State</ion-label>
+    <ion-input
+      type="text"
+      formControlName="state"
+      value="{{ user?.state }}"
+      ngModel="{{ user?.state }}"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Local Goverment</ion-label>
+    <ion-input
+      type="text"
+      formControlName="lga"
+      value="{{ user?.lga }}"
+      ngModel="{{ user?.lga }}"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Address</ion-label>
+    <ion-input
+      type="text"
+      formControlName="address"
+      value="{{ user?.address }}"
+      ngModel="{{ user?.address }}"
+    ></ion-input>
+  </ion-item>
+
+  <div class="ion-padding">
+    <ion-button
+      expand="block"
+      class="login mt-16"
+      type="submit"
+      [disabled]="!userForm.valid"
+      >Submit</ion-button
+    >
+  </div>
+</form>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ConferenceData } from 'src/app/providers/conference-data';
 
 @Component({
@@ -15,9 +16,16 @@ export class HomePage implements OnInit {
     speed: 400,
   };
 
-  constructor() {}
+  constructor(
+    public confData: ConferenceData,
+    private router: Router,
+    ) {}
 
   ionViewDidEnter() {
+    this.confData.getSpeakers().subscribe((speakers: any[]) => {
+      console.log('speakers', speakers);
+      this.speakers = speakers.slice(0, 3);
+    });
   }
 
   ngOnInit() {}
@@ -26,7 +34,7 @@ export class HomePage implements OnInit {
     return `url(assets/img/home/img${num + 1}.png)`;
   }
   submit(){
-
+    this.router.navigate([`requests/details/${this.searchTerm}`]);
   }
 
 }
