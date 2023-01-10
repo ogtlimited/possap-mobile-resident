@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/member-ordering */
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ModalController,AlertController,LoadingController } from '@ionic/angular';
-import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { matchValidator } from '../../../providers/confirm.validator';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AlertController, LoadingController, ModalController} from '@ionic/angular';
+import {AuthService} from 'src/app/core/services/auth/auth.service';
+import {matchValidator} from '../../../providers/confirm.validator';
 
 export interface Profile {
   createdAt: Date;
@@ -43,8 +42,12 @@ export interface User {
   fullName: string;
   userName: string;
   email: string;
-  phoneNumber: string;
+  phone: string;
   password: string;
+  address: string;
+  state: string;
+  lga: string;
+  nin: string;
   profile: Profile;
   access: Access;
   commandAccessIds: CommandAccessId[];
@@ -66,13 +69,11 @@ export class PasswordFormComponent implements OnInit {
     private alertController: AlertController,
     private authService: AuthService,
     private loadingController: LoadingController,
-    private router: Router
     ) {}
 
   ngOnInit() {
     this.authService.currentUser().subscribe((str) => {
-      const user = JSON.parse(str.value);
-      this.user = user;
+      this.user = JSON.parse(str.value);
     });
     this.passwordForm = this.fb.group({
       password: ['', [Validators.required]],
@@ -122,7 +123,7 @@ export class PasswordFormComponent implements OnInit {
 
           },}],
         });
-        this.modal.dismiss();
+        await this.modal.dismiss();
         await alert.present();
       },
       async (res) => {

@@ -15,6 +15,7 @@ import { AuthService } from '../../core/services/auth/auth.service';
 
 import { UserData } from '../../providers/user-data';
 import { PasswordFormComponent } from './password-form/password-form.component';
+import { ProfileComponentComponent } from './profile-component/profile-component.component';
 
 @Component({
   selector: 'page-account',
@@ -113,8 +114,8 @@ export class AccountPage implements OnInit {
   }
   async presentModal(show) {
     const modal = await this.modalController.create({
-      component: 'ProfileComponentsComponent',
-      cssClass: 'fullscreen',
+      component: ProfileComponentComponent,
+      cssClass: '',
       componentProps: {
         show,
       },
