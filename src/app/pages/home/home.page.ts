@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
     return `url(assets/img/home/img${num + 1}.png)`;
   }
   submit(){
-    this.router.navigate([`requests/details/${this.searchTerm}`]);
+    this.router.navigate([`search/${this.searchTerm}`]);
   }
 
 }

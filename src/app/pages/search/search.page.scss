@@ -1,0 +1,134 @@
+.info {
+  position: relative;
+  left: 6%;
+  background-image: linear-gradient(to right, #71d3b6, #eccd8f);
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 12px;
+  padding: 6px;
+  ion-label {
+    font-size: 14px;
+  }
+}
+
+ion-item {
+  --background: none;
+  .notice,
+  ion-label {
+    color: #6c6e7b;
+  }
+}
+h2,
+.h2C {
+  color: #474c5a;
+  font-weight: 500;
+}
+.notice,
+ion-label {
+  color: #6c6e7b;
+}
+
+.container {
+  margin-top: 16px;
+}
+
+.step {
+  padding: 5px 15px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  background-color: cream;
+}
+
+.v-stepper {
+  position: relative;
+  /*   visibility: visible; */
+}
+
+/* regular step */
+.step .circle {
+  background-color: white;
+  border: 3px solid gray;
+  border-radius: 100%;
+  width: 20px; /* +6 for border */
+  height: 20px;
+  display: inline-block;
+}
+
+.step .line {
+  top: 23px;
+  left: 8px;
+  /*   height: 120px; */
+  height: 100%;
+
+  position: absolute;
+  border-left: 3px solid gray;
+}
+
+.step.completed .circle {
+  visibility: visible;
+  background-color: #2f4cb0;
+  border-color: #2f4cb0;
+}
+
+.step.completed .line {
+  border-left: 3px solid #2f4cb0;
+}
+
+.step.active .circle {
+  visibility: visible;
+  border-color: #2f4cb0;
+}
+
+.step.empty .circle {
+  visibility: hidden;
+}
+
+.step.empty .line {
+  /*     visibility: hidden; */
+  /*   height: 150%; */
+  top: 0;
+  height: 150%;
+}
+
+.step:last-child .line {
+  border-left: 3px solid white;
+  z-index: -1; /* behind the circle to completely hide */
+}
+
+.content {
+  margin-left: 20px;
+  display: inline-block;
+  width: 100%;
+}
+.d-block{
+  display: block;
+}
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.icon-box {
+  font-size: 6em;
+  color: #c86262;
+}
+
+.message {
+  width: 90%;
+}
+
+button {
+  background: #0281b2;
+  color: white;
+  padding: 1.5em;
+  border-radius: 10px;
+  margin: 1em 0;
+}
