@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
     }
   }
   goToCart() {
-    this.router.navigate(['menu/home/cart-orders']);
+    this.router.navigate(['account']);
   }
 
   goto() {
