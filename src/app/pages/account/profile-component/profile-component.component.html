@@ -12,8 +12,7 @@
     <ion-input
       type="text"
       formControlName="fullName"
-      value="{{ user?.fullName }}"
-      ngModel="{{ user?.fullName }}"
+      [disabled]="true"
     ></ion-input>
   </ion-item>
 
@@ -22,8 +21,6 @@
     <ion-input
       type="text"
       formControlName="email"
-      value="{{ user?.email }}"
-      ngModel="{{ user?.email }}"
     ></ion-input>
   </ion-item>
 
@@ -32,9 +29,7 @@
     <ion-input
       type="text"
       formControlName="nin"
-      value="{{ user?.nin }}"
-      ngModel="{{ user?.nin }}"
-      readonly
+      [disabled]="true"
     ></ion-input>
   </ion-item>
 
@@ -43,8 +38,6 @@
     <ion-input
       type="text"
       formControlName="phone"
-      value="{{ user?.phone }}"
-      ngModel="{{ user?.phone }}"
     ></ion-input>
   </ion-item>
 
@@ -53,8 +46,6 @@
     <ion-input
       type="text"
       formControlName="state"
-      value="{{ user?.state }}"
-      ngModel="{{ user?.state }}"
     ></ion-input>
   </ion-item>
 
@@ -63,8 +54,6 @@
     <ion-input
       type="text"
       formControlName="lga"
-      value="{{ user?.lga }}"
-      ngModel="{{ user?.lga }}"
     ></ion-input>
   </ion-item>
 
@@ -73,8 +62,6 @@
     <ion-input
       type="text"
       formControlName="address"
-      value="{{ user?.address }}"
-      ngModel="{{ user?.address }}"
     ></ion-input>
   </ion-item>
 

@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, AlertController, LoadingController } from '@ionic/angular';
+import {
+  ModalController,
+  AlertController,
+  LoadingController,
+} from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { User } from '../password-form/password-form.component';
 
@@ -22,12 +26,7 @@ export class ProfileComponentComponent implements OnInit {
     private alertController: AlertController,
     private authService: AuthService,
     private loadingController: LoadingController
-  ) { }
-
-  ngOnInit() {
-    this.authService.currentUser().subscribe((str) => {
-      this.user = JSON.parse(str.value);
-    });
+  ) {
     this.userForm = this.fb.group({
       fullName: '',
       email: ['', [Validators.email]],
@@ -35,7 +34,18 @@ export class ProfileComponentComponent implements OnInit {
       state: [''],
       address: [''],
       lga: [''],
-      nin: ''
+      nin: '',
+    });
+  }
+
+  ngOnInit() {
+    this.authService.currentUser().subscribe((str) => {
+      this.user = JSON.parse(str.value);
+      this.userForm.patchValue(this.user);
+    });
+
+    this.userForm.valueChanges.subscribe((e) => {
+      console.log(e);
     });
   }
   // Easy access for form fields
@@ -60,7 +70,7 @@ export class ProfileComponentComponent implements OnInit {
   async updateUser() {
     const credentials = {
       ...this.userForm.value,
-      password: this.user.password
+      password: this.user.password,
     };
     const loading = await this.loadingController.create();
     await loading.present();
