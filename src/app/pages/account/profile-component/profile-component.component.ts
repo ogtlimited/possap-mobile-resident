@@ -97,4 +97,9 @@ export class ProfileComponentComponent implements OnInit {
       }
     );
   }
+
+  close() {
+    this.modal.dismiss();
+  }
+
 }

@@ -1,4 +1,12 @@
 <form (ngSubmit)="updateUser()" [formGroup]="userForm" class="form-container">
+  <ion-header>
+    <ion-toolbar>
+      <ion-label class="ion-text-center">Edit Profile</ion-label>
+      <ion-buttons slot="end">
+        <ion-button color="dark" (click)="close()">Close</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
   <ion-item>
     <ion-label position="floating">Full Name</ion-label>
     <ion-input
@@ -42,7 +50,7 @@
   </ion-item>
 
   <ion-item>
-    <ion-label position="floating">Local Goverment</ion-label>
+    <ion-label position="floating">Local Government</ion-label>
     <ion-input
       type="text"
       formControlName="lga"
