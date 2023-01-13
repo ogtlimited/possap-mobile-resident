@@ -1,11 +1,18 @@
 <form (ngSubmit)="updateUser()" [formGroup]="userForm" class="form-container">
+  <ion-header>
+    <ion-toolbar>
+      <ion-label class="ion-text-center">Edit Profile</ion-label>
+      <ion-buttons slot="end">
+        <ion-button color="dark" (click)="close()">Close</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
   <ion-item>
     <ion-label position="floating">Full Name</ion-label>
     <ion-input
       type="text"
       formControlName="fullName"
-      value="{{ user?.fullName }}"
-      ngModel="{{ user?.fullName }}"
+      [disabled]="true"
     ></ion-input>
   </ion-item>
 
@@ -14,8 +21,6 @@
     <ion-input
       type="text"
       formControlName="email"
-      value="{{ user?.email }}"
-      ngModel="{{ user?.email }}"
     ></ion-input>
   </ion-item>
 
@@ -24,9 +29,7 @@
     <ion-input
       type="text"
       formControlName="nin"
-      value="{{ user?.nin }}"
-      ngModel="{{ user?.nin }}"
-      readonly
+      [disabled]="true"
     ></ion-input>
   </ion-item>
 
@@ -35,8 +38,6 @@
     <ion-input
       type="text"
       formControlName="phone"
-      value="{{ user?.phone }}"
-      ngModel="{{ user?.phone }}"
     ></ion-input>
   </ion-item>
 
@@ -45,18 +46,14 @@
     <ion-input
       type="text"
       formControlName="state"
-      value="{{ user?.state }}"
-      ngModel="{{ user?.state }}"
     ></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="floating">Local Goverment</ion-label>
+    <ion-label position="floating">Local Government</ion-label>
     <ion-input
       type="text"
       formControlName="lga"
-      value="{{ user?.lga }}"
-      ngModel="{{ user?.lga }}"
     ></ion-input>
   </ion-item>
 
@@ -65,8 +62,6 @@
     <ion-input
       type="text"
       formControlName="address"
-      value="{{ user?.address }}"
-      ngModel="{{ user?.address }}"
     ></ion-input>
   </ion-item>
 
