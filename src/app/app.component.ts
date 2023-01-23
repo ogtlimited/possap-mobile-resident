@@ -55,9 +55,11 @@ export class AppComponent implements OnInit {
   }
 
   toggleDarkTheme(shouldAdd) {
-    console.log(shouldAdd);
+    const mode = shouldAdd ? 'light' : 'dark';
+    Storage.set({key: 'themeMode', value: mode });
     document.body.classList.toggle('dark', !shouldAdd);
   }
+
   async ngOnInit() {
     this.authService.currentUser$.subscribe((e) => {
       if (!e) {
@@ -75,10 +77,17 @@ export class AppComponent implements OnInit {
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async () => {
       if (this.platform.is('hybrid')) {
         // StatusBar.hide();
         SplashScreen.hide();
+      }
+      const themeMode = await Storage.get({key: 'themeMode'});
+      if(themeMode.value){
+        this.dark = themeMode.value === 'light' ? false : true;
+        document.body.classList.toggle('dark', this.dark);
+      }else{
+        Storage.set({key: 'themeMode', value: 'light'});
       }
     });
   }
