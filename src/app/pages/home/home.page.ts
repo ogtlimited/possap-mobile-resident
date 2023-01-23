@@ -1,6 +1,8 @@
+import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ConferenceData } from 'src/app/providers/conference-data';
+import { SearchComponent } from 'src/app/components/search/search.component';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +21,7 @@ export class HomePage implements OnInit {
   constructor(
     public confData: ConferenceData,
     private router: Router,
+    private modalController: ModalController,
     ) {}
 
   ionViewDidEnter() {
@@ -35,6 +38,14 @@ export class HomePage implements OnInit {
   }
   submit(){
     this.router.navigate([`search/${this.searchTerm}`]);
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: SearchComponent,
+      cssClass: 'fullscreen',
+    });
+    await modal.present();
   }
 
 }

@@ -107,6 +107,7 @@ export class PasswordFormComponent implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     const credentials: any = {
+      type: 'change',
       oldPassword: this.passwordForm.value.password,
       newPassword:this.passwordForm.value.confirm_password
     };

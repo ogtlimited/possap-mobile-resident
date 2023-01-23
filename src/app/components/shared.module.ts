@@ -1,3 +1,4 @@
+import { SearchComponent } from './search/search.component';
 import { CmrFormComponent } from './dynamic-form/cmr-form/cmr-form.component';
 import { AbbrevPipe } from './../core/pipes/abbrev.pipe';
 import { SlideToConfirmComponent } from './slide-to-confirm/slide-to-confirm.component';
@@ -22,7 +23,8 @@ import { NextApprovalLevelPipe } from '../core/pipes/next-approval-level.pipe';
     SelectComponent,
     AbbrevPipe,
     NextApprovalLevelPipe,
-    CmrFormComponent
+    CmrFormComponent,
+    SearchComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
   exports: [
@@ -33,7 +35,8 @@ import { NextApprovalLevelPipe } from '../core/pipes/next-approval-level.pipe';
     SelectComponent,
     AbbrevPipe,
     CmrFormComponent,
-    NextApprovalLevelPipe
+    NextApprovalLevelPipe,
+    SearchComponent
   ],
 })
 export class SharedModule {}
