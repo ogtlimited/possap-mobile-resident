@@ -12,9 +12,9 @@ export class ReportIncidenceComponent implements OnInit {
 
   ngOnInit() {}
 
-  navigate(path, title){
+  navigate(path, title,type=''){
     console.log(path);
-    this.router.navigate(['/general-form'], {queryParams: {service: path, title} });
+    this.router.navigate(['/general-form'], {queryParams: {service: path, title,type} });
   }
 
 }

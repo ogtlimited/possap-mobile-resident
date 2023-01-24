@@ -12,6 +12,7 @@ export const baseEndpoints = {
   service: serverBaseUrl + '/possap-services',
   helper: serverBaseUrl + '/helper',
   requests: serverBaseUrl + '/possap-service-fields',
+  incidentReport: serverBaseUrl + '/incident'
 };
 export const authEndpoints = {
   login: baseEndpoints.auth + '/login',
