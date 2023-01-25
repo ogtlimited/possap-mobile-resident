@@ -21,9 +21,14 @@ export class AuthService {
     null
   );
   currentUser$: BehaviorSubject<any> = new BehaviorSubject<boolean>(null);
+  tempUserData$: BehaviorSubject<any> = new BehaviorSubject<object>(null);
   token = '';
 
-  constructor(private reqS: RequestService, private globalS: GlobalService, private router: Router) {
+  constructor(
+    private reqS: RequestService,
+    private globalS: GlobalService,
+    private router: Router
+  ) {
     this.loadToken();
     this.currentUser().subscribe((e) => {
       console.log(e);
@@ -103,7 +108,10 @@ export class AuthService {
   }): Observable<any> {
     return this.reqS.post(authEndpoints.forgotPasswordComplete, credentials);
   }
-  changePassword(id,credentials: { oldPassword; newPassword }): Observable<any> {
+  changePassword(
+    id,
+    credentials: { oldPassword; newPassword }
+  ): Observable<any> {
     return this.reqS.put(authEndpoints.changePassword + '/' + id, credentials);
   }
   updateUser(id, credentials): Observable<any> {
@@ -116,6 +124,14 @@ export class AuthService {
         );
       })
     );
+  }
+
+  sendResetOtp(credentials: { email }): Observable<any> {
+    return this.reqS.post(authEndpoints.resetPasswordOtp, credentials);
+  }
+
+  validateResetOtp(credentials: { email; code; phone }): Observable<any> {
+    return this.reqS.post(authEndpoints.validate, credentials);
   }
 
   uploadProfileImage(formData): Observable<any> {
