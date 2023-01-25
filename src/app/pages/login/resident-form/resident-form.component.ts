@@ -103,7 +103,7 @@ export class ResidentFormComponent implements OnInit {
     };
     console.log('payload', payload);
     this.authS.validateResetOtp(payload).subscribe((res: any) => {
-      this.openModal();
+      this.modalController.dismiss().then(() => this.openModal());
     });
   }
 
@@ -116,9 +116,6 @@ export class ResidentFormComponent implements OnInit {
       },
     });
     modal.present();
-    modal.onDidDismiss().then(() => {
-      this.router.navigate(['/login']);
-    });
   }
 
   get email() {

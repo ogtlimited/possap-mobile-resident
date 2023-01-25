@@ -115,7 +115,6 @@ export class PasswordFormComponent implements OnInit {
     let type = 'change';
 
     let userInfo = this.userData.id;
-    console.log('userrr', userInfo);
     if (this.reset) {
       type = 'reset';
     }
@@ -139,7 +138,9 @@ export class PasswordFormComponent implements OnInit {
               text: 'OK',
               role: 'confirm',
               handler: () => {
-                this.authService.logout();
+                this.alertController
+                  .dismiss()
+                  .then(() => this.authService.logout());
               },
             },
           ],
