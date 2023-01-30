@@ -151,6 +151,9 @@ export class AccountPage implements OnInit {
     const modal = await this.modalController.create({
       component: PasswordFormComponent,
       cssClass: 'password-modal',
+      componentProps: {
+        reset: false,
+      },
     });
     modal.present();
   }

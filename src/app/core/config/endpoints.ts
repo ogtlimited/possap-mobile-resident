@@ -22,6 +22,8 @@ export const authEndpoints = {
   changePassword: baseEndpoints.auth + '/change-password',
   updateProfile: baseEndpoints.auth + '/update/profile',
   updateProfileImage: baseEndpoints.auth + '/update/profile/image',
+  resetPasswordOtp: baseEndpoints.auth + '/sendResetPasswordOtp',
+  validate: baseEndpoints.auth + '/validateResetOTP',
 };
 
 export const serviceEndpoint = {
