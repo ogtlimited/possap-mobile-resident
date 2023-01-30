@@ -12,6 +12,7 @@ export const baseEndpoints = {
   service: serverBaseUrl + '/possap-services',
   helper: serverBaseUrl + '/helper',
   requests: serverBaseUrl + '/possap-service-fields',
+  incidentReport: serverBaseUrl + '/incident'
 };
 export const authEndpoints = {
   login: baseEndpoints.auth + '/login',
@@ -22,6 +23,8 @@ export const authEndpoints = {
   changePassword: baseEndpoints.auth + '/change-password',
   updateProfile: baseEndpoints.auth + '/update/profile',
   updateProfileImage: baseEndpoints.auth + '/update/profile/image',
+  resetPasswordOtp: baseEndpoints.auth + '/sendResetPasswordOtp',
+  validate: baseEndpoints.auth + '/validateResetOTP',
 };
 
 export const serviceEndpoint = {

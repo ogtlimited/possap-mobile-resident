@@ -1,16 +1,16 @@
 {
     "controls": [
         {
-          "name": "description",
-          "label": "Incident Details Such As When, Where and What Happened",
+          "name": "name",
+          "label": "Name of Incident",
           "value": "",
-          "type": "textarea",
+          "type": "text",
           "validators": {
             "required": true
           }
         },
         {
-          "name": "dateTime",
+          "name": "date",
           "label": "Date and time",
           "value": "",
           "type": "date",
@@ -20,7 +20,7 @@
         },
 
         {
-          "name": "upload",
+          "name": "photo",
           "label": "Upload Related Files If Necessary",
           "value": "",
           "type": "file",
@@ -28,20 +28,20 @@
             "required": true
           }
         },
+      {
+        "name": "location",
+        "label": "Location",
+        "value": "",
+        "type": "text",
+        "validators": {
+          "required": true
+        }
+      },
         {
-          "name": "specifics",
+          "name": "otherfields",
           "label": "Specific Complaint About the Incident",
           "value": "",
           "type": "textarea",
-          "validators": {
-            "required": true
-          }
-        },
-        {
-          "name": "location",
-          "label": "Location",
-          "value": "",
-          "type": "text",
           "validators": {
             "required": true
           }

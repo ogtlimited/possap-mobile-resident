@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/member-ordering */
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AlertController, LoadingController, ModalController} from '@ionic/angular';
-import {AuthService} from 'src/app/core/services/auth/auth.service';
-import {matchValidator} from '../../../providers/confirm.validator';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AlertController,
+  LoadingController,
+  ModalController,
+} from '@ionic/angular';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { matchValidator } from '../../../providers/confirm.validator';
 
 export interface Profile {
   createdAt: Date;
@@ -63,24 +67,26 @@ export class PasswordFormComponent implements OnInit {
   hide = false;
   user: User;
   @Output() emitForm: EventEmitter<any> = new EventEmitter();
+  @Input() reset: boolean;
+  userData: any;
   constructor(
     private fb: FormBuilder,
     private modal: ModalController,
     private alertController: AlertController,
     private authService: AuthService,
-    private loadingController: LoadingController,
-    ) {}
+    private loadingController: LoadingController
+  ) {}
 
   ngOnInit() {
     this.authService.currentUser().subscribe((str) => {
       this.user = JSON.parse(str.value);
     });
+    this.authService.tempUserData$.subscribe((str) => {
+      this.userData = str;
+    });
     this.passwordForm = this.fb.group({
       password: ['', [Validators.required]],
-      new_password: [
-        '',
-        [Validators.required, Validators.minLength(6)],
-      ],
+      new_password: ['', [Validators.required, Validators.minLength(6)]],
       confirm_password: [
         '',
         [
@@ -106,23 +112,38 @@ export class PasswordFormComponent implements OnInit {
   async changePassword() {
     const loading = await this.loadingController.create();
     await loading.present();
+    let type = 'change';
+
+    let userInfo = this.userData.id;
+    if (this.reset) {
+      type = 'reset';
+    }
     const credentials: any = {
-      type: 'change',
-      oldPassword: this.passwordForm.value.password,
-      newPassword:this.passwordForm.value.confirm_password
+      newPassword: this.passwordForm.value.confirm_password,
+      type,
     };
-
-
-     this.authService.changePassword(this.user.id,credentials).subscribe(
-      async (res) =>{
+    if (type !== 'reset') {
+      credentials.oldPassword = this.passwordForm.value.password;
+      userInfo = this.user.id;
+    }
+    console.log('credentails', credentials);
+    this.authService.changePassword(userInfo, credentials).subscribe(
+      async (res) => {
         await loading.dismiss();
         const alert = await this.alertController.create({
           header: 'Password change success',
           message: res.message,
-          buttons: [{text:'OK', role:'confirm',handler:() => {
-            this.authService.logout();
-
-          },}],
+          buttons: [
+            {
+              text: 'OK',
+              role: 'confirm',
+              handler: () => {
+                this.alertController
+                  .dismiss()
+                  .then(() => this.authService.logout());
+              },
+            },
+          ],
         });
         await this.modal.dismiss();
         await alert.present();
@@ -137,6 +158,6 @@ export class PasswordFormComponent implements OnInit {
 
         await alert.present();
       }
-     );
+    );
   }
 }
