@@ -12,12 +12,12 @@ import { Component, OnInit } from '@angular/core';
 export class ServicesPage implements OnInit {
   services = [];
  infoServices = [
-    {
-      title: 'Citizen Report',
-      subtitle: 'Apply for character certificate',
-      icon: 'creport',
-      code: 'citizensreport',
-    },
+    // {
+    //   title: 'Citizen Report',
+    //   subtitle: 'Apply for character certificate',
+    //   icon: 'creport',
+    //   code: 'citizensreport',
+    // },
     {
       title: 'SOS',
       subtitle: 'Apply for police clearance certificate using your NIN',

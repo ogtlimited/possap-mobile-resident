@@ -24,4 +24,7 @@ export class PossapServicesService {
   getServiceCharge(id){
     return this.reqS.get(serviceEndpoint.serviceCharge + '/' + id);
   }
+  postIncident(body){
+    return this.reqS.post(baseEndpoints.incidentReport, body);
+  }
 }
