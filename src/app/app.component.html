@@ -141,14 +141,31 @@
           </ion-item>
         </ion-list>
 
-        <ion-list *ngIf="user" lines="none">
+        <ion-list lines="none">
           <ion-menu-toggle autoHide="false">
-            <ion-item class="item" button (click)="logout()" detail="false">
-              <ion-icon slot="start" name="log-out-f"></ion-icon>
-              <ion-label>Log out</ion-label>
-            </ion-item>
+            <ng-container *ngIf="user; then loggedIn else loggedOut"></ng-container>
+            <ng-template #loggedIn>
+              <ion-item class="item" button (click)="logout()" detail="false">
+                <ion-icon slot="start" name="log-out-f"></ion-icon>
+                <ion-label>Log out</ion-label>
+              </ion-item>
+            </ng-template>
+            <ng-template #loggedOut>
+              <ion-item class="item" routerLink="/login" detail="false">
+                <ion-icon slot="start" name="log-in-outline"></ion-icon>
+                <ion-label>Log in</ion-label>
+              </ion-item>
+            </ng-template>
           </ion-menu-toggle>
         </ion-list>
+        <ion-item
+        
+          class="item"
+          routerLink="/privacy"
+          routerLinkActive="active"
+          routerDirection="root"
+          detail="false"
+        ></ion-item>
       </ion-content>
     </ion-menu>
 
