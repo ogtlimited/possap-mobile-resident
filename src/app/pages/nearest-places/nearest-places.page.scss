@@ -1,4 +1,4 @@
-@import "https://unpkg.com/leaflet@1.9.2/dist/leaflet.css";
+@import "mapbox-gl/dist/mapbox-gl.css";
 
 ion-content{
     position: relative;
@@ -36,5 +36,10 @@ app-osm-map {
 #map{
   width:100%;
   height:100%;
+}
+
+.match-parent {
+  width: 100%;
+  height: 100%;
 }
   

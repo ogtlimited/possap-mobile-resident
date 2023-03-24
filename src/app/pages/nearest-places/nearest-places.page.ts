@@ -2,10 +2,10 @@ import { GlobalService } from './../../core/services/global/global.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
-import { Map, Control, DomUtil, ZoomAnimEvent , Layer, MapOptions, tileLayer, latLng } from 'leaflet';
 import { Location } from '@angular/common';
 import { Observable, Subscriber } from 'rxjs';
-import * as L from 'leaflet';
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-osm-map',
@@ -14,10 +14,11 @@ import * as L from 'leaflet';
 })
 
 export class NearestPlacesPage implements OnInit {
-  public map: Map;
-  public zoom: number;
+  map: mapboxgl.Map;
+  style = 'mapbox://styles/mapbox/streets-v12';
+  lat = 9.0820;
+  lng = 8.6753;
   location = 'MY MAP';
-  GoogleAutocomplete: any;
 
   constructor(
     private alert: AlertController,
@@ -35,19 +36,19 @@ export class NearestPlacesPage implements OnInit {
 
   mapLocation(val) {
     console.log(val);
-    this.location = val;
-    this.GoogleAutocomplete.getPlacePredictions(
-      { input: val },
-      (predictions, status) => {
-        // this.autocompleteItems = [];
-        console.log(predictions);
-        // this.zone.run(() => {
-        //   predictions.forEach((prediction) => {
-        //     this.autocompleteItems.push(prediction);
-        //   });
-        // });
-      }
-    );
+    // this.location = val;
+    // this.GoogleAutocomplete.getPlacePredictions(
+    //   { input: val },
+    //   (predictions, status) => {
+    //     // this.autocompleteItems = [];
+    //     console.log(predictions);
+    //     // this.zone.run(() => {
+    //     //   predictions.forEach((prediction) => {
+    //     //     this.autocompleteItems.push(prediction);
+    //     //   });
+    //     // });
+    //   }
+    // );
   }
 
   back() {
@@ -62,6 +63,8 @@ export class NearestPlacesPage implements OnInit {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude;
         console.log([position.coords.latitude, position.coords.longitude]);
           observer.complete();
         });
@@ -73,29 +76,27 @@ export class NearestPlacesPage implements OnInit {
 
 
   private loadMap(): void {
-    this.map = L.map('map').setView([0, 0], 1);
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-      attribution: `Map data &copy; <a href="https://www.openstreetmap.org/copyright">
-                          OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>`,
-      // maxZoom: 18,
-      id: 'mapbox/streets-v11',
-      // tileSize: 512,
-      // zoomOffset: -1,
-      accessToken: 'pk.eyJ1Ijoia2hhZGlqYWxhZGFuIiwiYSI6ImNsYW1iMDZsODBkOHMzc29iMnFiYm04aHYifQ.5fKJF4M1NlLrMafVqix3Cg'
-    }).addTo(this.map);
-
-    this.getCurrentPosition()
-    .subscribe((position: any) => {
-      this.map.flyTo([position.latitude, position.longitude], 15);
-
-      const icon = L.icon({
-        iconUrl: 'assets/img/marker-icon.png',
-        shadowUrl: 'assets/img/marker-shadow.png',
-        popupAnchor: [13, 0],
-      });
-
-      const marker = L.marker([position.latitude, position.longitude], { icon }).bindPopup('Angular Leaflet');
-      marker.addTo(this.map);
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      accessToken: environment.mapbox.accessToken,
+      style: this.style,
+      zoom: 13,
+      center: [this.lng, this.lat]
     });
+    // Add map controls
+    this.map.addControl(new mapboxgl.NavigationControl());
+    this.map.addControl(
+      new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true,
+      showUserHeading: true
+      })
+    );
+
+    const marker = new mapboxgl.Marker()
+    .setLngLat([this.lng, this.lat])
+    .addTo(this.map);
   }
 }
