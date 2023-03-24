@@ -1,6 +1,9 @@
+import { environment } from './../../../environments/environment.prod';
 /* eslint-disable @typescript-eslint/naming-convention */
-// export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
-export const serverBaseUrl = 'http://localhost:3000/api/v1';
+export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
+//export const serverBaseUrl = 'http://localhost:3000/api/v1';
+export const CBSBaseUrl = 'https://test.possap.ng/api/v1';
+
 export const GoogleMapUrl =
   'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=';
 export const baseEndpoints = {
@@ -15,7 +18,7 @@ export const baseEndpoints = {
   incidentReport: serverBaseUrl + '/incident'
 };
 export const authEndpoints = {
-  login: baseEndpoints.auth + '/login',
+  login: CBSBaseUrl + '/proxyauthentication/signin',
   signup: baseEndpoints.auth + '/signup',
   activate: baseEndpoints.user + '/verifyOtp/',
   forgotPasswordInitiate: baseEndpoints.auth + '/forgot-password/initiate',

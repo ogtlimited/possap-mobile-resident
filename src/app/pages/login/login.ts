@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @angular-eslint/component-selector */
 import { OnInit } from '@angular/core';
 /* eslint-disable @typescript-eslint/member-ordering */
@@ -41,8 +42,8 @@ export class LoginPage implements OnInit {
     });
 
     this.residentForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      Email: ['', [Validators.required, Validators.email]],
+      Password: ['', [Validators.required, Validators.minLength(6)]],
     });
     this.forgotPassword = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
