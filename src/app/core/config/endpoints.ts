@@ -1,7 +1,7 @@
 import { environment } from './../../../environments/environment.prod';
 /* eslint-disable @typescript-eslint/naming-convention */
-export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
-//export const serverBaseUrl = 'http://localhost:3000/api/v1';
+//export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
+export const serverBaseUrl = 'http://localhost:3000/api/v1';
 export const CBSBaseUrl = 'https://test.possap.ng/api/v1';
 
 export const GoogleMapUrl =

@@ -32,7 +32,7 @@ export class RequestDetailsComponent implements OnInit {
     this.reqS.get(baseEndpoints.requests + '/' + id).subscribe((res: any) => {
       console.log('testt', res.data);
       this.request = res.data;
-      this.approvers = res.data.service.workflow[0].WorkFlowApprovalLevel;
+      this.approvers = res.data?.service?.workflow[0]?.WorkFlowApprovalLevel;
       // this.approvalWorkflow = [
       //   ...res.data.service.approvalWorkFlow,
       //   'Completed',
