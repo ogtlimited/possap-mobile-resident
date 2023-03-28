@@ -58,6 +58,11 @@ export class FormComponent implements OnChanges, OnInit {
   }
   ngOnInit() {
     this.myForm = this.fb.group({});
+    this.myForm.valueChanges.subscribe((e) => {
+      console.log(e, this.myForm.valid);
+      // console.log(this.myForm.controls);
+      // console.log(this.myForm.valid);
+    });
     this.formCreated.subscribe((data) => {
       // console.log(this.myForm.controls);
       if (data) {
@@ -71,7 +76,7 @@ export class FormComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.jsonFormData.firstChange) {
-      console.log(changes);
+      // console.log(changes);
       this.createForm(this.jsonFormData.controls);
     }
   }
@@ -88,7 +93,7 @@ export class FormComponent implements OnChanges, OnInit {
             validatorsToAdd.push(Validators.max(value));
             break;
           case 'required':
-            if (value) {
+            if (value && control.showIf === undefined) {
               validatorsToAdd.push(Validators.required);
             }
             break;
@@ -120,6 +125,7 @@ export class FormComponent implements OnChanges, OnInit {
             break;
         }
       }
+      // console.log(validatorsToAdd);
       this.myForm.addControl(
         control.name,
         this.fb.control(control.value, validatorsToAdd)
@@ -130,23 +136,45 @@ export class FormComponent implements OnChanges, OnInit {
   }
 
   onSubmit() {
-    console.log('Form valid: ', this.myForm.valid);
-    this.emitForm.emit(this.myForm.value);
-    console.log('Form values: ', this.myForm.value);
+    // console.log('Form valid: ', this.myForm.valid);
+    // this.emitForm.emit(this.myForm.value);
+    console.log('Form values: ', this.myForm);
   }
   canRender(name, control) {
+    // console.log(control);
     const field = this.jsonFormData.controls.filter((e) => e.name === name)[0];
     if (!field.showIf) {
       return true;
     } else {
-      console.log(this.myForm.value[control?.showIf?.value], control?.showIf?.equals);
-      return (
-        this.myForm.value[control?.showIf?.value] === control?.showIf?.equals
-        // temporarily commenting this lines of code
-        // || this.myForm.value[control?.showIf?.value].includes(
-        //   control?.showIf?.equals
-        // )
-      );
+      // console.log(
+      //   this.myForm.value[control?.showIf?.value],
+      //   control?.showIf?.equals
+      // );
+      if (
+        typeof this.myForm.value[control?.showIf?.value] === 'string' ||
+        typeof this.myForm.value[control?.showIf?.value] === 'boolean'
+      ) {
+        const result =
+          this.myForm.value[control?.showIf?.value] === control?.showIf?.equals;
+        if(result && control.validators.required){
+          this.myForm.addValidators(Validators.requiredTrue);
+          // this.myForm.updateValueAndValidity();
+        }
+          return  result;
+      } else if (
+        typeof this.myForm.value[control?.showIf?.value] === 'object'
+      ) {
+
+        const result =  this.myForm.value[control?.showIf?.value].includes(
+          control?.showIf?.equals
+        );
+        if(result && control.validators.required){
+          this.myForm.addValidators(Validators.requiredTrue);
+          // this.myForm.updateValueAndValidity();
+        }
+        return result;
+      }
+
       return false;
     }
   }

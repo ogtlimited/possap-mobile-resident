@@ -50,15 +50,15 @@ export class AuthService {
     return token && token.value ? token.value : null;
   }
 
-  login(credentials: { email; password }): Observable<any> {
+  login(credentials): Observable<any> {
     return this.reqS.post(authEndpoints.login, credentials).pipe(
       switchMap((res: any) => {
         console.log(res.token);
         this.currentUser$.next(res.data);
-        from(
-          Storage.set({ key: CURRENT_USER, value: JSON.stringify(res.data) })
-        );
-        return from(Storage.set({ key: TOKEN_KEY, value: res.token.token }));
+        // from(
+        //   Storage.set({ key: CURRENT_USER, value: JSON.stringify(res.data) })
+        // );
+        return from('');
       }),
       tap((_) => {
         this.isAuthenticated.next(true);

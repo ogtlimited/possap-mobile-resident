@@ -37,7 +37,7 @@ export class RequestsPage implements OnInit {
       (res: any) => {
         console.log(res.data);
         if (res.data.length > 0) {
-          this.request = res.data.map((e) => ({
+          this.request = res.data.ResponseObject.Requests.map((e) => ({
             ...e,
             bg: this.getRandomColor(),
           }));
