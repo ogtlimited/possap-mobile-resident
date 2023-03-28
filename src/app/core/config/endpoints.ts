@@ -14,7 +14,7 @@ export const baseEndpoints = {
   eag: serverBaseUrl + '/eag',
   service: serverBaseUrl + '/possap-services',
   helper: serverBaseUrl + '/helper',
-  requests: serverBaseUrl + '/possap-service-fields',
+  requests: CBSBaseUrl + 'pss/user-request-list/all',
   incidentReport: serverBaseUrl + '/incident'
 };
 export const authEndpoints = {
