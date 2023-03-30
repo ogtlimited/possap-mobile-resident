@@ -74,5 +74,19 @@
    <app-most-used></app-most-used>
     <app-report-incidence></app-report-incidence>
     <app-my-map></app-my-map>
+    <bank3d-payment-angular
+                [reference]= "reference"
+                [merchantKey]="merchantKey"
+                currencyCode="NGN"
+                [amount]="amount"
+                email="test@gmail.com"
+                phone="0801234567889"
+                mode="test"
+                text="Make Payments"
+                color="#2F4CB0"
+                className="card highlight-card card-small"
+                (callback)="paymentCallback($event)"
+                (onClose)="closedPaymentModal()" >
+            </bank3d-payment-angular>
 </ion-grid>
 </ion-content>
