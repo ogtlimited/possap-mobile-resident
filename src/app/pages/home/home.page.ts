@@ -16,9 +16,9 @@ export class HomePage implements OnInit {
     initialSlide: 0,
     speed: 400,
   };
-  merchantKey = 'your-merchant-key';
+  merchantKey = 'PayzoneAPP';
   reference = 'REF-' + Math.random().toString(16).slice(2);
-  amount = '5000';
+  amount = '500000';
   constructor(
     public confData: ConferenceData,
     private router: Router,
