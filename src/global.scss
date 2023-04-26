@@ -34,8 +34,8 @@
 
 @import "./app/app.scss";
 
-@import "~swiper/scss";
-@import "~@ionic/angular/css/ionic-swiper";
+@import "swiper/scss";
+@import "@ionic/angular/css/ionic-swiper";
 
 // placed here instead of tutorial.scss due to slide els not getting ng scoping attribute
 .swiper-slide {
@@ -85,4 +85,17 @@ ion-item.forms {
   --height: 60% !important;
   --border-radius: 16px;
   // --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+.searchbar-search-icon.sc-ion-searchbar-ios {
+
+  left: 10px;
+
+}
+
+.searchbar-left-aligned.sc-ion-searchbar-ios-h .searchbar-input.sc-ion-searchbar-ios {
+  padding-left: 40px;
+}
+
+.card .highlight-card .card-small{
+  color: #000 !important;
 }

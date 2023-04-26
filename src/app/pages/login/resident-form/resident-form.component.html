@@ -1,17 +1,17 @@
 <form (ngSubmit)="login()" [formGroup]="residentForm" class="form-container">
   <ion-item>
     <ion-label position="floating">Email</ion-label>
-    <ion-input type="email" formControlName="email"></ion-input>
+    <ion-input type="email" formControlName="UserName"></ion-input>
   </ion-item>
-  <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
-    <span *ngIf="email.errors?.required">Email is required</span>
-    <span *ngIf="email.errors?.email">Email is invalid</span>
+  <div *ngIf="(Email.dirty || Email.touched) && Email.errors" class="errors">
+    <span *ngIf="Email.errors?.required">Email is required</span>
+    <span *ngIf="Email.errors?.Email">Email is invalid</span>
   </div>
   <ion-item>
     <ion-label position="floating">Password</ion-label>
     <ion-input
       [type]="hide ? 'password' : 'text'"
-      formControlName="password"
+      formControlName="Password"
     ></ion-input>
     <ion-icon
       class="mt-32"
@@ -35,11 +35,11 @@
   </div>
 
   <div
-    *ngIf="(password.dirty || password.touched) && password.errors"
+    *ngIf="(Password.dirty || Password.touched) && Password.errors"
     class="errors"
   >
-    <span *ngIf="password.errors?.required">Password is required</span>
-    <span *ngIf="password.errors?.minlength"
+    <span *ngIf="Password.errors?.required">Password is required</span>
+    <span *ngIf="Password.errors?.minlength"
       >Password needs to be 6 characters</span
     >
   </div>

@@ -11,6 +11,7 @@ import { HomePage } from './home.page';
 import { MostUsedComponent } from './components/most-used/most-used.component';
 import { MyMapComponent } from './components/my-map/my-map.component';
 import { ReportIncidenceComponent } from './components/report-incidence/report-incidence.component';
+// import { Bank3dPaymentAngularModule } from 'bank3d-payment-angular';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ReportIncidenceComponent } from './components/report-incidence/report-i
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    SharedModule
+    SharedModule,
+    // Bank3dPaymentAngularModule
   ],
   declarations: [HomePage, MostUsedComponent, MyMapComponent, ReportIncidenceComponent]
 })

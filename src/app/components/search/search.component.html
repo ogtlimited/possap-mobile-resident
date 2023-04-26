@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Find Request</ion-title>
+    <ion-button fill="clear" (click)="dismiss()"  slot="end">
+      Close
+    </ion-button>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="file" #inputToFocus placeholder="Request File No"></ion-searchbar>
+    <ion-button (click)="fetchData()" [disabled]="file.length ===0" slot="end">search</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row *ngIf="file.length === 0" class="empty-state">
+      <ion-col class="flex ion-justify-content-center">
+        <div class="round-bg">
+          <ion-icon size="large" class="ion-text-center" name="search-f"></ion-icon>
+
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,682 @@
+[
+    {
+        "name": "POLICE EXTRACT",
+        "slug": "PE",
+        "formSchema": [
+            {
+                "name": "SelectedCategories",
+                "type": "select",
+                "label": "Select Category of Extract",
+                "value": "",
+                "config": {
+                    "multiple": true
+                },
+                "options": [
+                    {
+                        "key": "1",
+                        "value": "Loss of Document"
+                    },
+                    {
+                        "key": "2",
+                        "value": "Loss of Property"
+                    },
+                    {
+                        "key": "3",
+                        "value": "Others"
+                    }
+                ],
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Select an extract category."
+            },
+            {
+                "name": "IsIncidentReported",
+                "type": "radio",
+                "label": "Was incident reported at a police station?",
+                "value": "",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "",
+                "radioOptions": [
+                    {
+                        "label": "Yes",
+                        "value": true
+                    },
+                    {
+                        "label": "No",
+                        "value": false
+                    }
+                ]
+            },
+            {
+                "name": "IncidentReportedDate",
+                "type": "date",
+                "label": "Select the date the incident was reported",
+                "value": "",
+                "showIf": {
+                    "value": "IsIncidentReported",
+                    "equals": true
+                },
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter Incident Reported Date"
+            },
+            {
+                "name": "AffidavitFile",
+                "type": "file",
+                "label": "Upload Court Affidavit",
+                "value": "",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Add a court affidavit file here. Maximum size: 1MB"
+            },
+            {
+                "name": "AffidavitNumber",
+                "type": "text",
+                "label": "Affidavit Number",
+                "value": "",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter Affidavit Number"
+            },
+            {
+                "name": "AffidavitDateOfIssuance",
+                "type": "date",
+                "label": "Affidavit Date of Issuance",
+                "value": "",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter affidavit date of issuance"
+            },
+            {
+                "api": {
+                    "body": null,
+                    "path": "state-lga"
+                },
+                "name": "SelectedState",
+                "type": "select",
+                "label": "State",
+                "value": "",
+                "config": {
+                    "multiple": false
+                },
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Select State of the Police Formation/Division"
+            },
+            {
+                "api": {
+                    "body": {
+                        "key": "state",
+                        "value": "SelectedState"
+                    },
+                    "path": "state-lga"
+                },
+                "name": "SelectedStateLga",
+                "type": "select",
+                "label": "Local Government Area",
+                "value": "",
+                "config": {
+                    "multiple": false
+                },
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Select LGA of the Police Formation/Division"
+            },
+            {
+                "api": {
+                    "body": {
+                        "key": "state",
+                        "value": "SelectedStateLga"
+                    },
+                    "path": "state-area-division"
+                },
+                "name": "SelectedCommand",
+                "type": "select",
+                "label": "Select the Police Formation/Division",
+                "value": "",
+                "config": {
+                    "multiple": false
+                },
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Select the Formation/Division"
+            }
+        ]
+    },
+    {
+        "name": "POLICE CHARACTER CERTIFICATE",
+        "slug": "PCC",
+        "formSchema": [
+            {
+                "name": "RequestType",
+                "label": "Request Types",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Select a request type",
+                "type": "select",
+                "config": {
+                    "multiple": false
+                },
+                "options": [
+                    {
+                        "key": "Domestic",
+                        "value": "Domestic"
+                    },
+                    {
+                        "key": "International",
+                        "value": "International"
+                    }
+                ],
+                "value": ""
+            },
+            {
+                "name": "CharacterCertificateReasonForInquiry",
+                "label": "Reason for Inquiry",
+                "validators": {
+                    "required": true
+                },
+                "config": {
+                    "multiple": false
+                },
+                "placeholder": "Select Reason for Inquiry",
+                "type": "select",
+                "options": [
+                    {
+                        "key": "Travelling",
+                        "value": "Travelling"
+                    },
+                    {
+                        "key": "Employment",
+                        "value": "Employment"
+                    },
+                    {
+                        "key": "Education",
+                        "value": "Education"
+                    },
+                    {
+                        "key": "others",
+                        "value": "Others"
+                    }
+                ],
+                "value": ""
+            },
+            {
+                "name": "SelectedCountryOfOrigin",
+                "label": "Country of Origin",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter the country you are from",
+                "api": {
+                    "path": "countries",
+                    "body": null
+                },
+                "type": "select",
+                "value": ""
+            },
+            {
+                "name": "PlaceOfBirth",
+                "label": "Place of Birth",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter place of birth here",
+                "type": "text",
+                "value": ""
+            },
+            {
+                "name": "DateOfBirth",
+                "label": "Date of Birth",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Select your date of birth.",
+                "type": "date",
+                "value": ""
+            },
+            {
+                "name": "DestinationCountry",
+                "label": "Destination Country",
+                "validators": {
+                    "required": true
+                },
+                "showIf": {
+                    "value": "RequestType",
+                    "equals": "International"
+                },
+                "config": {
+                    "multiple": false
+                },
+                "api": {
+                    "path": "countries",
+                    "body": null
+                },
+                "placeholder": "Select your destination country.",
+                "type": "select",
+                "value": ""
+            },
+            {
+                "name": "SelectedCountryOfPassport",
+                "label": "Country of Passport",
+                "validators": {
+                    "required": true
+                },
+                "config": {
+                    "multiple": false
+                },
+                "api": {
+                    "path": "countries",
+                    "body": null
+                },
+                "placeholder": "Select your destination country.",
+                "type": "select",
+                "value": ""
+            },
+            {
+                "name": "PassportNumber",
+                "label": "Passport Number",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Specify your international passport number",
+                "type": "text",
+                "value": ""
+            },
+            {
+                "name": "PlaceOfIssuance",
+                "label": "Place of Issuance",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Specify where your passport was issued",
+                "type": "text",
+                "value": ""
+            },
+            {
+                "name": "DateOfIssuance",
+                "label": "Date of Issuance",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Specify the date your passport was issued",
+                "type": "date",
+                "value": ""
+            },
+            {
+                "name": "PreviouslyConvicted",
+                "label": "Have you previously been convicted?",
+                "type": "radio",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "",
+                "radioOptions": [
+                    {
+                        "label": "Yes",
+                        "value": true
+                    },
+                    {
+                        "label": "No",
+                        "value": false
+                    }
+                ],
+                "value": ""
+            },
+            {
+                "name": "PreviousConvictionHistory",
+                "label": "Previous Conviction History",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter info about your previous conviction history",
+                "type": "text",
+                "value": ""
+            },
+            {
+                "name": "passportphotographfile",
+                "label": "Upload Current Passport Photograph",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Add your current passport photograph file here. Maximum size: 2MB",
+                "type": "file",
+                "value": ""
+            },
+            {
+                "name": "intpassportdatapagefile",
+                "label": "Upload International Passport Bio Datapage",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Add an image of your international passport bio datapage here. Maximum size:2MB",
+                "type": "file",
+                "value": ""
+            },
+            {
+                "name": "SelectedState",
+                "label": "Select Police Command to Request Character Certificate",
+                "validators": {
+                    "required": true
+                },
+                "config": {
+                    "multiple": false
+                },
+                "placeholder": "Select state for the police command",
+                "type": "select",
+                "api": {
+                    "path": "state-lga",
+                    "body": null
+                },
+                "value": ""
+            },
+            {
+                "name": "SelectedCommand",
+                "label": "Select the Police Formation/Division",
+                "validators": {
+                    "required": true
+                },
+                "config": {
+                    "multiple": false
+                },
+                "placeholder": "Select state for the police command",
+                "type": "select",
+                "api": {
+                    "path": "state-area-division",
+                    "body": {
+                        "key": "state",
+                        "value": "SelectedState"
+                    }
+                },
+                "value": ""
+            }
+        ]
+    },
+    {
+        "name": "POLICE CHARACTER CERTIFICATE DIASPORA",
+        "slug": "PCC",
+        "formSchema": [
+            {
+                "name": "RequestType",
+                "label": "Request Types",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Select a request type",
+                "type": "select",
+                "config": {
+                    "multiple": false
+                },
+                "options": [
+                    {
+                        "key": "Domestic",
+                        "value": "Domestic"
+                    },
+                    {
+                        "key": "International",
+                        "value": "International"
+                    }
+                ],
+                "value": ""
+            },
+            {
+                "name": "CharacterCertificateReasonForInquiry",
+                "label": "Reason for Inquiry",
+                "validators": {
+                    "required": true
+                },
+                "config": {
+                    "multiple": false
+                },
+                "placeholder": "Select Reason for Inquiry",
+                "type": "select",
+                "options": [
+                    {
+                        "key": "Travelling",
+                        "value": "Travelling"
+                    },
+                    {
+                        "key": "Employment",
+                        "value": "Employment"
+                    },
+                    {
+                        "key": "Education",
+                        "value": "Education"
+                    },
+                    {
+                        "key": "others",
+                        "value": "Others"
+                    }
+                ],
+                "value": ""
+            },
+            {
+                "name": "SelectedCountryOfOrigin",
+                "label": "Country of Origin",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter the country you are from",
+                "api": {
+                    "path": "countries",
+                    "body": null
+                },
+                "type": "select",
+                "value": ""
+            },
+            {
+                "name": "SelectedStateOfOrigin",
+                "label": "State of Origin",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Your state of origin",
+                "api": {
+                    "path": "state-lga",
+                    "body": null
+                },
+                "type": "select",
+                "value": ""
+            },
+            {
+                "name": "SelectedCountryOfResidence",
+                "label": "Country of residence",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter the country you currently reside",
+                "api": {
+                    "path": "countries",
+                    "body": null
+                },
+                "type": "select",
+                "value": ""
+            },
+            {
+                "name": "PlaceOfBirth",
+                "label": "Place of Birth",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter place of birth here",
+                "type": "text",
+                "value": ""
+            },
+            {
+                "name": "DateOfBirth",
+                "label": "Date of Birth",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Select your date of birth.",
+                "type": "date",
+                "value": ""
+            },
+            {
+                "name": "DestinationCountry",
+                "label": "Destination Country",
+                "validators": {
+                    "required": true
+                },
+                "showIf": {
+                    "value": "RequestType",
+                    "equals": "International"
+                },
+                "config": {
+                    "multiple": false
+                },
+                "api": {
+                    "path": "countries",
+                    "body": null
+                },
+                "placeholder": "Select your destination country.",
+                "type": "select",
+                "value": ""
+            },
+            {
+                "name": "SelectedCountryOfPassport",
+                "label": "Country of Passport",
+                "validators": {
+                    "required": true
+                },
+                "config": {
+                    "multiple": false
+                },
+                "api": {
+                    "path": "countries",
+                    "body": null
+                },
+                "placeholder": "Select your destination country.",
+                "type": "select",
+                "value": ""
+            },
+            {
+                "name": "PassportNumber",
+                "label": "Passport Number",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Specify your international passport number",
+                "type": "text",
+                "value": ""
+            },
+            {
+                "name": "PlaceOfIssuance",
+                "label": "Place of Issuance",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Specify where your passport was issued",
+                "type": "text",
+                "value": ""
+            },
+            {
+                "name": "DateOfIssuance",
+                "label": "Date of Issuance",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Specify the date your passport was issued",
+                "type": "date",
+                "value": ""
+            },
+            {
+                "name": "PreviouslyConvicted",
+                "label": "Have you previously been convicted?",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "",
+                "type": "radio",
+                "radioOptions": [
+                    {
+                        "label": "Yes",
+                        "value": true
+                    },
+                    {
+                        "label": "No",
+                        "value": false
+                    }
+                ],
+                "value": ""
+            },
+            {
+                "name": "PreviousConvictionHistory",
+                "label": "Previous Conviction History",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Enter info about your previous conviction history",
+                "type": "text",
+                "value": ""
+            },
+            {
+                "name": "passportphotographfile",
+                "label": "Upload Current Passport Photograph",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Add your current passport photograph file here. Maximum size: 2MB",
+                "type": "file",
+                "value": ""
+            },
+            {
+                "name": "intpassportdatapagefile",
+                "label": "Upload International Passport Bio Datapage",
+                "validators": {
+                    "required": true
+                },
+                "placeholder": "Add an image of your international passport bio datapage here. Maximum size:2MB",
+                "type": "file",
+                "value": ""
+            },
+            {
+                "name": "SelectedState",
+                "label": "Select Police Command to Request Character Certificate",
+                "validators": {
+                    "required": true
+                },
+                "config": {
+                    "multiple": false
+                },
+                "placeholder": "Select state for the police command",
+                "type": "select",
+                "api": {
+                    "path": "state-lga",
+                    "body": null
+                },
+                "value": ""
+            },
+            {
+                "name": "SelectedCommand",
+                "label": "Select the Police Formation/Division",
+                "validators": {
+                    "required": true
+                },
+                "config": {
+                    "multiple": false
+                },
+                "placeholder": "Select state for the police command",
+                "type": "select",
+                "api": {
+                    "path": "state-area-division",
+                    "body": {
+                        "key": "state",
+                        "value": "SelectedState"
+                    }
+                },
+                "value": ""
+            }
+        ]
+    }
+]

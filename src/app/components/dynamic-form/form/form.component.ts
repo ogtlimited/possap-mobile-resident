@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
   ActionSheetController,
   LoadingController,
@@ -42,6 +43,7 @@ export class FormComponent implements OnChanges, OnInit {
   @Output() emitForm: EventEmitter<any> = new EventEmitter();
   formCreated: Subject<boolean> = new Subject();
   public myForm: FormGroup;
+  fileNames = {};
   message =
     'This modal example uses the modalController to present and dismiss modals.';
 
@@ -53,30 +55,18 @@ export class FormComponent implements OnChanges, OnInit {
     private actionSheetCtrl: ActionSheetController,
     private modal: ModalController,
     private loader: LoadingController
-  ) {
-    // console.log(this)
-  }
+  ) {}
+
   ngOnInit() {
     this.myForm = this.fb.group({});
-    this.formCreated.subscribe((data) => {
-      // console.log(this.myForm.controls);
-      if (data) {
-        // console.log(this)
-        // this.myForm.valueChanges.subscribe((val) => {
-        //   console.log(val);
-        // });
-      }
-    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.jsonFormData.firstChange) {
-      console.log(changes);
       this.createForm(this.jsonFormData.controls);
     }
   }
   createForm(controls: JsonFormControls[]) {
-    console.log(controls);
     for (const control of controls) {
       const validatorsToAdd = [];
       for (const [key, value] of Object.entries(control.validators)) {
@@ -88,7 +78,7 @@ export class FormComponent implements OnChanges, OnInit {
             validatorsToAdd.push(Validators.max(value));
             break;
           case 'required':
-            if (value) {
+            if (value && control.showIf === undefined) {
               validatorsToAdd.push(Validators.required);
             }
             break;
@@ -120,6 +110,9 @@ export class FormComponent implements OnChanges, OnInit {
             break;
         }
       }
+      if (control.type === 'file') {
+        this.fileNames[control.name] = '';
+      }
       this.myForm.addControl(
         control.name,
         this.fb.control(control.value, validatorsToAdd)
@@ -130,23 +123,47 @@ export class FormComponent implements OnChanges, OnInit {
   }
 
   onSubmit() {
-    console.log('Form valid: ', this.myForm.valid);
-    this.emitForm.emit(this.myForm.value);
-    console.log('Form values: ', this.myForm.value);
+    const { value } = this.myForm;
+    const dateTpes = this.jsonFormData.controls.filter(e => e.type === 'date').map(t => t.name);
+    dateTpes.forEach(e => {
+      if(value[e]){
+        value[e] = new Date(value[e]).toLocaleDateString('en-GB');
+      }
+    });
+    console.log(value);
+    this.emitForm.emit(value);
   }
   canRender(name, control) {
     const field = this.jsonFormData.controls.filter((e) => e.name === name)[0];
+
     if (!field.showIf) {
       return true;
     } else {
-      console.log(this.myForm.value[control?.showIf?.value], control?.showIf?.equals);
-      return (
-        this.myForm.value[control?.showIf?.value] === control?.showIf?.equals
-        // temporarily commenting this lines of code
-        // || this.myForm.value[control?.showIf?.value].includes(
-        //   control?.showIf?.equals
-        // )
-      );
+
+      if (
+        typeof this.myForm.value[control?.showIf?.value] === 'string' ||
+        typeof this.myForm.value[control?.showIf?.value] === 'boolean'
+      ) {
+        const result =
+          this.myForm.value[control?.showIf?.value] === control?.showIf?.equals;
+        if (result && control.validators.required) {
+          this.myForm.addValidators(Validators.requiredTrue);
+          // this.myForm.updateValueAndValidity();
+        }
+        return result;
+      } else if (
+        typeof this.myForm.value[control?.showIf?.value] === 'object'
+      ) {
+        const result = this.myForm.value[control?.showIf?.value].includes(
+          control?.showIf?.equals
+        );
+        if (result && control.validators.required) {
+          this.myForm.addValidators(Validators.requiredTrue);
+          // this.myForm.updateValueAndValidity();
+        }
+        return result;
+      }
+
       return false;
     }
   }
@@ -176,14 +193,10 @@ export class FormComponent implements OnChanges, OnInit {
     this.myForm.patchValue({
       [control.name]: data,
     });
-    console.log(data);
   }
 
   selectChange(control) {
     this.openModal(control);
-    console.log(this.jsonFormData);
-    console.log(control);
-    console.log(this.myForm.value);
   }
 
   async selectImageSource(name) {
@@ -222,28 +235,29 @@ export class FormComponent implements OnChanges, OnInit {
     await actionSheet.present();
   }
   async addImage(source: CameraSource, name) {
+
     const image = await Camera.getPhoto({
       quality: 60,
       allowEditing: false,
       resultType: CameraResultType.Base64,
       source,
     });
+
     const blobData = this.b64toBlob(
       image.base64String,
       `image/${image.format}`
     );
-    const imageName = 'Give me a name';
     const formData = new FormData();
     formData.append('documents', blobData);
     const loading = await this.loader.create();
     await loading.present();
     this.reqS
-      .post(miscEndpoint.mediaUpload, formData)
+      .postFormData(baseEndpoints.cbsUpload, formData)
       .subscribe(async (e: any) => {
-        console.log(e.data, name);
         this.myForm.controls[name].setValue(e.data);
         this.myForm.updateValueAndValidity();
-        console.log(this.myForm.value);
+        this.fileNames[name] = 'data:image/jpg;base64,' + image.base64String;
+
         await loading.dismiss();
         this.cdref.detectChanges();
       });
@@ -251,6 +265,12 @@ export class FormComponent implements OnChanges, OnInit {
     //   this.images.push(newImage);
     // });
   }
+  // onFileSelect(event: Event, formControlName: string) {
+  //   const file = (event.target as HTMLInputElement).files[0];
+  //   this.fileNames[formControlName] = file.name;
+  //   this.myForm.controls[formControlName].patchValue(file);
+  //   this.myForm.get(formControlName).updateValueAndValidity();
+  // }
   b64toBlob(b64Data, contentType = '', sliceSize = 512) {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];
@@ -269,5 +289,38 @@ export class FormComponent implements OnChanges, OnInit {
 
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
+  }
+
+  dataURIToBlob(dataURI: string) {
+    const splitDataURI = dataURI.split(',');
+    const byteString =
+      splitDataURI[0].indexOf('base64') >= 0
+        ? atob(splitDataURI[1])
+        : decodeURI(splitDataURI[1]);
+    const mimeString = splitDataURI[0].split(':')[1].split(';')[0];
+
+    const ia = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], { type: mimeString });
+  }
+
+  getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  dateFormat(v, name) {
+    const d = new Date(v.value);
+    if (d instanceof Date) {
+      const date = d.toLocaleDateString();
+      this.myForm.get(name).setValue(date);
+    }
   }
 }

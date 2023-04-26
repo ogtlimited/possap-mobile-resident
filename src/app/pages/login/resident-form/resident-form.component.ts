@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -34,8 +35,8 @@ export class ResidentFormComponent implements OnInit {
 
   ngOnInit() {
     this.residentForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      UserName: ['', [Validators.required, Validators.email]],
+      Password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
   async presentAlert() {
@@ -55,7 +56,7 @@ export class ResidentFormComponent implements OnInit {
           handler: (data) => {
             const date = new Date();
             const payload = {
-              email: data.email,
+              Email: data.email,
             };
             this.authS.sendResetOtp(payload).subscribe((res: any) => {
               console.log(res);
@@ -71,7 +72,7 @@ export class ResidentFormComponent implements OnInit {
       inputs: [
         {
           type: 'textarea',
-          name: 'email',
+          name: 'Email',
           placeholder: 'email',
         },
       ],
@@ -118,12 +119,12 @@ export class ResidentFormComponent implements OnInit {
     modal.present();
   }
 
-  get email() {
-    return this.residentForm.get('email');
+  get Email() {
+    return this.residentForm.get('UserName');
   }
 
-  get password() {
-    return this.residentForm.get('password');
+  get Password() {
+    return this.residentForm.get('Password');
   }
 
   login() {

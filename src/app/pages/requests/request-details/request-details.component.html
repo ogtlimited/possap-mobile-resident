@@ -1,5 +1,5 @@
 <app-header [showBack]="true" title="Request"></app-header>
-<ion-content>
+<ion-content *ngIf="request">
   <ion-item lines="none">
     <ion-avatar slot="start">
       <img
@@ -7,23 +7,23 @@
         src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg"
       />
     </ion-avatar>
-    <ion-label slot="end">
-      {{ request?.service?.name }}
+    <ion-label slot="end"> 
+      {{ request?.ServiceName }}
     </ion-label>
   </ion-item>
   <ion-row class="info">
     <ion-item lines="none">
       <ion-icon name="time-outline"></ion-icon>
-      <ion-label class="ml-5">Created: 26/09/2022</ion-label>
+      <ion-label class="ml-5">Approval: Pending</ion-label>
     </ion-item>
     <ion-item lines="none">
-      <ion-icon name="location-outline"></ion-icon>
-      <ion-label class="ml-5">Processesor: NPF-{{request.processor}}</ion-label>
+      <ion-icon name="file-text"></ion-icon>
+      <ion-label class="ml-5">File No: NPF-{{request?.FileRefNumber}}</ion-label>
     </ion-item>
   </ion-row>
   <ion-row>
     <ion-item class="mt-16" lines="none" text-wrap>
-      <h2>{{ request?.service?.name }}</h2>
+      <h2>{{ request?.ServiceName }}</h2>
     </ion-item>
     <ion-item lines="none" text-wrap>
       <ion-label class="ion-text-wrap notice"
@@ -46,26 +46,27 @@
     </ion-item>
     <ion-item lines="none">
       <ion-label class="notice">
-        {{ request?.owner?.fullName }} &nbsp; | &nbsp; {{ request?.owner?.phone }}
+        {{ request?.TaxEntity?.Recipient
+        }} &nbsp; | &nbsp; {{ request?.TaxEntity?.PhoneNumber }}
       </ion-label>
     </ion-item>
   </ion-list>
   <ion-list>
     <ion-item lines="none">
-      <H6 class="h2C"> Request Approvers </H6>
+      <H6 class="h2C"> Invoice </H6>
     </ion-item>
-    <ion-item lines="none">
-      <ion-avatar class="mr-12" *ngFor="let i of approvers">
-        <img
-          alt="Silhouette of a person's head"
-          src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg"
-        />
-      </ion-avatar>
+    <ion-item *ngFor="let i of statusLog.slice(0,1)" lines="none">
+      <ion-label class="mr-12 text-small " >
+        Invoice Number - {{i.Invoice.InvoiceNumber}}
+      </ion-label>
+      <ion-button slot="end" (click)="openCapacitorSite(i.Invoice.InvoiceUrl)" class="mr-12" >
+        View invoice
+      </ion-button>
     </ion-item>
   </ion-list>
   <ion-list class="mt-16">
     <ion-item lines="none">
-      <H6 class="h2C"> Approval Proccess </H6>
+      <H6 class="h2C"> Status Log </H6>
     </ion-item>
   </ion-list>
 
@@ -74,15 +75,15 @@
       <div class="container">
         <!-- completed -->
         <div [ngClass]="
-            item.id === request.approvalLevel ? 'step active completed' : 'step'
-          " *ngFor="let item of request?.service?.workFlow[0]?.WorkFlowApprovalLevel; let i = index">
+            item.Fulfilled ? 'step active completed' : 'step'
+          " *ngFor="let item of statusLog; let i = index">
           <div class="v-stepper">
             <div class="circle"></div>
             <div class="line"></div>
           </div>
 
           <div class="content">
-            <ion-label class="d-block" [color]="request.approvalLevel === item.id ? 'primary' : 'dark'">{{ item.name }}</ion-label>
+            <ion-label class="d-block" [color]="request.Fulfilled === true ? 'primary' : 'dark'">{{ item.PositionName }}</ion-label>
             <ion-radio slot="end" value="first"></ion-radio>
           </div>
         </div>

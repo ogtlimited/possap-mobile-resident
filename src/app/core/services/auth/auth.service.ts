@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
   authEndpoints,
   baseEndpoints,
@@ -6,13 +7,15 @@ import {
 import { RequestService } from './../../request/request.service';
 import { Injectable } from '@angular/core';
 import { map, tap, switchMap } from 'rxjs/operators';
-import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import { Preferences as Storage } from '@capacitor/preferences';
 import { Router } from '@angular/router';
 import { GlobalService } from '../global/global.service';
+import { HttpHeaders } from '@angular/common/http';
 
 const TOKEN_KEY = 'my-token';
 const CURRENT_USER = 'current-user';
+const VERIFY_TOKEN = 'verify-token';
 @Injectable({
   providedIn: 'root',
 })
@@ -23,21 +26,26 @@ export class AuthService {
   currentUser$: BehaviorSubject<any> = new BehaviorSubject<boolean>(null);
   tempUserData$: BehaviorSubject<any> = new BehaviorSubject<object>(null);
   token = '';
+  headers = new HttpHeaders();
 
   constructor(
     private reqS: RequestService,
     private globalS: GlobalService,
     private router: Router
   ) {
+    this.headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    this.headers.set('Access-Control-Allow-Origin', '*');
     this.loadToken();
     this.currentUser().subscribe((e) => {
       console.log(e);
-      this.currentUser$.next(JSON.parse(e.value));
+      if (e.value !== 'undefined') {
+        this.currentUser$.next(JSON.parse(e.value));
+      }
     });
   }
 
   async loadToken() {
-    const token = await Storage.get({ key: TOKEN_KEY });
+    const token = await Storage.get({ key: CURRENT_USER });
     if (token && token.value) {
       this.token = token.value;
       this.isAuthenticated.next(true);
@@ -45,32 +53,53 @@ export class AuthService {
       this.isAuthenticated.next(false);
     }
   }
-  async getToken() {
-    const token = await Storage.get({ key: TOKEN_KEY });
+  async getToken(key = TOKEN_KEY) {
+    const token = await Storage.get({ key });
     return token && token.value ? token.value : null;
   }
 
-  login(credentials: { email; password }): Observable<any> {
+  login(credentials: any): Observable<any> {
     return this.reqS.post(authEndpoints.login, credentials).pipe(
       switchMap((res: any) => {
-        console.log(res.token);
-        this.currentUser$.next(res.data);
+        console.log(res);
+        this.currentUser$.next(res.ResponseObject);
         from(
-          Storage.set({ key: CURRENT_USER, value: JSON.stringify(res.data) })
+          Storage.set({
+            key: CURRENT_USER,
+            value: JSON.stringify(res.ResponseObject),
+          })
         );
-        return from(Storage.set({ key: TOKEN_KEY, value: res.token.token }));
+        console.log(res.ResponseObject);
+        return of(res);
       }),
-      tap((_) => {
-        this.isAuthenticated.next(true);
+      tap((res) => {
+        console.log(res);
+        if (res.Error) {
+          this.isAuthenticated.next(false);
+        } else {
+          this.isAuthenticated.next(true);
+        }
       })
     );
   }
-  signup(credentials: { name; email; password }): Observable<any> {
-    return this.reqS.post(authEndpoints.signup, credentials).pipe(
+  signup(credentials: {
+    name: any;
+    email: any;
+    password: any;
+  }): Observable<any> {
+    return this.reqS.postFormData(authEndpoints.signup, credentials).pipe(
       switchMap((res: any) => {
-        this.currentUser$.next(res.data);
+        console.log(res);
+        this.currentUser$.next(res.ResponseObject.UserObject);
+        Storage.set({
+          key: VERIFY_TOKEN,
+          value: res.ResponseObject.Token,
+        });
         return from(
-          Storage.set({ key: CURRENT_USER, value: JSON.stringify(res.data) })
+          Storage.set({
+            key: CURRENT_USER,
+            value: JSON.stringify(res.ResponseObject.UserObject),
+          })
         );
       }),
       tap((_) => {
@@ -78,43 +107,39 @@ export class AuthService {
       })
     );
   }
-  getNIN(nin): Observable<any> {
+  getNIN(nin: any): Observable<any> {
     const queryParams = {
       nin,
     };
     const url = this.globalS.getUrlString(baseEndpoints.nin, queryParams);
     return this.reqS.get(url);
   }
-  activateAccount(credentials: { phone; code }, id): Observable<any> {
-    return this.reqS.put(authEndpoints.activate + id, credentials).pipe(
-      switchMap((data: any) => {
-        from(
-          Storage.set({ key: CURRENT_USER, value: JSON.stringify(data.user) })
-        );
-        return from(Storage.set({ key: TOKEN_KEY, value: data.token }));
-      }),
-      tap((_) => {
-        this.isAuthenticated.next(true);
-      })
-    );
+  activateAccount(credentials: {
+    Token: string;
+    Code: string;
+  }): Observable<any> {
+    return this.reqS.post(authEndpoints.activate, credentials);
   }
-  forgotPasswordInitiate(credentials: { email }): Observable<any> {
+  forgotPasswordInitiate(credentials: { email: any }): Observable<any> {
     return this.reqS.post(authEndpoints.forgotPasswordInitiate, credentials);
   }
   forgotPasswordComplete(credentials: {
-    email;
-    verificationCode;
-    password;
+    email: any;
+    verificationCode: any;
+    password: any;
   }): Observable<any> {
     return this.reqS.post(authEndpoints.forgotPasswordComplete, credentials);
   }
   changePassword(
-    id,
-    credentials: { oldPassword; newPassword }
+    id: string,
+    credentials: { oldPassword: any; newPassword: any }
   ): Observable<any> {
     return this.reqS.put(authEndpoints.changePassword + '/' + id, credentials);
   }
-  updateUser(id, credentials): Observable<any> {
+  updateUser(
+    id: string | number,
+    credentials: { avater: any }
+  ): Observable<any> {
     return this.reqS.put(baseEndpoints.user + '/' + id, credentials).pipe(
       switchMap((res: any) => {
         console.log(res);
@@ -126,15 +151,19 @@ export class AuthService {
     );
   }
 
-  sendResetOtp(credentials: { email }): Observable<any> {
+  sendResetOtp(credentials: { Email: any }): Observable<any> {
     return this.reqS.post(authEndpoints.resetPasswordOtp, credentials);
   }
 
-  validateResetOtp(credentials: { email; code; phone }): Observable<any> {
+  validateResetOtp(credentials: {
+    email: any;
+    code: any;
+    phone: any;
+  }): Observable<any> {
     return this.reqS.post(authEndpoints.validate, credentials);
   }
 
-  uploadProfileImage(formData): Observable<any> {
+  uploadProfileImage(formData: FormData): Observable<any> {
     return this.reqS.post(miscEndpoint.mediaUpload, formData);
   }
   currentUser(): Observable<any> {

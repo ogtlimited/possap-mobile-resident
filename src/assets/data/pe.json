@@ -1,0 +1,257 @@
+{
+    "ServiceId": 1,
+    "name": "Police Extract",
+    "approvalWorkFlow": [
+        "Extract First Approval",
+        "Extract Second Approval"
+    ],
+    "formSchema": [
+        {
+            "name": "SelectedCategories",
+            "type": "select",
+            "label": "Select Category of Extract",
+            "value": "",
+            "config": {
+                "multiple": true
+            },
+            "options": [
+                {
+                    "key": "1",
+                    "value": "Loss of Document"
+                },
+                {
+                    "key": "2",
+                    "value": "Loss of Property"
+                },
+                {
+                    "key": "3",
+                    "value": "Others"
+                }
+            ],
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Select an extract category."
+        },
+        {
+            "name": "1",
+            "type": "select",
+            "label": "Loss of Document",
+            "config": {
+                "multiple": true
+            },
+            "showIf": {
+                "value": "SelectedCategories",
+                "equals": "1"
+            },
+            "options": [
+                {
+                    "key": "Identification",
+                    "value": "1"
+                },
+                {
+                    "key": "Certificate",
+                    "value": "2"
+                },
+                {
+                    "key": "Book/Journal",
+                    "value": "3"
+                },
+                {
+                    "key": "Vehicle Particulars",
+                    "value": "6"
+                },
+                {
+                    "key": "Government issued document",
+                    "value": "7"
+                },
+                {
+                    "key": "Others",
+                    "value": "12"
+                }
+            ],
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Loss of Document"
+        },
+        {
+            "name": "2",
+            "type": "select",
+            "label": "Loss of Property",
+            "value": "",
+            "config": {
+                "multiple": true
+            },
+            "showIf": {
+                "value": "SelectedCategories",
+                "equals": "2"
+            },
+            "options": [
+                {
+                    "key": "Identification",
+                    "value": "Identification"
+                },
+                {
+                    "key": "Certificate",
+                    "value": "Certificate"
+                },
+                {
+                    "key": "Book/Journal",
+                    "value": "Book/Journal"
+                },
+                {
+                    "key": "Vehicle Particulars",
+                    "value": "Vehicle Particulars"
+                },
+                {
+                    "key": "Government issued document",
+                    "value": "Government issued document"
+                },
+                {
+                    "key": "Others",
+                    "value": "Others"
+                }
+            ],
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Loss of Property"
+        },
+        {
+            "name": "Reason",
+            "type": "text",
+            "label": "Reason for Request",
+            "value": false,
+            "showIf": {
+                "value": "SelectedCategories",
+                "equals": "3"
+            },
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Enter your reason for extract"
+        },
+        {
+            "name": "IsIncidentReported",
+            "type": "radio",
+            "label": "Was incident reported at a police station?",
+            "value": "",
+            "validators": {
+                "required": true
+            },
+            "placeholder": "",
+            "radioOptions": [
+                {
+                    "label": "Yes",
+                    "value": true
+                },
+                {
+                    "label": "No",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "name": "IncidentReportedDate",
+            "type": "date",
+            "label": "Select the date the incident was reported",
+            "value": "",
+            "showIf": {
+                "value": "IsIncidentReported",
+                "equals": true
+            },
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Enter Incident Reported Date"
+        },
+        {
+            "name": "Affidavitfile",
+            "type": "file",
+            "label": "Upload Court Affidavit",
+            "value": "",
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Add a court affidavit file here. Maximum size: 1MB"
+        },
+        {
+            "name": "AffidavitNumber",
+            "type": "text",
+            "label": "Affidavit Number",
+            "value": "",
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Enter Affidavit Number"
+        },
+        {
+            "name": "AffidavitDateOfIssuance",
+            "type": "date",
+            "label": "Affidavit Date of Issuance",
+            "value": "",
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Enter affidavit date of issuance"
+        },
+        {
+            "api": {
+                "body": null,
+                "path": "state-lga"
+            },
+            "name": "SelectedState",
+            "type": "select",
+            "label": "State",
+            "value": "",
+            "config": {
+                "multiple": false
+            },
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Select State of the Police Formation/Division"
+        },
+        {
+            "api": {
+                "body": {
+                    "key": "state",
+                    "value": "SelectedState"
+                },
+                "path": "state-lga"
+            },
+            "name": "SelectedStateLga",
+            "type": "select",
+            "label": "Local Government Area",
+            "value": "",
+            "config": {
+                "multiple": false
+            },
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Select LGA of the Police Formation/Division"
+        },
+        {
+            "api": {
+                "body": {
+                    "key": "state",
+                    "value": "SelectedState"
+                },
+                "path": "state-scid"
+            },
+            "name": "SelectedCommand",
+            "type": "select",
+            "label": "Select the Police Formation/Division",
+            "value": "",
+            "config": {
+                "multiple": false
+            },
+            "validators": {
+                "required": true
+            },
+            "placeholder": "Select the Formation/Division"
+        }
+    ]
+}

@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { InvoicePageRoutingModule } from './invoice-routing.module';
 
 import { InvoicePage } from './invoice.page';
+import { Bank3dPaymentAngularModule } from 'bank3d-payment-angular';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { InvoicePage } from './invoice.page';
     FormsModule,
     IonicModule,
     InvoicePageRoutingModule,
-    SharedModule
+    SharedModule,
+    Bank3dPaymentAngularModule
   ],
   declarations: [InvoicePage]
 })

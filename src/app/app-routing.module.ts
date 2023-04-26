@@ -99,11 +99,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/invoice/invoice.module').then((m) => m.InvoicePageModule),
   },
-  {
-    path: 'search/:id',
-    loadChildren: () =>
-      import('./pages/search/search.module').then((m) => m.SearchPageModule),
-  },
+  // {
+  //   path: 'search/:id',
+  //   loadChildren: () =>
+  //     import('./pages/search/search.module').then((m) => m.SearchPageModule),
+  // },
 ];
 
 @NgModule({

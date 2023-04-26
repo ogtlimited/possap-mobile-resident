@@ -1,5 +1,6 @@
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+<form *ngIf="jsonFormData" [formGroup]="myForm" (ngSubmit)="onSubmit()">
   <!-- myForm.value[control?.showIf?.value] === control?.showIf?.equals -->
+
   <ng-container *ngFor="let control of jsonFormData?.controls">
 
     <ion-item *ngIf="canRender(control.name, control)" [lines]="control.type === 'file' ? 'none' :'full'">
@@ -19,13 +20,15 @@
           && canRender(control.name, control)" [type]="control.type" [formControlName]="control.name"
         [placeholder]="control.label" [value]="control.value">
       </ion-input>
+
+     
       <div (click)="selectImageSource(control.name)" class="flex flex-column my-8"
         *ngIf="control.type === 'file' && canRender(control.name, control)">
         <ion-label class="file-label">{{control.label}}</ion-label>
         <div class="file">
 
           <ion-icon *ngIf="myForm.value[control.name] === ''" name="camera"></ion-icon>
-          <img *ngIf="myForm.value[control.name] !== ''" [src]="myForm.value[control.name]" alt="">
+          <img *ngIf="myForm.value[control.name] !== ''" [src]="fileNames[control.name]" alt="">
         </div>
       </div>
       <ion-textarea rows="2" *ngIf="control.type === 'textarea' && canRender(control.name, control)"
