@@ -35,7 +35,7 @@ export class ResidentFormComponent implements OnInit {
 
   ngOnInit() {
     this.residentForm = this.fb.group({
-      Email: ['', [Validators.required, Validators.email]],
+      UserName: ['', [Validators.required, Validators.email]],
       Password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -56,7 +56,7 @@ export class ResidentFormComponent implements OnInit {
           handler: (data) => {
             const date = new Date();
             const payload = {
-              email: data.email,
+              Email: data.email,
             };
             this.authS.sendResetOtp(payload).subscribe((res: any) => {
               console.log(res);
@@ -120,7 +120,7 @@ export class ResidentFormComponent implements OnInit {
   }
 
   get Email() {
-    return this.residentForm.get('Email');
+    return this.residentForm.get('UserName');
   }
 
   get Password() {

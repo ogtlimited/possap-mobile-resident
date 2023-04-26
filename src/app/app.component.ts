@@ -69,8 +69,8 @@ export class AppComponent implements OnInit {
       }
     });
     this.authService.currentUser().subscribe((e) => {
-      console.log(JSON.parse(e.value));
-      if (e.value) {
+      // console.log(JSON.parse(e.value));
+      if (e.value !== 'undefined') {
         this.user = JSON.parse(e.value);
       }
     });

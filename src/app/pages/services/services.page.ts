@@ -3,6 +3,7 @@ import { PossapServicesService } from './../../core/services/possap-services/pos
 import { ActivatedRoute, Router } from '@angular/router';
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit } from '@angular/core';
+import { IService, ServiceResponse } from 'src/app/core/models/ResponseModel';
 
 @Component({
   selector: 'app-services',
@@ -10,14 +11,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./services.page.scss'],
 })
 export class ServicesPage implements OnInit {
-  services = [];
- infoServices = [
-    // {
-    //   title: 'Citizen Report',
-    //   subtitle: 'Apply for character certificate',
-    //   icon: 'creport',
-    //   code: 'citizensreport',
-    // },
+  services: IService[];
+  activeServices = [
+    'POLICE CHARACTER CERTIFICATE',
+    'POLICE CHARACTER CERTIFICATE DIASPORA',
+    'POLICE EXTRACT',
+  ];
+  icons = ['pcc', 'pe', 'pcc'];
+  infoServices = [
     {
       title: 'SOS',
       subtitle: 'Apply for police clearance certificate using your NIN',
@@ -32,6 +33,7 @@ export class ServicesPage implements OnInit {
       icon: 'ibooking',
     },
   ];
+  jsonForm: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -47,10 +49,16 @@ export class ServicesPage implements OnInit {
     });
 
     loading.present();
-    this.possapS.fetchServices().subscribe((s: any) => {
-      console.log(s.data);
-      loading.dismiss();
-      this.services = s.data;
+    this.possapS.fetchServices().subscribe((schema: any) => {
+      // console.log(schema);
+      this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
+        // console.log(s);
+        loading.dismiss();
+        this.services = s.ResponseObject.services.filter((v) =>
+          this.activeServices.includes(v.Name)
+        );
+        this.possapS.mapSchemaToCBSID(schema, this.services);
+      });
     });
   }
 

@@ -1,3 +1,6 @@
+import { GlobalService } from 'src/app/core/services/global/global.service';
+import { baseEndpoints } from './../../core/config/endpoints';
+/* eslint-disable @typescript-eslint/naming-convention */
 import { TermAndConditionsComponent } from './term-and-conditions/term-and-conditions.component';
 import {
   AlertController,
@@ -12,8 +15,10 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { environment } from 'src/environments/environment.prod';
+import { FormProcessorService } from 'src/app/core/services/form-processor.service';
 
 @Component({
   selector: 'app-general-form',
@@ -22,7 +27,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
   styleUrls: ['./general-form.page.scss'],
 })
 export class GeneralFormPage implements OnInit {
-  myParam: any;
+  serviceId: any;
   jsonFormData;
   title = '';
   showForm = true;
@@ -30,40 +35,58 @@ export class GeneralFormPage implements OnInit {
   owner;
   type = '';
   serviceCharge: any;
+
   constructor(
     private route: ActivatedRoute,
     private possapS: PossapServicesService,
+    private globalS: GlobalService,
     private loader: LoadingController,
     private alertC: AlertController,
     private reqS: RequestService,
     private modal: ModalController,
     private cdref: ChangeDetectorRef,
     private authS: AuthService,
-    private router: Router,
-  ) {}
+    private fps: FormProcessorService,
+    private router: Router
+  ) {
+    // this.serviceSubmit(this.tempData);
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loader.create();
+    await loading.present();
+
     this.authS.currentUser$.subscribe((user) => {
       this.owner = user;
+    });
+    this.fps.formObject$.subscribe((e) => {
+      console.log(e);
+      if (e) {
+        this.jsonFormData = {
+          controls: e,
+        };
+        this.cdref.detectChanges();
+        loading.dismiss();
+      }
     });
     this.route.queryParams.subscribe((params) => {
       // console.log(params);
 
-      this.myParam = params.service;
+      this.serviceId = params.service;
       this.title = params.title;
       this.type = params.type;
       if (params.type === 'restful') {
-        this.possapS.fetchServicesbyId(this.myParam).subscribe((s: any) => {
-          // console.log(s);
-          this.jsonFormData = {
-            controls: s.data.formSchema,
-          };
+        this.globalS.fetchStorageObject('CBS-SERVICES').subscribe((s: any) => {
+          const parsed = JSON.parse(s.value);
+          const obj = parsed.filter((e) => e.ServiceId === parseInt(this.serviceId, 10))[0];
+          this.fps.pEFormSchema(obj.formSchema);
           this.cdref.detectChanges();
-          this.openModal();
+          console.log(obj);
         });
+
       } else {
         this.reqS
-          .get('assets/data/' + this.myParam + '.json')
+          .get('assets/data/' + this.serviceId + '.json')
           .subscribe((e: any) => {
             // console.log(e);
             this.jsonFormData = e;
@@ -71,15 +94,15 @@ export class GeneralFormPage implements OnInit {
             this.cdref.detectChanges();
           });
       }
-      // console.log(this.myParam);
+      // console.log(this.serviceId);
     });
   }
 
   async submitForm(val) {
     console.log(val);
-    if(this.type === 'misc'){
-        await this.incidentReportSubmit(val);
-    }else {
+    if (this.type === 'misc') {
+      await this.incidentReportSubmit(val);
+    } else {
       await this.serviceSubmit(val);
     }
   }
@@ -119,11 +142,16 @@ export class GeneralFormPage implements OnInit {
         const alert = await this.alertC.create({
           header: 'Incident report.',
           message: 'Incident reported successfully.',
-          buttons: [{text:'OK', handler:()=>{
-               this.router.navigate(['app/tabs/home']).then(()=>{
-                alert.dismiss();
-              });
-            }}],
+          buttons: [
+            {
+              text: 'OK',
+              handler: () => {
+                this.router.navigate(['app/tabs/home']).then(() => {
+                  alert.dismiss();
+                });
+              },
+            },
+          ],
         });
         await alert.present();
       },
@@ -136,24 +164,35 @@ export class GeneralFormPage implements OnInit {
     this.showForm = false;
   }
 
-  async serviceSubmit(val){
-    const body = {
-      service: this.myParam,
-      owner: this.owner.id,
-      formFields: [val],
-    };
+  async serviceSubmit(val) {
+    // const body = {
+    //   service: this.serviceId,
+    //   owner: this.owner.id,
+    //   formFields: [val],
+    // };
+    console.log(val);
     const loading = await this.loader.create();
+    const body = this.possapS.PSSExtractProcessor(val);
+    console.log(body);
+    const requestOptions: any = {
+      requestObject: body.requestObject,
+    };
+
     this.showForm = true;
     await loading.present();
-    this.possapS.getServiceCharge(this.myParam).subscribe(
-      (e: any) => {
+
+    console.log(requestOptions);
+    this.reqS.postFormData(baseEndpoints.cbsRoutes, requestOptions).subscribe(
+      (res: any) => {
+        console.log(res);
         loading.dismiss();
-        console.log(e.data);
-        this.serviceCharge = e.data;
         this.formData = val;
-        this.showForm = false;
+        // this.showForm = false;
         this.cdref.detectChanges();
-        console.log(this.showForm);
+        this.router.navigate([
+          '/invoice',
+          { details: JSON.stringify(res.data.ResponseObject) },
+        ]);
       },
       (err) => {
         loading.dismiss();
@@ -161,7 +200,25 @@ export class GeneralFormPage implements OnInit {
         console.log(err);
       }
     );
-    this.formData = val;
-    this.showForm = false;
+    // fetch(baseEndpoints.cbsRoutes, requestOptions)
+    //   .then((response) => response.text())
+    //   .then((result) => console.log(result))
+    //   .catch((error) => console.log('error', error));
+    // this.possapS.allCBS(body).subscribe(
+    //   (e: any) => {
+    //     loading.dismiss();
+    //     console.log(e.data);
+    //     this.serviceCharge = e.data;
+    //     this.formData = val;
+    //     this.showForm = false;
+    //     this.cdref.detectChanges();
+    //     console.log(this.showForm);
+    //   },
+    // (err) => {
+    //   loading.dismiss();
+    //   this.reqFailed('Failure', 'Failed to make request');
+    //   console.log(err);
+    // }
+    // );
   }
 }

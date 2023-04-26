@@ -62,10 +62,10 @@ export class SignupPage implements OnInit {
     await loading.present();
     console.log(val);
     this.user = val;
-    // setTimeout(async () => {
-    //   await loading.dismiss();
-    //   this.showVerify = true;
-    // }, 2500);
+    // // setTimeout(async () => {
+    // //   await loading.dismiss();
+    // //   this.showVerify = true;
+    // // }, 2500);
     // return;
     this.authService.signup(val).subscribe(
       async (res) => {
@@ -114,15 +114,16 @@ export class SignupPage implements OnInit {
 
     // continue
     const value = passForm.get('passcode').value;
+    const Token = await this.authService.getToken('verify-token');
     const obj = {
-      code: value,
-      phone: this.user.phone,
+      Code: value,
+      Token,
     };
     console.log(value); //30919176644
-    this.authService.activateAccount(obj, this.user.id).subscribe(
+    this.authService.activateAccount(obj).subscribe(
       async (res) => {
         await loading.dismiss();
-        this.router.navigate(['/app/tabs/home']);
+        this.router.navigate(['/login']);
       },
       async (res) => {
         console.log(res);

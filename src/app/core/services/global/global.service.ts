@@ -3,6 +3,10 @@ import { RequestService } from './../../request/request.service';
 import { GoogleMapUrl, serverBaseUrl } from './../../config/endpoints';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
+import Base64 from 'crypto-js/enc-base64';
+import * as crypto from 'crypto-js';
+import { Observable, from } from 'rxjs';
+import { Preferences as Storage } from '@capacitor/preferences';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +15,10 @@ export class GlobalService {
   ABSOLUTE_URL_REGEX = /^(?:[a-z]+:)?\/\//;
   constructor(private reqS: RequestService) {}
 
-  nearestPlaces(searchText){
-   const key =  environment.mapsKey;
-   const url = GoogleMapUrl + searchText + '&inputtype=textquery&key=' + key;
-   return this.reqS.get(url);
+  nearestPlaces(searchText) {
+    const key = environment.mapsKey;
+    const url = GoogleMapUrl + searchText + '&inputtype=textquery&key=' + key;
+    return this.reqS.get(url);
   }
 
   getUrlString(path, queryParams = {}) {
@@ -72,5 +76,44 @@ export class GlobalService {
       })
       .filter((part) => part != null && part !== '')
       .join(separator);
+  }
+
+  computeHash(value) {
+    const hmac = crypto.algo.HMAC.create(
+      crypto.algo.SHA256,
+      environment.clientSecret
+    );
+    hmac.update(value);
+    return Base64.stringify(hmac.finalize());
+  }
+
+  computeCBSBody(
+    method,
+    url,
+    headers,
+    hashField = '',
+    hashmessage = '',
+    body = null
+  ) {
+    return {
+
+      requestObject: {
+        body,
+        headers: {
+          ...headers,
+        },
+        helpers: {
+          method,
+          url,
+          hashField,
+          hashmessage,
+          clientSecret: environment.clientSecret,
+        },
+      }
+    };
+  }
+
+  fetchStorageObject(key): Observable<any> {
+    return from(Storage.get({ key }));
   }
 }

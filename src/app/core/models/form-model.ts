@@ -53,3 +53,8 @@ export interface JsonFormControls {
 export interface JsonFormData {
   controls: JsonFormControls[];
 }
+
+export interface SelectOption {
+  label: string;
+  value: string | number;
+}

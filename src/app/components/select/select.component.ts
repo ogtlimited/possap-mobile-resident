@@ -27,7 +27,8 @@ export class SelectComponent implements OnInit {
   }
 
   async fetchData() {
-    this.loader.create();
+    const loading = await this.loader.create();
+    await loading.present();
     try {
       const field = this.jsonFormData?.controls.filter(
         (e) => e.name === this.control.name
@@ -40,6 +41,7 @@ export class SelectComponent implements OnInit {
             this.myForm?.value[field?.api?.body?.value] || '',
         })
         .toPromise();
+      loading.dismiss();
       console.log(field.name);
       console.log(this.control);
       this.list = res.data;

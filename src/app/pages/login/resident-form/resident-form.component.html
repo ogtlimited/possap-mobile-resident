@@ -1,7 +1,7 @@
 <form (ngSubmit)="login()" [formGroup]="residentForm" class="form-container">
   <ion-item>
     <ion-label position="floating">Email</ion-label>
-    <ion-input type="email" formControlName="Email"></ion-input>
+    <ion-input type="email" formControlName="UserName"></ion-input>
   </ion-item>
   <div *ngIf="(Email.dirty || Email.touched) && Email.errors" class="errors">
     <span *ngIf="Email.errors?.required">Email is required</span>
