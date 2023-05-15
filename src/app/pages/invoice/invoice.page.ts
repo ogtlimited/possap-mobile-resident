@@ -35,6 +35,7 @@ export class InvoicePage implements OnInit {
   paymentCallback(response): void {
     console.log('Pay', response);
     this.isSuccess = true;
+    
   }
   closedPaymentModal(): void {
     console.log('payment is closed');

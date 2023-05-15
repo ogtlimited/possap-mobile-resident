@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit } from '@angular/core';
 import { IService, ServiceResponse } from 'src/app/core/models/ResponseModel';
+import { AbbrevPipe } from 'src/app/core/pipes/abbrev.pipe';
 
 @Component({
   selector: 'app-services',
@@ -13,11 +14,11 @@ import { IService, ServiceResponse } from 'src/app/core/models/ResponseModel';
 export class ServicesPage implements OnInit {
   services: IService[];
   activeServices = [
-    'POLICE CHARACTER CERTIFICATE',
-    'POLICE CHARACTER CERTIFICATE DIASPORA',
-    'POLICE EXTRACT',
+    'police character certificate',
+    'police character certificate diaspora',
+    'police extract',
   ];
-  icons = ['pcc', 'pe', 'pcc'];
+  icons = ['pcc', 'pe', 'pccd'];
   infoServices = [
     {
       title: 'SOS',
@@ -54,9 +55,8 @@ export class ServicesPage implements OnInit {
       this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
         // console.log(s);
         loading.dismiss();
-        this.services = s.ResponseObject.services.filter((v) =>
-          this.activeServices.includes(v.Name)
-        );
+        this.services = s.ResponseObject.services.filter((v) => this.activeServices.includes(v.Name.toLowerCase()));
+        console.log(this.services);
         this.possapS.mapSchemaToCBSID(schema, this.services);
       });
     });

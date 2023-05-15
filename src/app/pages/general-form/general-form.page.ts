@@ -1,5 +1,5 @@
 import { GlobalService } from 'src/app/core/services/global/global.service';
-import { baseEndpoints } from './../../core/config/endpoints';
+import { baseEndpoints, serviceEndpoint } from './../../core/config/endpoints';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { TermAndConditionsComponent } from './term-and-conditions/term-and-conditions.component';
 import {
@@ -19,7 +19,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { environment } from 'src/environments/environment.prod';
 import { FormProcessorService } from 'src/app/core/services/form-processor.service';
-
+import { EXTRACT, PCC, PCCD } from 'src/app/core/data/constant';
 @Component({
   selector: 'app-general-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +35,26 @@ export class GeneralFormPage implements OnInit {
   owner;
   type = '';
   serviceCharge: any;
+  serviceName = '';
+  tempData = {
+    RequestType: '1',
+    CharacterCertificateReasonForInquiry: '1',
+    SelectedCountryOfOrigin: '2',
+    PlaceOfBirth: 'Abuja',
+    DateOfBirth: '18/02/1990',
+    DestinationCountry: '1',
+    SelectedCountryOfPassport: '3',
+    SelectedStateOfOrigin: '2',
+    PassportNumber: '98899999',
+    PlaceOfIssuance: 'Abuja',
+    DateOfIssuance: '18/06/2022',
+    PreviouslyConvicted: 'false',
+    PreviousConvictionHistory: '',
+    passportphotographfile: '1683006479871.png',
+    intpassportdatapagefile: '1683006487780.png',
+    SelectedState: '2',
+    SelectedCommand: '1',
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -65,6 +85,8 @@ export class GeneralFormPage implements OnInit {
         this.jsonFormData = {
           controls: e,
         };
+        console.log('loading');
+        // this.serviceSubmit(this.tempData);
         this.cdref.detectChanges();
         loading.dismiss();
       }
@@ -78,12 +100,14 @@ export class GeneralFormPage implements OnInit {
       if (params.type === 'restful') {
         this.globalS.fetchStorageObject('CBS-SERVICES').subscribe((s: any) => {
           const parsed = JSON.parse(s.value);
-          const obj = parsed.filter((e) => e.ServiceId === parseInt(this.serviceId, 10))[0];
-          this.fps.pEFormSchema(obj.formSchema);
+          const obj = parsed.filter(
+            (e) => e.ServiceId === parseInt(this.serviceId, 10)
+          )[0];
+          this.fps.formProcessor(obj);
           this.cdref.detectChanges();
           console.log(obj);
+          this.serviceName = obj.name;
         });
-
       } else {
         this.reqS
           .get('assets/data/' + this.serviceId + '.json')
@@ -165,14 +189,22 @@ export class GeneralFormPage implements OnInit {
   }
 
   async serviceSubmit(val) {
-    // const body = {
-    //   service: this.serviceId,
-    //   owner: this.owner.id,
-    //   formFields: [val],
-    // };
-    console.log(val);
+    let endpoint = '';
+    console.log(val, this.serviceName);
     const loading = await this.loader.create();
-    const body = this.possapS.PSSExtractProcessor(val);
+    let body = null;
+    if (this.serviceName.toLowerCase() === EXTRACT.toLowerCase()) {
+      endpoint = serviceEndpoint.saveExtract;
+      body = this.possapS.PSSExtractProcessor(val, this.serviceId);
+    } else if (this.serviceName.toLowerCase() === PCC.toLowerCase()) {
+      console.log('PCC', this.jsonFormData);
+      endpoint = serviceEndpoint.savePCC;
+      body = this.possapS.PCCProcessor(
+        val,
+        this.serviceId,
+        this.jsonFormData.controls
+      );
+    }
     console.log(body);
     const requestOptions: any = {
       requestObject: body.requestObject,
@@ -182,7 +214,7 @@ export class GeneralFormPage implements OnInit {
     await loading.present();
 
     console.log(requestOptions);
-    this.reqS.postFormData(baseEndpoints.cbsRoutes, requestOptions).subscribe(
+    this.reqS.postFormData(endpoint, requestOptions).subscribe(
       (res: any) => {
         console.log(res);
         loading.dismiss();

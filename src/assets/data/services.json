@@ -218,9 +218,8 @@
                     "required": true
                 },
                 "placeholder": "Enter the country you are from",
-                "api": {
-                    "path": "countries",
-                    "body": null
+                "config": {
+                    "multiple": false
                 },
                 "type": "select",
                 "value": ""
@@ -258,9 +257,8 @@
                 "config": {
                     "multiple": false
                 },
-                "api": {
-                    "path": "countries",
-                    "body": null
+                "config": {
+                    "multiple": false
                 },
                 "placeholder": "Select your destination country.",
                 "type": "select",
@@ -275,9 +273,8 @@
                 "config": {
                     "multiple": false
                 },
-                "api": {
-                    "path": "countries",
-                    "body": null
+                "config": {
+                    "multiple": false
                 },
                 "placeholder": "Select your destination country.",
                 "type": "select",
@@ -315,6 +312,7 @@
             },
             {
                 "name": "PreviouslyConvicted",
+                "value": "",
                 "label": "Have you previously been convicted?",
                 "type": "radio",
                 "validators": {
@@ -330,8 +328,8 @@
                         "label": "No",
                         "value": false
                     }
-                ],
-                "value": ""
+                ]
+        
             },
             {
                 "name": "PreviousConvictionHistory",
@@ -341,6 +339,10 @@
                 },
                 "placeholder": "Enter info about your previous conviction history",
                 "type": "text",
+                "showIf": {
+                    "value": "PreviouslyConvicted",
+                    "equals": true
+                },
                 "value": ""
             },
             {
@@ -467,9 +469,8 @@
                     "required": true
                 },
                 "placeholder": "Enter the country you are from",
-                "api": {
-                    "path": "countries",
-                    "body": null
+                "config": {
+                    "multiple": false
                 },
                 "type": "select",
                 "value": ""
@@ -495,9 +496,8 @@
                     "required": true
                 },
                 "placeholder": "Enter the country you currently reside",
-                "api": {
-                    "path": "countries",
-                    "body": null
+                "config": {
+                    "multiple": false
                 },
                 "type": "select",
                 "value": ""
@@ -535,10 +535,6 @@
                 "config": {
                     "multiple": false
                 },
-                "api": {
-                    "path": "countries",
-                    "body": null
-                },
                 "placeholder": "Select your destination country.",
                 "type": "select",
                 "value": ""
@@ -551,10 +547,6 @@
                 },
                 "config": {
                     "multiple": false
-                },
-                "api": {
-                    "path": "countries",
-                    "body": null
                 },
                 "placeholder": "Select your destination country.",
                 "type": "select",
@@ -598,6 +590,10 @@
                 },
                 "placeholder": "",
                 "type": "radio",
+                "showIf": {
+                    "value": "PreviouslyConvicted",
+                    "equals": true
+                },
                 "radioOptions": [
                     {
                         "label": "Yes",

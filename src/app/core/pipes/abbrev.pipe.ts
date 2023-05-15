@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'abbrev',
 })
 export class AbbrevPipe implements PipeTransform {
-  transform(value: string, ...args: unknown[]): unknown {
+  transform(value: string): string {
     console.log(value);
     return value.match(/\b([A-Z])/g).join('');;
   }

@@ -22,9 +22,11 @@ export const baseEndpoints = {
   incidentReport: serverBaseUrl + '/incident',
   extractRequest: CBSBaseUrl + '/PSSExtract/submit-formdata',
   extractFormdata: CBSBaseUrl + '/PSSExtract/formdata',
+  pccRequest: CBSBaseUrl + '/charactercertificate/submit-pcc-formdata',
+  pccFormdata: CBSBaseUrl + '/charactercertificate/pcc-formdata',
 };
 export const authEndpoints = {
-  login: 'https://test.possap.ng/api/v1/pss/proxyauthentication/signin',
+  login: CBSBaseUrl +  '/proxyauthentication/signin',
   signup: CBSBaseUrl + '/user/create-user',
   activate: CBSBaseUrl + '/user/verify-account-api',
   forgotPasswordInitiate: CBSBaseUrl + '/user/forgot-password-api',
@@ -38,6 +40,12 @@ export const authEndpoints = {
 
 export const utilityEndpoint = {
   services: baseEndpoints.utility + '/get-services',
+  countries: baseEndpoints.utility + '/get-countries',
+};
+export const serviceEndpoint = {
+  saveExtract: baseEndpoints.cbsRoutes + '/extract',
+  savePCC: baseEndpoints.cbsRoutes + '/pcc',
+
 };
 export const miscEndpoint = {
   mediaUpload: baseEndpoints.helper + '/uploadMedia',

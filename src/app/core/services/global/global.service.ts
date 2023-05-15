@@ -1,11 +1,11 @@
 import { RequestService } from './../../request/request.service';
 /* eslint-disable @typescript-eslint/naming-convention */
-import { GoogleMapUrl, serverBaseUrl } from './../../config/endpoints';
+import { GoogleMapUrl, baseEndpoints, serverBaseUrl, utilityEndpoint } from './../../config/endpoints';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import Base64 from 'crypto-js/enc-base64';
 import * as crypto from 'crypto-js';
-import { Observable, from } from 'rxjs';
+import { Observable, forkJoin, from } from 'rxjs';
 import { Preferences as Storage } from '@capacitor/preferences';
 
 @Injectable({
@@ -115,5 +115,12 @@ export class GlobalService {
 
   fetchStorageObject(key): Observable<any> {
     return from(Storage.get({ key }));
+  }
+
+  fetchAllFormData(){
+    const response1 = this.reqS.get(baseEndpoints.extractFormdata);
+    // const response2 = this.reqS.get(baseEndpoints.pccFormdata);
+    const response3 = this.reqS.get(utilityEndpoint.countries);
+    return forkJoin([response1, response3]);
   }
 }

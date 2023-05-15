@@ -46,9 +46,10 @@ export class PossapServicesService {
   }
 
   mapSchemaToCBSID(schema, services) {
+    console.log(schema, services );
     const fullServices = [];
     schema.forEach((e) => {
-      const index = services.findIndex((s) => s.Name === e.name);
+      const index = services.findIndex((s) => s.Name.toLowerCase() === e.name.toLowerCase());
       fullServices.push({
         ...e,
         ServiceId: services[index].Id,
@@ -59,13 +60,12 @@ export class PossapServicesService {
     return fullServices;
   }
 
-  PSSExtractProcessor(obj) {
+  PSSExtractProcessor(obj, id) {
     console.log(obj);
-    const formData = new FormData();
     const body: any = {
       SelectedSubCategories: [],
       SelectedCategoriesAndSubCategories: {},
-      ServiceId: 1,
+      ServiceId: id,
     };
     Object.keys(obj).forEach((e) => {
       if (e === '1' || e === '2') {
@@ -94,6 +94,33 @@ export class PossapServicesService {
     return this.globalS.computeCBSBody(
       'post',
       baseEndpoints.extractRequest,
+      headerObj,
+      'SIGNATURE',
+      hashString,
+      body
+    );
+  }
+  PCCProcessor(obj, id, controls) {
+    const options = controls.filter(e => e.name === 'CharacterCertificateReasonForInquiry')[0].options;
+    console.log(obj);
+    const body: any = {
+      ServiceId: id,
+      ...obj
+    };
+
+    body.ReasonForInquiryValue = options.filter(o => o.key === body.CharacterCertificateReasonForInquiry)[0].value;
+    console.log(body, 'PURRE');
+    const headerObj = {
+      CLIENTID: environment.clientId,
+      CBSUSERID: 2,
+      PAYERID: this.user.PayerId,
+    };
+    const hashString = `${headerObj.PAYERID}${headerObj.CLIENTID}`;
+    // const hashString = `${body.SelectedCommand}${body.ServiceId}${headerObj.PAYERID}${headerObj.CLIENTID}`;
+    console.log(baseEndpoints);
+    return this.globalS.computeCBSBody(
+      'post',
+      baseEndpoints.pccRequest,
       headerObj,
       'SIGNATURE',
       hashString,

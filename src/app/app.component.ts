@@ -11,6 +11,7 @@ import { Preferences as Storage } from '@capacitor/preferences';
 import { UserData } from './providers/user-data';
 import { AuthService } from './core/services/auth/auth.service';
 import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
+import { GlobalService } from './core/services/global/global.service';
 
 @Component({
   selector: 'app-root',
@@ -46,17 +47,16 @@ export class AppComponent implements OnInit {
     private router: Router,
     private userData: UserData,
     private authService: AuthService,
-    private toastCtrl: ToastController,
+    private globalS: GlobalService,
     private appRate: AppRate
   ) {
-
     // Add or remove the "dark" class based on if the media query matches
     this.initializeApp();
   }
 
   toggleDarkTheme(shouldAdd) {
     const mode = shouldAdd ? 'light' : 'dark';
-    Storage.set({key: 'themeMode', value: mode });
+    Storage.set({ key: 'themeMode', value: mode });
     document.body.classList.toggle('dark', !shouldAdd);
   }
 
@@ -82,14 +82,15 @@ export class AppComponent implements OnInit {
         // StatusBar.hide();
         SplashScreen.hide();
       }
-      const themeMode = await Storage.get({key: 'themeMode'});
-      if(themeMode.value){
+      const themeMode = await Storage.get({ key: 'themeMode' });
+      if (themeMode.value) {
         this.dark = themeMode.value === 'light' ? false : true;
         document.body.classList.toggle('dark', this.dark);
-      }else{
-        Storage.set({key: 'themeMode', value: 'light'});
+      } else {
+        Storage.set({ key: 'themeMode', value: 'light' });
       }
     });
+    // this.loadData();
   }
 
   logout() {
@@ -115,5 +116,11 @@ export class AppComponent implements OnInit {
     this.menu.enable(false);
     Storage.set({ key: 'ion_did_tutorial', value: 'true' });
     this.router.navigateByUrl('/tutorial');
+  }
+
+  loadData() {
+    this.globalS.fetchAllFormData().subscribe((res) => {
+      console.log(res);
+    });
   }
 }

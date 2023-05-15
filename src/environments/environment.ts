@@ -4,7 +4,12 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
   production: false,
-
+  mapsKey: '',
+  clientId: 'Y7QPxyDubDXbjCEuJgKxXvBwxfta/Qo90Ud9MA//eMs=',
+  clientSecret: 'qZOY7rCujzVv0mbZCCDJ1vLRaInVAuML/U68FUyDyOhXEsiqP5vgLhIVSUjD',
+  mapbox: {
+    accessToken: 'pk.eyJ1Ijoia2hhZGlqYWxhZGFuIiwiYSI6ImNsYW1iMDZsODBkOHMzc29iMnFiYm04aHYifQ.5fKJF4M1NlLrMafVqix3Cg',
+  },
 };
 
 /*
