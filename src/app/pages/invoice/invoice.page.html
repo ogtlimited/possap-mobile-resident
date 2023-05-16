@@ -7,10 +7,10 @@
     </div>
     <div class="sucess-message">
       <h5>Payment Successful</h5>
-      <p>Transaction Number: 12345678</p>
+      <p>Transaction Number: {{paymentResponse.reference}}</p>
     </div>
     <div>
-      <p>Amount Paid <span class="text-em">45,000 naira</span></p>
+      <p>Amount Paid <span class="text-em">{{paymentResponse.amount}} naira</span></p>
     </div>
     <button>Back to home</button>
   </div>
@@ -53,7 +53,7 @@
       <ion-row>
         <ion-col class="px-16 mb-8">
 
-          <bank3d-payment-angular [reference]="generateRef()" [merchantKey]="merchantKey" currencyCode="NGN"
+          <bank3d-payment-angular [reference]="reference" [merchantKey]="merchantKey" currencyCode="NGN"
             [amount]="amount" email="test@gmail.com" phone="0801234567889" mode="demo" text="Pay Online" color="#2f4cb0"
             [style]="{'background-color':'white', 'color': '#000', 'width': '100%', 'padding': '10px'}"
             (callback)="paymentCallback($event)" (onClose)="closedPaymentModal()">

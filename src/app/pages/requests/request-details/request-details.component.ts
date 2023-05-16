@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { GlobalService } from 'src/app/core/services/global/global.service';
 import { ConferenceData } from 'src/app/providers/conference-data';
-import { baseEndpoints } from '../../../core/config/endpoints';
+import { baseEndpoints, serviceEndpoint } from '../../../core/config/endpoints';
 import { RequestService } from '../../../core/request/request.service';
 import { Browser } from '@capacitor/browser';
 @Component({
@@ -49,7 +49,7 @@ export class RequestDetailsComponent implements OnInit {
       '',
       null
     );
-    this.reqS.postFormData(baseEndpoints.cbsRoutes, body).subscribe((res: any) => {
+    this.reqS.postFormData(serviceEndpoint.fetchData, body).subscribe((res: any) => {
       console.log('testt', res.data);
       this.request = res.data.ResponseObject
       ;

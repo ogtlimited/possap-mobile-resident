@@ -14,12 +14,14 @@ export class InvoicePage implements OnInit {
   owner: any;
   invoice;
   isSuccess: boolean;
-  merchantKey = 'PayzoneAPP';
-  reference = 'REF-' + Math.random().toString(16).slice(2);
+  merchantKey = 'B3Du4wtqwiI6B8kNkNrF3O58';
+  reference;
   amount = '500000';
+  paymentResponse;
   constructor(private route: ActivatedRoute, private authS: AuthService) {}
 
   ngOnInit() {
+    this.reference = this.generateRef();
     this.authS.currentUser$.subscribe((user) => (this.owner = user));
     this.details = JSON.parse(
       this.route.snapshot.paramMap.get('details') || ''
@@ -35,7 +37,8 @@ export class InvoicePage implements OnInit {
   paymentCallback(response): void {
     console.log('Pay', response);
     this.isSuccess = true;
-    
+    this.paymentResponse = response;
+
   }
   closedPaymentModal(): void {
     console.log('payment is closed');

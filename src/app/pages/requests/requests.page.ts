@@ -6,7 +6,7 @@ import { AlertController, LoadingController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConferenceData } from '../../providers/conference-data';
-import { baseEndpoints } from './../../core/config/endpoints';
+import { baseEndpoints, serviceEndpoint } from './../../core/config/endpoints';
 import { RequestService } from './../../core/request/request.service';
 import { environment } from 'src/environments/environment.prod';
 
@@ -31,7 +31,11 @@ export class RequestsPage implements OnInit {
     private globalS: GlobalService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit(){
+    console.log('entered');
+  }
+
+  async ionViewWillEnter() {
     const sub = this.authS.currentUser$.subscribe(
       (value) => (this.user = value)
     );
@@ -39,13 +43,16 @@ export class RequestsPage implements OnInit {
     const taxId = this.user.TaxEntityID;
 
     const queryParams = {
-      startDate: new Date(new Date().getFullYear(), 0, 1).toLocaleDateString(),
-      endDate: new Date(new Date().getFullYear(), 12, 31).toLocaleDateString(),
+      startDate: new Date(new Date().getFullYear(), 0, 1).toLocaleDateString('en-gb'),
+      endDate: new Date(new Date()).toLocaleDateString('en-gb'),
     };
+    console.log(queryParams);
+    console.log(new URLSearchParams(queryParams).toString());
     const url = this.globalS.getUrlString(
       baseEndpoints.requests + '/' + taxId,
       queryParams
     );
+    console.log(url);
     const headers = {
       CLIENTID: environment.clientId,
     };
@@ -65,7 +72,7 @@ export class RequestsPage implements OnInit {
     });
 
     loading.present();
-    this.reqS.postFormData(baseEndpoints.cbsRoutes, body).subscribe(
+    this.reqS.postFormData(serviceEndpoint.fetchData, body).subscribe(
       (res: any) => {
         console.log(res.data.ResponseObject.Requests);
         if (res.data.ResponseObject.Requests.length > 0) {
