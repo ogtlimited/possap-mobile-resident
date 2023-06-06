@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
   ) {
     // Add or remove the "dark" class based on if the media query matches
     this.initializeApp();
+    this.getStateLGA();
   }
 
   toggleDarkTheme(shouldAdd) {
@@ -59,9 +60,17 @@ export class AppComponent implements OnInit {
     Storage.set({ key: 'themeMode', value: mode });
     document.body.classList.toggle('dark', !shouldAdd);
   }
+  getStateLGA() {
+    this.globalS.getState().subscribe((states) => {
+      console.log(states);
+      this.globalS.statesLgas$.next(states.data);
+      Storage.set({ key: 'states', value: JSON.stringify(states.data) });
+    });
+  }
 
   async ngOnInit() {
     this.authService.currentUser$.subscribe((e) => {
+      console.log(e);
       if (!e) {
         this.user = null;
       } else {
@@ -71,6 +80,7 @@ export class AppComponent implements OnInit {
     this.authService.currentUser().subscribe((e) => {
       // console.log(JSON.parse(e.value));
       if (e.value !== 'undefined') {
+        console.log(e);
         this.user = JSON.parse(e.value);
       }
     });

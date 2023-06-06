@@ -1,6 +1,6 @@
 <app-header [showBack]="true" [title]="title"></app-header>
 
 <ion-content>
-  <app-form *ngIf="showForm" [jsonFormData]="jsonFormData" (emitForm)="submitForm($event)"></app-form>
-  <app-form-preview [jsonFormData]="jsonFormData" [data]="formData" [owner]="owner" [service]="serviceId" [serviceCharge]="serviceCharge" *ngIf="!showForm"></app-form-preview>
+  <app-form [serviceId]="serviceId" *ngIf="showForm" [jsonFormData]="jsonFormData" (emitForm)="submitForm($event)"></app-form>
+  <app-form-preview [jsonFormData]="jsonFormData" [invoiceDetails]="invoiceDetails" [serviceName]="serviceName" [data]="formData" [owner]="owner" [service]="serviceId" [serviceCharge]="serviceCharge" *ngIf="!showForm"></app-form-preview>
 </ion-content>

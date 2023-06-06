@@ -250,13 +250,8 @@
                 "validators": {
                     "required": true
                 },
-                "showIf": {
-                    "value": "RequestType",
-                    "equals": "International"
-                },
-                "config": {
-                    "multiple": false
-                },
+
+
                 "config": {
                     "multiple": false
                 },
@@ -394,7 +389,7 @@
                 "placeholder": "Select state for the police command",
                 "type": "select",
                 "api": {
-                    "path": "state-area-division",
+                    "path": "state-scid",
                     "body": {
                         "key": "state",
                         "value": "SelectedState"

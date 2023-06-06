@@ -1,8 +1,10 @@
 import { LoadingController, ModalController } from '@ionic/angular';
 import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RequestService } from 'src/app/core/request/request.service';
-import { baseEndpoints } from 'src/app/core/config/endpoints';
+import { baseEndpoints, serviceEndpoint } from 'src/app/core/config/endpoints';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { GlobalService } from 'src/app/core/services/global/global.service';
 
 @Component({
   selector: 'app-search',
@@ -15,16 +17,25 @@ export class SearchComponent implements AfterViewChecked {
   request: any;
   hasData: boolean;
   approvers: any;
+  user: any;
+  routeSub: any;
+  statusLog: any;
   constructor(
     private modal: ModalController,
     private reqS: RequestService,
+    private authS: AuthService,
+    private globalS: GlobalService,
     private loader: LoadingController,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngAfterViewChecked() {
-    console.log(this.inputToFocus);
+    // console.log(this.inputToFocus);
     this.inputToFocus.setFocus();
+    const sub = this.authS.currentUser$.subscribe(
+      (value) => (this.user = value)
+    );
+    sub.unsubscribe();
   }
 
   dismiss() {
@@ -32,6 +43,18 @@ export class SearchComponent implements AfterViewChecked {
   }
 
   async fetchData() {
+    const body = this.globalS.computeCBSBody(
+      'get',
+      baseEndpoints.singleRequests +
+        '/' +
+        this.file.trim() +
+        '/' +
+        this.user.TaxEntityID,
+      {},
+      '',
+      '',
+      null
+    );
     const loading = await this.loader.create({
       message: 'Loading...',
       duration: 3000,
@@ -39,19 +62,20 @@ export class SearchComponent implements AfterViewChecked {
     });
 
     loading.present();
-
     this.reqS
-      .get(baseEndpoints.requests + '/' + this.file.trim())
+      .postFormData(serviceEndpoint.fetchData, body)
       .subscribe((res: any) => {
         console.log('testt', res.data);
-        this.request = res.data;
-        this.hasData = true;
         loading.dismiss();
-        this.approvers = res.data.service.workflow[0].WorkFlowApprovalLevel;
+        this.request = res.data.ResponseObject;
+        this.approvers = res.data?.service?.workflow[0]?.WorkFlowApprovalLevel;
+        this.statusLog = res.data.ResponseObject.RequestStatusLog.reverse();
+        console.log(this.statusLog);
         // this.approvalWorkflow = [
         //   ...res.data.service.approvalWorkFlow,
         //   'Completed',
         // ];
       });
   }
+  openCapacitorSite(url) {}
 }

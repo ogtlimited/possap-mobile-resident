@@ -1,6 +1,6 @@
 {
-  "name": "Possap",
-  "short_name": "Possap",
+  "name": "POSSAP Mobile",
+  "short_name": "POSSAP Mobile",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [

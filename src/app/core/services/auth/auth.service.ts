@@ -37,7 +37,7 @@ export class AuthService {
     this.headers.set('Access-Control-Allow-Origin', '*');
     this.loadToken();
     this.currentUser().subscribe((e) => {
-      console.log(e);
+      // console.log(e);
       if (e.value !== 'undefined') {
         this.currentUser$.next(JSON.parse(e.value));
       }
@@ -61,7 +61,7 @@ export class AuthService {
   login(credentials: any): Observable<any> {
     return this.reqS.post(authEndpoints.login, credentials).pipe(
       switchMap((res: any) => {
-        console.log(res);
+        // console.log(res);
         this.currentUser$.next(res.ResponseObject);
         from(
           Storage.set({

@@ -19,6 +19,6 @@ import { GeneralFormPage } from './general-form.page';
     GeneralFormPageRoutingModule,
     SharedModule
   ],
-  declarations: [GeneralFormPage, TermAndConditionsComponent, FormPreviewComponent]
+  declarations: [GeneralFormPage, TermAndConditionsComponent]
 })
 export class GeneralFormPageModule {}

@@ -8,8 +8,11 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <ion-item (click)="selectItem(i.value)" *ngFor="let i of list">
-    <ion-label>{{i.label}}</ion-label>
-    <ion-checkbox [value]="i.value" slot="end"></ion-checkbox>
-  </ion-item>
+  <ion-radio-group mode="md" value="control.value">
+    <ion-item (click)="selectItem(i)" *ngFor="let i of list">
+      <ion-label class="text-nowrap">{{i.label | titlecase}}</ion-label>
+      <ion-radio [value]="i.value" slot="end"></ion-radio>
+    </ion-item>
+
+  </ion-radio-group>
 </ion-content>

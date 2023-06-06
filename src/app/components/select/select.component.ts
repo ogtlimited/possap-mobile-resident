@@ -10,6 +10,7 @@ import { baseEndpoints } from 'src/app/core/config/endpoints';
 })
 export class SelectComponent implements OnInit {
   @Input() control;
+  @Input() serviceId;
   @Input() myForm;
   @Input() jsonFormData;
   list: any = [];
@@ -21,7 +22,6 @@ export class SelectComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.control, this.jsonFormData);
     const obj = {};
     this.fetchData();
   }
@@ -33,22 +33,19 @@ export class SelectComponent implements OnInit {
       const field = this.jsonFormData?.controls.filter(
         (e) => e.name === this.control.name
       )[0];
-      console.log(this.control.name, field);
 
       const res: any = await this.reqS
         .post(baseEndpoints.helper + '/' + field?.api?.path, {
           [field?.api?.body?.key]:
             this.myForm?.value[field?.api?.body?.value] || '',
+            serviceId: this.serviceId
         })
         .toPromise();
       loading.dismiss();
-      console.log(field.name);
-      console.log(this.control);
       this.list = res.data;
       // this.list = res.data.map((s) => ({ key: s, value: s }));
       this.loader.dismiss();
       // this.jsonFormData.controls = newControl;
-      console.log(res.data, this.list);
       // return data;
     } catch (error) {
       this.loader.dismiss();

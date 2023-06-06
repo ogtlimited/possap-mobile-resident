@@ -31,70 +31,83 @@ export class RequestsPage implements OnInit {
     private globalS: GlobalService
   ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     console.log('entered');
   }
 
   async ionViewWillEnter() {
-    const sub = this.authS.currentUser$.subscribe(
-      (value) => (this.user = value)
-    );
-    sub.unsubscribe();
-    const taxId = this.user.TaxEntityID;
-
-    const queryParams = {
-      startDate: new Date(new Date().getFullYear(), 0, 1).toLocaleDateString('en-gb'),
-      endDate: new Date(new Date()).toLocaleDateString('en-gb'),
-    };
-    console.log(queryParams);
-    console.log(new URLSearchParams(queryParams).toString());
-    const url = this.globalS.getUrlString(
-      baseEndpoints.requests + '/' + taxId,
-      queryParams
-    );
-    console.log(url);
-    const headers = {
-      CLIENTID: environment.clientId,
-    };
-    const body = this.globalS.computeCBSBody(
-      'get',
-      url,
-      headers,
-      'SIGNATURE',
-      taxId.toString(),
-      null
-    );
-
-    const loading = await this.loader.create({
-      message: 'Loading...',
-      duration: 3000,
-      cssClass: 'custom-loading',
+    const sub = this.authS.currentUser$.subscribe((value) => {
+      console.log(value);
+      this.user = value;
     });
+    sub.unsubscribe();
+    if (this.user) {
+      const taxId = this.user.TaxEntityID;
+      const queryParams = {
+        startDate: new Date(new Date().getFullYear(), 0, 1).toLocaleDateString(
+          'en-gb'
+        ),
+        endDate: new Date(new Date()).toLocaleDateString('en-gb'),
+      };
+      console.log(queryParams);
+      console.log(new URLSearchParams(queryParams).toString());
+      const urll =
+        baseEndpoints.requests +
+        '/' +
+        taxId +
+        '/' +
+        new URLSearchParams(queryParams).toString();
+      const url =
+        'https://test.possap.ng/api/v1/pss/user-request-list/all/107?startDate=01/01/2023&endDate=01/06/2023';
+      console.log(decodeURI(urll));
+      const headers = {
+        CLIENTID: environment.clientId,
+      };
+      const body = this.globalS.computeCBSBody(
+        'get',
+        decodeURI(url),
+        headers,
+        'SIGNATURE',
+        taxId.toString(),
+        null
+      );
 
-    loading.present();
-    this.reqS.postFormData(serviceEndpoint.fetchData, body).subscribe(
-      (res: any) => {
-        console.log(res.data.ResponseObject.Requests);
-        if (res.data.ResponseObject.Requests.length > 0) {
-          this.request = res.data.ResponseObject.Requests.map((e) => ({
-            ...e,
-            bg: this.getRandomColor(),
-          }));
-        } else {
+      const loading = await this.loader.create({
+        message: 'Loading...',
+        duration: 3000,
+        cssClass: 'custom-loading',
+      });
+
+      loading.present();
+      this.reqS.postFormData(serviceEndpoint.fetchData, body).subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.data.ResponseObject.Requests.length > 0) {
+            this.request = res.data.ResponseObject.Requests.map((e) => ({
+              ...e,
+              bg: this.getRandomColor(),
+            }));
+          } else {
+          }
+          this.loader.dismiss();
+        },
+        async (err) => {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'Failed to connect to server',
+            buttons: ['OK'],
+          });
+          await alert.present();
+          console.log(err);
         }
-        this.loader.dismiss();
-      },
-      async (err) => {
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'Failed to connect to server',
-          buttons: ['OK'],
-        });
-
-        await alert.present();
-        console.log(err);
-      }
-    );
+      );
+    } else {
+      this.presentAlert(
+        'You have to signup / login to proceed',
+        'Login / Signup',
+        'login'
+      );
+    }
   }
   getRandomColor() {
     let color = '#'; // <-----------
@@ -110,4 +123,32 @@ export class RequestsPage implements OnInit {
   favorite() {}
   share() {}
   unread() {}
+
+  async presentAlert(msg, okText, navigate) {
+    const alert = await this.alertController.create({
+      header: 'Alert !!',
+      message: msg,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.alertController.dismiss().then((v) => {
+              this.router.navigate(['app/tabs/home']);
+            });
+          },
+        },
+        {
+          text: okText,
+          role: 'confirm',
+          handler: () => {
+            this.alertController.dismiss();
+            this.router.navigate([navigate]);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
 }

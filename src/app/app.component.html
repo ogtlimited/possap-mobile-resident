@@ -10,12 +10,12 @@
                 <img src="assets/img/speakers/rabbit.jpg" alt="" srcset="" />
               </div>
               <ion-label>
-                <h3>{{ user?.fullName || "Anonymous" }}</h3>
+                <h3>{{ user?.Name || "Anonymous" }}</h3>
                 <p>
-                  <ion-text>{{ user?.email || "" }}</ion-text>
+                  <ion-text>{{ user?.Email || "" }}</ion-text>
                 </p>
                 <p>
-                  <ion-text>{{ user?.phone }}</ion-text>
+                  <ion-text>{{ user?.PhoneNumber }}</ion-text>
                 </p>
               </ion-label>
             </div>
@@ -129,11 +129,15 @@
           </ion-item>
         </ion-list>
 
-        <ion-list *ngIf="user" lines="none">
+        <ion-list lines="none">
           <ion-menu-toggle autoHide="false">
-            <ion-item class="item" button (click)="logout()" detail="false">
-              <ion-icon slot="start" name="log-out-f"></ion-icon>
-              <ion-label>Log out</ion-label>
+            <ion-item *ngIf="user" class="item" button lines="none" (click)="logout()" routerDirection="root">
+              <ion-icon name="log-out-f" slot="start"></ion-icon>
+              Logout
+            </ion-item>
+            <ion-item *ngIf="!user" class="item" button lines="none" (click)="logout()" routerDirection="root">
+              <ion-icon name="log-in-f" slot="start"></ion-icon>
+              Login
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Possap Resident</string>
-    <string name="title_activity_main">Possap Resident</string>
-    <string name="package_name">io.possapresident.com</string>
-    <string name="custom_url_scheme">io.possapresident.com</string>
+    <string name="app_name">POSSAP Mobile</string>
+    <string name="title_activity_main">POSSAP Mobile</string>
+    <string name="package_name">io.possapmobile.com</string>
+    <string name="custom_url_scheme">io.possapmobile.com</string>
 </resources>

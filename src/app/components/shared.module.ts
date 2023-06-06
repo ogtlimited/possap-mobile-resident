@@ -13,6 +13,8 @@ import { FormComponent } from './dynamic-form/form/form.component';
 import { HeaderComponent } from './header/header.component';
 import { SelectComponent } from './select/select.component';
 import { NextApprovalLevelPipe } from '../core/pipes/next-approval-level.pipe';
+import { RequestDetailsReusableComponent } from './request-details-reusable/request-details-reusable.component';
+import { FormPreviewComponent } from '../pages/general-form/form-preview/form-preview.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { NextApprovalLevelPipe } from '../core/pipes/next-approval-level.pipe';
     AbbrevPipe,
     NextApprovalLevelPipe,
     CmrFormComponent,
-    SearchComponent
+    SearchComponent,
+    RequestDetailsReusableComponent,
+    FormPreviewComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
   exports: [
@@ -36,7 +40,9 @@ import { NextApprovalLevelPipe } from '../core/pipes/next-approval-level.pipe';
     AbbrevPipe,
     CmrFormComponent,
     NextApprovalLevelPipe,
-    SearchComponent
+    SearchComponent,
+    RequestDetailsReusableComponent,
+    FormPreviewComponent
   ],
 })
 export class SharedModule {}

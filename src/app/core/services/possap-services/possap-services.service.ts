@@ -112,7 +112,7 @@ export class PossapServicesService {
     console.log(body, 'PURRE');
     const headerObj = {
       CLIENTID: environment.clientId,
-      CBSUSERID: 2,
+      CBSUSERID: this.user.CBSUserId,
       PAYERID: this.user.PayerId,
     };
     const hashString = `${headerObj.PAYERID}${headerObj.CLIENTID}`;

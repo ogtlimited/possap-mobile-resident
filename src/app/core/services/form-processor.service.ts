@@ -13,7 +13,7 @@ export class FormProcessorService {
 
   formProcessor(obj) {
     const { formSchema, name } = obj;
-    console.log(formSchema, name);
+    // console.log(formSchema, name);
     const endpoint = this.getEndpoint(name);
 
     this.reqS.get(endpoint).subscribe((data) => {
@@ -26,11 +26,11 @@ export class FormProcessorService {
   }
 
   async pccFormSchema(data, formSchema) {
-    console.log(data);
+    // console.log(data);
     const { ResponseObject } = data;
     const { CharacterCertificateReasonsForInquiry, Countries, RequestTypes } =
       ResponseObject;
-    console.log(CharacterCertificateReasonsForInquiry);
+    // console.log(CharacterCertificateReasonsForInquiry);
     // console.log(ExtractCategories.slice(0, 2));
     const transform = formSchema.map((e: any) => {
       if (e.name === 'CharacterCertificateReasonForInquiry') {
@@ -69,15 +69,14 @@ export class FormProcessorService {
       }
       return e;
     });
-    console.log(transform);
+    // console.log(transform);
     this.formObject$.next(transform);
   }
   async pEFormSchema(data, formSchema) {
-    console.log(data);
+
     const { ResponseObject } = data;
     const { ExtractCategories } = ResponseObject;
-    console.log(ExtractCategories);
-    // console.log(ExtractCategories.slice(0, 2));
+
     const subCategories = ExtractCategories.map((sub) =>
       this.formatExtractOptions(sub)
     );
@@ -90,7 +89,7 @@ export class FormProcessorService {
             value: c.Name,
           })),
         };
-        console.log(item, 'selected cat');
+        // console.log(item, 'selected cat');
         return item;
       }
       return e;
@@ -100,7 +99,7 @@ export class FormProcessorService {
   }
 
   formatExtractOptions(obj) {
-    console.log(obj);
+    // console.log(obj);
     if (obj.FreeForm) {
       return {
         name: obj.Id.toString(),
@@ -137,7 +136,7 @@ export class FormProcessorService {
   }
 
   mapSelectOptions(arr) {
-    console.log(arr);
+    // console.log(arr);
     return arr.map((s) => ({
       key: s.Id.toString(),
       value: s.Name,

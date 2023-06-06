@@ -1,9 +1,12 @@
 import { environment } from './../../../environments/environment.prod';
 /* eslint-disable @typescript-eslint/naming-convention */
-// export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
-export const serverBaseUrl = 'http://localhost:3000/api/v1';
+export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
+// export const serverBaseUrl = 'http://localhost:3000/api/v1';
 //  export const CBSBaseUrl = 'http://pss.cbs/api/v1/pss';
-export const CBSBaseUrl = 'https://test.possap.ng/api/v1/pss';
+export const CBSDomainUrl = 'https://test.possap.ng';
+export const DownloadUrl = CBSDomainUrl + '/Admin/Police/Request/Details';
+
+export const CBSBaseUrl = CBSDomainUrl + '/api/v1/pss';
 
 export const GoogleMapUrl =
   'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=';
@@ -41,6 +44,8 @@ export const authEndpoints = {
 export const utilityEndpoint = {
   services: baseEndpoints.utility + '/get-services',
   countries: baseEndpoints.utility + '/get-countries',
+  paymentRef: baseEndpoints.utility + '/get-payment-reference',
+  paymentNotify: baseEndpoints.utility + '/payment-notify',
 };
 export const serviceEndpoint = {
   saveExtract: baseEndpoints.cbsRoutes + '/extract',
