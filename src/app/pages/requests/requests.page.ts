@@ -9,6 +9,10 @@ import { ConferenceData } from '../../providers/conference-data';
 import { baseEndpoints, serviceEndpoint } from './../../core/config/endpoints';
 import { RequestService } from './../../core/request/request.service';
 import { environment } from 'src/environments/environment.prod';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common';
+import { PossapServicesService } from 'src/app/core/services/possap-services/possap-services.service';
+import { ServiceResponse } from 'src/app/core/models/ResponseModel';
 
 @Component({
   selector: 'app-requests',
@@ -17,9 +21,20 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class RequestsPage implements OnInit {
   speakers: any[] = [];
+  activeServices = [
+    'police character certificate',
+    'police character certificate diaspora',
+    'police extract',
+  ];
   letters = '0123456789ABCDEF';
   request = [];
   user;
+  isModalOpen = false;
+  filterForm: FormGroup;
+  today = new Date();
+  selectedFilter: any;
+  searchText = '';
+  services = [];
   constructor(
     public confData: ConferenceData,
     private router: Router,
@@ -28,14 +43,42 @@ export class RequestsPage implements OnInit {
     private alertController: AlertController,
     private reqS: RequestService,
     private authS: AuthService,
-    private globalS: GlobalService
-  ) {}
+    private globalS: GlobalService,
+    private possapS: PossapServicesService,
+    private fb: FormBuilder
+  ) {
+    this.filterForm = this.fb.group({
+      startDate: [
+        formatDate(
+          new Date(new Date().setDate(this.today.getDate() - 90)),
+          'yyyy-MM-dd',
+          'en'
+        ),
+        [Validators.required],
+      ],
+      endDate: [
+        formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+        [Validators.required],
+      ],
+      serviceType: ['', []],
+    });
+  }
 
   ngOnInit() {
     console.log('entered');
+    this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
+      console.log(s);
+      this.services = s.ResponseObject.services.filter((v) => this.activeServices.includes(v.Name.toLowerCase()));
+      console.log(this.services);
+    });
   }
 
   async ionViewWillEnter() {
+    const queryParams = this.globalS.startEnd();
+    this.loadRequest(queryParams);
+  }
+
+  async loadRequest(queryParams){
     const sub = this.authS.currentUser$.subscribe((value) => {
       console.log(value);
       this.user = value;
@@ -43,35 +86,22 @@ export class RequestsPage implements OnInit {
     sub.unsubscribe();
     if (this.user) {
       const taxId = this.user.TaxEntityID;
-      const queryParams = {
-        startDate: new Date(new Date().getFullYear(), 0, 1).toLocaleDateString(
-          'en-gb'
-        ),
-        endDate: new Date(new Date()).toLocaleDateString('en-gb'),
-      };
-      console.log(queryParams);
-      console.log(new URLSearchParams(queryParams).toString());
-      const urll =
-        baseEndpoints.requests +
-        '/' +
-        taxId +
-        '/' +
-        new URLSearchParams(queryParams).toString();
-      const url =
-        'https://test.possap.ng/api/v1/pss/user-request-list/all/107?startDate=01/01/2023&endDate=01/06/2023';
-      console.log(decodeURI(urll));
+      console.log(queryParams, taxId);
+      const url = this.globalS.getUrlString(
+        baseEndpoints.requests + '/' + taxId,
+        queryParams
+      );
       const headers = {
         CLIENTID: environment.clientId,
       };
       const body = this.globalS.computeCBSBody(
         'get',
-        decodeURI(url),
+        url,
         headers,
         'SIGNATURE',
         taxId.toString(),
         null
       );
-
       const loading = await this.loader.create({
         message: 'Loading...',
         duration: 3000,
@@ -116,9 +146,11 @@ export class RequestsPage implements OnInit {
     }
     return color;
   }
-  gotoDetail(id): void {
-    console.log(id);
-    this.router.navigate(['./details', id], { relativeTo: this.route });
+  gotoDetail(id, item): void {
+    console.log(id, item);
+    this.router.navigate(['./details', id], {
+      queryParams: {item: JSON.stringify(item)},
+      relativeTo: this.route });
   }
   favorite() {}
   share() {}
@@ -151,4 +183,26 @@ export class RequestsPage implements OnInit {
 
     await alert.present();
   }
+
+  submitFilter() {
+    const { value } = this.filterForm;
+    value.startDate = new Date(value.startDate).toLocaleDateString('en-GB');
+    value.endDate = new Date(value.endDate).toLocaleDateString('en-GB');
+    const query = Object.keys(value)
+      .filter((key) => value[key] !== '')
+      .reduce((cur, key) => Object.assign(cur, { [key]: value[key] }), {});
+    console.log(query);
+    this.loadRequest(query);
+    this.toggleFilterModal();
+  }
+  toggleFilterModal() {
+    this.isModalOpen = !this.isModalOpen;
+    // this.inlineModal.dismiss();
+  }
+  clearFilter() {
+    this.selectedFilter = null;
+    // this.filteredData = this.data;
+  }
+
+
 }

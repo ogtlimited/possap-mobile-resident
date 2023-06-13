@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
   CBSDomainUrl,
   serviceEndpoint,
@@ -29,7 +29,8 @@ export class InvoicePage implements OnInit {
     private route: ActivatedRoute,
     private globalS: GlobalService,
     private authS: AuthService,
-    private reqS: RequestService
+    private reqS: RequestService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -54,6 +55,7 @@ export class InvoicePage implements OnInit {
     this.isSuccess = true;
     this.paymentResponse = this.amount;
     this.fetchData(this.owner.CBSUserId, this.details.InvoiceId);
+    this.cdRef.detectChanges();
     // setTimeout(() => {
     //   const path = CBSDomainUrl + '/p/notify/' + this.reference;
     //   window.open(path, '_blank');

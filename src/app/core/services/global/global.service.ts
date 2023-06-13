@@ -133,4 +133,15 @@ export class GlobalService {
     const response3 = this.reqS.get(utilityEndpoint.countries);
     return forkJoin([response1, response3]);
   }
+  startEnd() {
+    const today = new Date();
+    const startDate = new Date(new Date().setDate(today.getDate() - 90)).toLocaleDateString(
+      'en-GB'
+      );
+    const endDate = new Date().toLocaleDateString('en-GB');
+    return {
+      startDate,
+      endDate,
+    };
+  }
 }

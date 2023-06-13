@@ -51,9 +51,9 @@ export class ServicesPage implements OnInit {
 
     loading.present();
     this.possapS.fetchServices().subscribe((schema: any) => {
-      // console.log(schema);
+      console.log(schema);
       this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
-        // console.log(s);
+        console.log(s);
         loading.dismiss();
         this.services = s.ResponseObject.services.filter((v) => this.activeServices.includes(v.Name.toLowerCase()));
         console.log(this.services);
