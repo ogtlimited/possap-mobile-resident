@@ -15,6 +15,7 @@ export const baseEndpoints = {
   cbsRoutes: serverBaseUrl + '/cbs-routes',
   user: serverBaseUrl + '/users',
   upload: serverBaseUrl + '/upload',
+  download: serverBaseUrl + '/helper/download',
   cbsUpload: serverBaseUrl + '/cbs-routes/upload',
   nin: serverBaseUrl + '/helper/verifyNIN',
   eag: serverBaseUrl + '/eag',

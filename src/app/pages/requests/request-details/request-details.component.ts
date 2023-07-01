@@ -11,7 +11,10 @@ import {
 } from '../../../core/config/endpoints';
 import { RequestService } from '../../../core/request/request.service';
 import { Browser } from '@capacitor/browser';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { PossapServicesService } from 'src/app/core/services/possap-services/possap-services.service';
+
 @Component({
   selector: 'app-request-details',
   templateUrl: './request-details.component.html',
@@ -29,9 +32,11 @@ export class RequestDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     public confData: ConferenceData,
     private reqS: RequestService,
+    private possapS: PossapServicesService,
     private authS: AuthService,
     private globalS: GlobalService,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -87,29 +92,61 @@ export class RequestDetailsComponent implements OnInit {
   }
 
   async downloadFile(path, fileName) {
+    // const url =
+    //   'https://file-examples.com/storage/fefb234bc0648a3e7a1a47d/2017/10/file-sample_150kB.pdf';
     const url = DownloadUrl + '/' + path;
     console.log(url);
     const loading = await this.loadingController.create();
     await loading.present();
-    fetch(url, {
-      method: 'get',
-      mode: 'no-cors',
-      referrerPolicy: 'no-referrer',
-    })
-      .then((res) => res.blob())
-      .then((res) => {
-        const aElement = document.createElement('a');
-        aElement.setAttribute('download', fileName);
-        const href = URL.createObjectURL(res);
-        aElement.href = href;
-        // aElement.setAttribute('href', href);
-        aElement.setAttribute('target', '_blank');
-        aElement.click();
-        URL.revokeObjectURL(href);
+    const obj = {
+      url,
+    };
+    this.possapS.downloadApprovedRequest(obj).subscribe(
+      async (res) => {
+        console.log(res.data);
+        //const val = this.base64ToPdf(res.data, fileName);
+        await Filesystem.writeFile({
+          path: fileName + '.pdf',
+          data: res.data,
+          directory: Directory.Documents,
+        });
+        this.showSuccess('Successfully download file', fileName + '.pdf');
         loading.dismiss();
-      })
-      .catch((err) => {
+      },
+      (err) => {
+        console.log(err);
+        this.showSuccess('Error downloading file', err.message);
         loading.dismiss();
-      });
+      }
+    );
+  }
+
+  base64ToPdf(base64String, filename) {
+    const byteCharacters = atob(base64String);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    console.log(url);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+
+    URL.revokeObjectURL(url);
+    return url;
+  }
+
+  async showSuccess(res, msg) {
+    const alert = await this.alertController.create({
+      header: msg,
+      message: res,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 }

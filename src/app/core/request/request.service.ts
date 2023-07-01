@@ -1,7 +1,7 @@
 import { from, of } from 'rxjs';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,14 +15,15 @@ export class RequestService {
    *
    * @param endpoint - Full path.
    */
-  get<T>(endpoint: string, options ={}): Observable<any> {
-
+  get<T>(endpoint: string, options = {}): Observable<any> {
     return this.http.get<T>(endpoint, {
-      headers: options
+      headers: options,
     });
-
-
-
+  }
+  downloadBlob(endpoint: string): Observable<any> {
+    return this.http.get(endpoint, {
+      responseType: 'blob',
+    });
   }
 
   /**

@@ -34,6 +34,9 @@ export class PossapServicesService {
   fetchCBSServices() {
     return this.reqS.get(utilityEndpoint.services);
   }
+  downloadApprovedRequest(body) {
+    return this.reqS.post(baseEndpoints.download, body);
+  }
   postRequest(body) {
     return this.reqS.post(baseEndpoints.requests, body);
   }
