@@ -15,6 +15,8 @@ import { SelectComponent } from './select/select.component';
 import { NextApprovalLevelPipe } from '../core/pipes/next-approval-level.pipe';
 import { RequestDetailsReusableComponent } from './request-details-reusable/request-details-reusable.component';
 import { FormPreviewComponent } from '../pages/general-form/form-preview/form-preview.component';
+import { TermAndConditionsComponent } from './term-and-conditions/term-and-conditions.component';
+import { EgsFormComponent } from './dynamic-form/egs-form/egs-form.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { FormPreviewComponent } from '../pages/general-form/form-preview/form-pr
     CmrFormComponent,
     SearchComponent,
     RequestDetailsReusableComponent,
-    FormPreviewComponent
+    FormPreviewComponent,
+    TermAndConditionsComponent,
+    EgsFormComponent,
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
   exports: [
@@ -42,7 +46,9 @@ import { FormPreviewComponent } from '../pages/general-form/form-preview/form-pr
     NextApprovalLevelPipe,
     SearchComponent,
     RequestDetailsReusableComponent,
-    FormPreviewComponent
+    FormPreviewComponent,
+    TermAndConditionsComponent,
+    EgsFormComponent
   ],
 })
 export class SharedModule {}

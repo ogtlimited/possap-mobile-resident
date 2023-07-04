@@ -1,8 +1,9 @@
 import { environment } from './../../../environments/environment.prod';
 /* eslint-disable @typescript-eslint/naming-convention */
-export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
-// export const serverBaseUrl = 'http://localhost:3000/api/v1';
+// export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
+ export const serverBaseUrl = 'http://localhost:3000/api/v1';
 //  export const CBSBaseUrl = 'http://pss.cbs/api/v1/pss';
+// export const CBSDomainUrl = 'https://test.possap.ng';
 export const CBSDomainUrl = 'https://test.possap.ng';
 export const DownloadUrl = CBSDomainUrl + '/Admin/Police/Request/Details';
 
@@ -44,6 +45,7 @@ export const authEndpoints = {
 
 export const utilityEndpoint = {
   services: baseEndpoints.utility + '/get-services',
+  stateLga: baseEndpoints.utility + '/get-states-lgas',
   countries: baseEndpoints.utility + '/get-countries',
   paymentRef: baseEndpoints.utility + '/get-payment-reference',
   paymentNotify: baseEndpoints.utility + '/payment-notify',
@@ -53,6 +55,13 @@ export const serviceEndpoint = {
   savePCC: baseEndpoints.cbsRoutes + '/pcc',
   fetchData: baseEndpoints.cbsRoutes + '/fetch-data',
 
+};
+export const egsEndpoint = {
+  getTacticalSquad: CBSBaseUrl + '/pssescort/tactical-squads',
+  getNextLevelCommand: CBSBaseUrl + '/pssescort/next-level-commands',
+  getFromData: CBSBaseUrl + '/pssescort/get-form-data',
+  getPSSSubCategories: CBSDomainUrl + '/p/x/get-pss-sub-categories',
+  getPSSSubSubCategories: CBSDomainUrl + '/p/x/get-pss-sub-Sub-categories',
 };
 export const miscEndpoint = {
   mediaUpload: baseEndpoints.helper + '/uploadMedia',

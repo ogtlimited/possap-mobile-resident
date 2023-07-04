@@ -17,6 +17,7 @@ export class ServicesPage implements OnInit {
     'police character certificate',
     'police character certificate diaspora',
     'police extract',
+    'escort and guard services',
   ];
   icons = ['pcc', 'pe', 'pccd'];
   infoServices = [
@@ -55,7 +56,9 @@ export class ServicesPage implements OnInit {
       this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
         console.log(s);
         loading.dismiss();
-        this.services = s.ResponseObject.services.filter((v) => this.activeServices.includes(v.Name.toLowerCase()));
+        this.services = s.ResponseObject.services.filter((v) =>
+          this.activeServices.includes(v.Name.toLowerCase())
+        );
         console.log(this.services);
         this.possapS.mapSchemaToCBSID(schema, this.services);
       });
@@ -63,9 +66,15 @@ export class ServicesPage implements OnInit {
   }
 
   navigate(path, title, type = '') {
-    console.log(path);
-    this.router.navigate(['/general-form'], {
-      queryParams: { service: path, title, type },
-    });
+    console.log(path, title);
+    if (title.includes('ESCORT')) {
+      this.router.navigate(['/egs'], {
+        queryParams: { service: path, title, type },
+      });
+    } else {
+      this.router.navigate(['/general-form'], {
+        queryParams: { service: path, title, type },
+      });
+    }
   }
 }

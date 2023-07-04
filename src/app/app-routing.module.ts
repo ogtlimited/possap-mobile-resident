@@ -99,6 +99,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/invoice/invoice.module').then((m) => m.InvoicePageModule),
   },
+  {
+    path: 'egs',
+    canLoad: [AuthGuard],
+    loadChildren: () => import('./pages/egs/egs.module').then( m => m.EgsPageModule)
+  },
   // {
   //   path: 'search/:id',
   //   loadChildren: () =>

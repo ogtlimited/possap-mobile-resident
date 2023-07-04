@@ -1,7 +1,7 @@
 import { GlobalService } from 'src/app/core/services/global/global.service';
 import { baseEndpoints, serviceEndpoint } from './../../core/config/endpoints';
 /* eslint-disable @typescript-eslint/naming-convention */
-import { TermAndConditionsComponent } from './term-and-conditions/term-and-conditions.component';
+import { TermAndConditionsComponent } from '../../components/term-and-conditions/term-and-conditions.component';
 import {
   AlertController,
   LoadingController,

@@ -1,5 +1,4 @@
 import { FormPreviewComponent } from './form-preview/form-preview.component';
-import { TermAndConditionsComponent } from './term-and-conditions/term-and-conditions.component';
 import { SharedModule } from './../../components/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -19,6 +18,6 @@ import { GeneralFormPage } from './general-form.page';
     GeneralFormPageRoutingModule,
     SharedModule
   ],
-  declarations: [GeneralFormPage, TermAndConditionsComponent]
+  declarations: [GeneralFormPage]
 })
 export class GeneralFormPageModule {}

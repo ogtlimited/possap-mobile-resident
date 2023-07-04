@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment.prod';
 import { Subscription } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
+import { EgsService } from '../egs/egs.service';
 
 const SERVICES = 'CBS-SERVICES';
 @Injectable({
@@ -20,7 +21,8 @@ export class PossapServicesService {
   constructor(
     private reqS: RequestService,
     private globalS: GlobalService,
-    private authS: AuthService
+    private authS: AuthService,
+    private egs: EgsService,
   ) {
     this.subscription = this.authS.currentUser$.subscribe(
       (e) => (this.user = e)

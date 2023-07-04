@@ -126,6 +126,9 @@ export class GlobalService {
   fetchStorageObject(key): Observable<any> {
     return from(Storage.get({ key }));
   }
+  setStorageObject(key, val): Observable<any> {
+    return from(Storage.set({ key, value: JSON.stringify(val) }));
+  }
 
   fetchAllFormData() {
     const response1 = this.reqS.get(baseEndpoints.extractFormdata);
