@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/member-ordering */
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { baseEndpoints, egsEndpoint } from 'src/app/core/config/endpoints';
 import { IEGSFormData, IGeneric } from 'src/app/core/models/ResponseModel';
@@ -21,6 +22,7 @@ export class EgsPage implements OnInit {
   title = '';
   egsFormOne: FormGroup;
   egsFormThree: FormGroup;
+  estimateForm: FormGroup;
   subCategoriesOptions: any;
   subSubCategoriesOption: any;
   showSubSub = false;
@@ -28,12 +30,21 @@ export class EgsPage implements OnInit {
   user;
   subscription: Subscription;
   formData: IEGSFormData;
+  isModalOpen = false;
+  mainFormValue: any = {};
+  StateOptions: any;
+  LGAOptions: any;
+  estimatesResponse = null;
+  labelValues = {};
+  invoice: any;
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private egs: EgsService,
     private authS: AuthService,
-    private globalS: GlobalService
+    private globalS: GlobalService,
+    private loader: LoadingController,
+    private cdref: ChangeDetectorRef
   ) {
     this.subscription = this.authS.currentUser$.subscribe(
       (e) => (this.user = e)
@@ -48,6 +59,13 @@ export class EgsPage implements OnInit {
     });
     this.egsFormThree = this.fb.group({
       NumberOfOfficers: [0, [Validators.required, Validators.min(1)]],
+    });
+    this.estimateForm = this.fb.group({
+      stateId: [''],
+      lgaId: [''],
+      officerQty: [''],
+      startDate: [''],
+      endDate: [''],
     });
     this.egsFormOne.get('services').disable({});
     this.route.queryParams.subscribe((params) => {
@@ -71,22 +89,98 @@ export class EgsPage implements OnInit {
     this.subCategories.valueChanges.subscribe((val) => {
       if (val === 2) {
         this.showSubSub = true;
+        this.subSubCategories.setValidators([Validators.required]);
+        this.subSubCategories.updateValueAndValidity();
+      }else{
+        this.showSubSub = false;
+        this.subSubCategories.clearValidators();
+        this.subSubCategories.updateValueAndValidity();
       }
       console.log(val);
     });
     this.fetchFormData();
+    this.globalS.statesLgas$.subscribe((e) => {
+      this.StateOptions = e;
+    });
+    this.SelectedState.valueChanges.subscribe((state) => {
+      console.log(state);
+      this.LGAOptions = this.StateOptions.filter(
+        (val) => val.Id === state
+      )[0].LGAs;
+      console.log(this.LGAOptions);
+    });
   }
 
-  onSubmit() {
+  submitFormOne() {
     this.step = 'two';
-    console.log(this.egsFormOne.value);
+    this.mainFormValue = {
+      ...this.egsFormOne.value,
+      subSubCategories: this.showSubSub ? this.subSubCategories.value : 0
+    };
+    console.log(this.mainFormValue);
   }
-  submitForm(event){
-    console.log(event);
+  submitFormTwo(event) {
+    console.log(event, this.NumberOfOfficers);
+    const { values, labelValues } = event;
+    this.labelValues = labelValues;
+    this.estimateForm.patchValue({
+      stateId: values?.SelectedState,
+      lgaId: values.SelectedStateLGA,
+      endDate: this.formatDate(values?.EndDate),
+      startDate: this.formatDate(values?.StartDate),
+    });
+    this.mainFormValue = {
+      ...this.mainFormValue,
+      ...values,
+    };
     this.step = 'three';
   }
-  finalSubmit(){
-
+  async finalSubmit() {
+    const loading = await this.loader.create();
+    await loading.present();
+    this.mainFormValue = {
+      ...this.mainFormValue,
+      ...this.egsFormThree.value,
+      ServiceId: this.serviceId,
+      SubCategoryId: this.mainFormValue.subCategories,
+      SubSubCategoryId: this.mainFormValue.subSubCategories,
+      StartDate: new Date(this.mainFormValue.StartDate).toLocaleDateString(
+        'en-GB'
+      ),
+      EndDate: new Date(this.mainFormValue.EndDate).toLocaleDateString('en-GB'),
+    };
+    // this.mainFormValue = {
+    //   Address: 'address lol',
+    //   AddressOfOriginLocation: '',
+    //   EndDate: '15/07/2023',
+    //   NumberOfOfficers: 5,
+    //   Reason: '',
+    //   SelectedCommand: 0,
+    //   SelectedCommandType: 3,
+    //   SelectedEscortServiceCategories: '16,19',
+    //   SelectedOriginLGA: 0,
+    //   SelectedOriginState: 0,
+    //   SelectedState: 3,
+    //   SelectedStateLGA: 60,
+    //   SelectedTacticalSquad: 0,
+    //   ServiceId: '1',
+    //   StartDate: '12/07/2023',
+    //   SubCategoryId: 1,
+    //   SubSubCategoryId: 0,
+    // };
+    console.log(this.mainFormValue);
+    this.egs.submitConventionalEscort(this.mainFormValue, this.user).subscribe(
+      (e: IGeneric) => {
+        loading.dismiss();
+        this.invoice = e.data.ResponseObject;
+        this.step = 'four';
+        console.log(e);
+      },
+      (err) => {
+        console.log(err);
+        loading.dismiss();
+      }
+    );
   }
 
   fetchFormData() {
@@ -107,5 +201,46 @@ export class EgsPage implements OnInit {
   }
   get NumberOfOfficers() {
     return this.egsFormThree.get('NumberOfOfficers');
+  }
+  get NumberOfOfficersEstimate() {
+    return this.estimateForm.get('officerQty');
+  }
+  get SelectedStateLGA() {
+    return this.estimateForm.get('lgaId');
+  }
+  get SelectedState() {
+    return this.estimateForm.get('stateId');
+  }
+  async submitEstimate() {
+    const { value } = this.estimateForm;
+    const obj = {
+      ...value,
+      startDate: new Date(value.startDate).toLocaleDateString('en-GB'),
+      endDate: new Date(value.endDate).toLocaleDateString('en-GB'),
+      subSubTaxCategoryId: 0,
+    };
+    const loading = await this.loader.create();
+    await loading.present();
+    this.egs.getEstimates(obj).subscribe((e: IGeneric) => {
+      console.log(e.data.ResponseObject);
+      this.estimatesResponse = e.data.ResponseObject;
+      loading.dismiss();
+    });
+  }
+
+  toggleestimateModal() {
+    this.isModalOpen = !this.isModalOpen;
+    this.estimateForm.patchValue({
+      officerQty: this.NumberOfOfficers.value,
+    });
+  }
+
+  formatDate(date) {
+    const newDate = new Date(date);
+    console.log(newDate);
+    return newDate.toJSON().split('T')[0];
+  }
+  goToStep(step) {
+    this.step = step;
   }
 }

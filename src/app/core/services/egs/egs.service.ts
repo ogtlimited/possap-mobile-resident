@@ -40,8 +40,22 @@ export class EgsService {
     this.reqS
       .postFormData(serviceEndpoint.fetchData, subsubcat)
       .subscribe((e: IGeneric) =>
-        this.globalS.setStorageObject('EGSSUBSUBCATEGORY', e.data.ResponseObject)
+        this.globalS.setStorageObject(
+          'EGSSUBSUBCATEGORY',
+          e.data.ResponseObject
+        )
       );
+  }
+  getEstimates(obj) {
+    const body = this.globalS.computeCBSBody(
+      'post',
+      egsEndpoint.getEstimate,
+      {},
+      '',
+      '',
+      obj
+    );
+    return this.reqS.postFormData(serviceEndpoint.fetchData, body);
   }
   getFormData(user) {
     const headerObj = {
@@ -49,7 +63,7 @@ export class EgsService {
       PAYERID: user.PayerId,
     };
     const hashString = `${headerObj.PAYERID}${headerObj.CLIENTID}`;
-     const body = this.globalS.computeCBSBody(
+    const body = this.globalS.computeCBSBody(
       'get',
       egsEndpoint.getFromData,
       headerObj,
@@ -57,8 +71,7 @@ export class EgsService {
       hashString,
       null
     );
-    return this.reqS
-      .postFormData(serviceEndpoint.fetchData, body);
+    return this.reqS.postFormData(serviceEndpoint.fetchData, body);
   }
   getTacticalSquad(user, squadId) {
     const headerObj = {
@@ -66,7 +79,7 @@ export class EgsService {
       PAYERID: user.PayerId,
     };
     const hashString = `${squadId}${headerObj.PAYERID}${headerObj.CLIENTID}`;
-     const body = this.globalS.computeCBSBody(
+    const body = this.globalS.computeCBSBody(
       'get',
       egsEndpoint.getTacticalSquad + '/' + squadId,
       headerObj,
@@ -74,8 +87,7 @@ export class EgsService {
       hashString,
       null
     );
-    return this.reqS
-      .postFormData(serviceEndpoint.fetchData, body);
+    return this.reqS.postFormData(serviceEndpoint.fetchData, body);
   }
   getNextLevelCommand(user, commandId) {
     const headerObj = {
@@ -83,7 +95,7 @@ export class EgsService {
       PAYERID: user.PayerId,
     };
     const hashString = `${commandId}${headerObj.PAYERID}${headerObj.CLIENTID}`;
-     const body = this.globalS.computeCBSBody(
+    const body = this.globalS.computeCBSBody(
       'get',
       egsEndpoint.getNextLevelCommand + '/' + commandId,
       headerObj,
@@ -91,7 +103,40 @@ export class EgsService {
       hashString,
       null
     );
-    return this.reqS
-      .postFormData(serviceEndpoint.fetchData, body);
+    return this.reqS.postFormData(serviceEndpoint.fetchData, body);
+  }
+  getStateFormation(user, stateId, lgaId) {
+    const headerObj = {
+      CLIENTID: environment.clientId,
+      PAYERID: user.PayerId,
+    };
+    const hashString = `${stateId}${lgaId}${headerObj.PAYERID}${headerObj.CLIENTID}`;
+    const body = this.globalS.computeCBSBody(
+      'get',
+      egsEndpoint.getStateFormation + '/' + stateId + '/' + lgaId,
+      headerObj,
+      'SIGNATURE',
+      hashString,
+      null
+    );
+    return this.reqS.postFormData(serviceEndpoint.fetchData, body);
+  }
+
+  submitConventionalEscort(obj, user) {
+    const headerObj = {
+      CLIENTID: environment.clientId,
+      PAYERID: user.PayerId,
+      CBSUSERID: user.CBSUserId,
+    };
+    const hashString = `${obj.SelectedCommandType}${obj.ServiceId}${headerObj.PAYERID}${headerObj.CLIENTID}`;
+    const body = this.globalS.computeCBSBody(
+      'post',
+      egsEndpoint.submitEscortFormData,
+      headerObj,
+      'SIGNATURE',
+      hashString,
+      obj
+    );
+    return this.reqS.postFormData(serviceEndpoint.saveEGS, body);
   }
 }

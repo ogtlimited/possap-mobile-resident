@@ -1,17 +1,19 @@
 import { environment } from './../../../environments/environment.prod';
 /* eslint-disable @typescript-eslint/naming-convention */
 // export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
- export const serverBaseUrl = 'http://localhost:3000/api/v1';
-//  export const CBSBaseUrl = 'http://pss.cbs/api/v1/pss';
-// export const CBSDomainUrl = 'https://test.possap.ng';
-export const CBSDomainUrl = 'https://test.possap.ng';
-export const DownloadUrl = CBSDomainUrl + '/Admin/Police/Request/Details';
+export const serverBaseUrl = 'https://possapbackend-development.ogtlprojects.com/api/v1';
+//  export const serverBaseUrl = 'http://localhost:5000/api/v1';
 
+ // export const CBSDomainUrl = 'http://pss.cbs';
+export const CBSDomainUrl = 'https://test.possap.ng';
+
+export const DownloadUrl = CBSDomainUrl + '/Admin/Police/Request/Details';
 export const CBSBaseUrl = CBSDomainUrl + '/api/v1/pss';
 
 export const GoogleMapUrl =
   'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=';
-export const baseEndpoints = {
+
+  export const baseEndpoints = {
   auth: serverBaseUrl + '/auth',
   cbsRoutes: serverBaseUrl + '/cbs-routes',
   user: serverBaseUrl + '/users',
@@ -53,15 +55,19 @@ export const utilityEndpoint = {
 export const serviceEndpoint = {
   saveExtract: baseEndpoints.cbsRoutes + '/extract',
   savePCC: baseEndpoints.cbsRoutes + '/pcc',
+  saveEGS: baseEndpoints.cbsRoutes + '/egs',
   fetchData: baseEndpoints.cbsRoutes + '/fetch-data',
 
 };
 export const egsEndpoint = {
   getTacticalSquad: CBSBaseUrl + '/pssescort/tactical-squads',
+  submitEscortFormData: CBSBaseUrl + '/pssescort/submit-escort-formdata',
   getNextLevelCommand: CBSBaseUrl + '/pssescort/next-level-commands',
+  getStateFormation: CBSBaseUrl + '/pssescort/state-formations',
   getFromData: CBSBaseUrl + '/pssescort/get-form-data',
   getPSSSubCategories: CBSDomainUrl + '/p/x/get-pss-sub-categories',
   getPSSSubSubCategories: CBSDomainUrl + '/p/x/get-pss-sub-Sub-categories',
+  getEstimate: CBSDomainUrl + '/p/get-estimate',
 };
 export const miscEndpoint = {
   mediaUpload: baseEndpoints.helper + '/uploadMedia',

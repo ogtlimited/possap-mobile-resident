@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { RequestService } from '../../request/request.service';
 import { GlobalService } from '../global/global.service';
 import { environment } from 'src/environments/environment.prod';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, from } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
 import { EgsService } from '../egs/egs.service';
@@ -22,7 +22,7 @@ export class PossapServicesService {
     private reqS: RequestService,
     private globalS: GlobalService,
     private authS: AuthService,
-    private egs: EgsService,
+    private egs: EgsService
   ) {
     this.subscription = this.authS.currentUser$.subscribe(
       (e) => (this.user = e)
@@ -32,6 +32,13 @@ export class PossapServicesService {
   fetchServices() {
     return this.reqS.get('assets/data/services.json');
     // return this.reqS.get(baseEndpoints.service);
+  }
+  async fetchCoreServices() {
+    const services = await Preferences.get({ key: 'CBS-CORE' });
+    if(services.value)
+    {
+      return JSON.parse(services.value);
+    }
   }
   fetchCBSServices() {
     return this.reqS.get(utilityEndpoint.services);
@@ -51,10 +58,12 @@ export class PossapServicesService {
   }
 
   mapSchemaToCBSID(schema, services) {
-    console.log(schema, services );
+    console.log(schema, services);
     const fullServices = [];
     schema.forEach((e) => {
-      const index = services.findIndex((s) => s.Name.toLowerCase() === e.name.toLowerCase());
+      const index = services.findIndex(
+        (s) => s.Name.toLowerCase() === e.name.toLowerCase()
+      );
       fullServices.push({
         ...e,
         ServiceId: services[index].Id,
@@ -106,14 +115,18 @@ export class PossapServicesService {
     );
   }
   PCCProcessor(obj, id, controls) {
-    const options = controls.filter(e => e.name === 'CharacterCertificateReasonForInquiry')[0].options;
+    const options = controls.filter(
+      (e) => e.name === 'CharacterCertificateReasonForInquiry'
+    )[0].options;
     console.log(obj);
     const body: any = {
       ServiceId: id,
-      ...obj
+      ...obj,
     };
 
-    body.ReasonForInquiryValue = options.filter(o => o.key === body.CharacterCertificateReasonForInquiry)[0].value;
+    body.ReasonForInquiryValue = options.filter(
+      (o) => o.key === body.CharacterCertificateReasonForInquiry
+    )[0].value;
     console.log(body, 'PURRE');
     const headerObj = {
       CLIENTID: environment.clientId,

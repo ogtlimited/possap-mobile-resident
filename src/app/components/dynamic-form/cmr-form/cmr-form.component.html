@@ -1,21 +1,38 @@
 <app-header [showBack]="true" [title]="title"></app-header>
 <ion-content>
-  <form [formGroup]="cmrForm" (ngSubmit)="onSubmit()">
+  <form *ngIf="showForm" [formGroup]="cmrForm" (ngSubmit)="onSubmit()">
     <ion-item>
-      <ion-label position="floating">Plate Number</ion-label>
-      <ion-input type="plateNumber" formControlName="plateNumber"></ion-input>
+      <ion-label position="floating">Vehicle Make</ion-label>
+      <ion-select formControlName="vehMake" aria-label="vehMake" placeholder="Select Make">
+        <ion-select-option *ngFor="let i of carMake" [value]="i.MakeName">{{i.MakeName}}</ion-select-option>
+      </ion-select>
+      <!-- <ion-input type="vehMake" formControlName="vehMake"></ion-input> -->
     </ion-item>
-    <div *ngIf="(plateNumber.dirty || plateNumber.touched) && plateNumber.errors" class="errors">
-      <span *ngIf="plateNumber.errors?.required">Plate Number is required</span>
-      <span *ngIf="plateNumber.errors?.plateNumber">Plate Number is invalid</span>
+    <div *ngIf="(vehMake.dirty || vehMake.touched) && vehMake.errors" class="errors">
+      <span *ngIf="vehMake.errors?.required">Vehicle Make is required</span>
+
     </div>
     <ion-item>
-      <ion-label position="floating">VIN</ion-label>
-      <ion-input type="vin" formControlName="vin"></ion-input>
+      <ion-label position="floating">Year</ion-label>
+
+      <ion-select formControlName="year" aria-label="year" interface="action-sheet" placeholder="Select year">
+        <ion-select-option *ngFor="let i of yearList" [value]="i">{{i}}</ion-select-option>
+      </ion-select>
+
+      <!-- <ion-input type="number" min="1900" max="2099" step="1" formControlName="year"></ion-input> -->
     </ion-item>
-    <div *ngIf="(vin.dirty || vin.touched) && vin.errors" class="errors">
-      <span *ngIf="vin.errors?.required">vin is required</span>
-      <span *ngIf="vin.errors?.vin">VIN is invalid</span>
+    <div *ngIf="(year.dirty || year.touched) && year.errors" class="errors">
+      <span *ngIf="year.errors?.required">Year is required</span>
+    </div>
+    <ion-item *ngIf="year.value !== ''">
+      <ion-label position="floating">Model</ion-label>
+      <ion-select formControlName="model" aria-label="model" placeholder="Select Model">
+        <ion-select-option *ngFor="let i of carModels" [value]="i.Model_Name">{{i.Model_Name}}</ion-select-option>
+      </ion-select>
+      <!-- <ion-input type="text" formControlName="model"></ion-input> -->
+    </ion-item>
+    <div *ngIf="(model.dirty || model.touched) && model.errors" class="errors">
+      <span *ngIf="model.errors?.required">Model is required</span>
     </div>
     <ion-item>
       <ion-label position="floating">Vehicle color</ion-label>
@@ -23,33 +40,45 @@
     </ion-item>
     <div *ngIf="(vehColor.dirty || vehColor.touched) && vehColor.errors" class="errors">
       <span *ngIf="vehColor.errors?.required">Vehicle color is required</span>
-  
+
     </div>
-    <ion-item>
-      <ion-label position="floating">Proof of ownership</ion-label>
-      <ion-input type="ownershipProof" formControlName="ownershipProof"></ion-input>
-    </ion-item>
-    <div *ngIf="(ownershipProof.dirty || ownershipProof.touched) && ownershipProof.errors" class="errors">
-      <span *ngIf="ownershipProof.errors?.required">Proof of ownership is required</span>
-      <span *ngIf="ownershipProof.errors?.ownershipProof">Proof of ownership is invalid</span>
+
+    <div lines="none" class="pl-16 pt-12  mb-0">
+      <ion-label position="floating">Proof of Registration</ion-label>
+      <div (click)="selectImageSource('regProof')" class="flex flex-column my-8">
+
+        <div class="file">
+
+          <ion-icon *ngIf="!regProofFile" name="camera"></ion-icon>
+          <img *ngIf="regProofFile" [src]="regProofFile" alt="">
+        </div>
+      </div>
+      <!-- <ion-input type="regProof" formControlName="regProof"></ion-input> -->
     </div>
-    <ion-item>
-      <ion-label position="floating">Road worthiness</ion-label>
-      <ion-input type="roadWorthiness" formControlName="roadWorthiness"></ion-input>
-    </ion-item>
-    <div *ngIf="(roadWorthiness.dirty || roadWorthiness.touched) && roadWorthiness.errors" class="errors">
-      <span *ngIf="roadWorthiness.errors?.required">Road worthiness is required</span>
-      <span *ngIf="roadWorthiness.errors?.roadWorthiness">Road worthiness is invalid</span>
+    <div *ngIf="(regProof.dirty || regProof.touched) && regProof.errors" class="errors">
+      <span *ngIf="regProof.errors?.required">Proof of Registration is required</span>
+
     </div>
-    <ion-item>
-      <ion-label position="floating">Location</ion-label>
-      <ion-input type="pickupLocation" formControlName="pickupLocation"></ion-input>
-    </ion-item>
-    <div *ngIf="(pickupLocation.dirty || pickupLocation.touched) && pickupLocation.errors" class="errors">
-      <span *ngIf="pickupLocation.errors?.required">Location is required</span>
-      <span *ngIf="pickupLocation.errors?.pickupLocation">Location is invalid</span>
+    <div lines="none" class="mb-0 pl-16 pt-12">
+      <ion-label position="floating">Registration Papers</ion-label>
+      <div (click)="selectImageSource('regPapers')" class="flex flex-column my-8">
+
+        <div class="file">
+
+          <ion-icon *ngIf="!regPaperFile" name="camera"></ion-icon>
+          <img *ngIf="regPaperFile" [src]="regProofFile" alt="">
+        </div>
+      </div>
+      <!-- <ion-input type="regPapers" formControlName="regPapers"></ion-input> -->
     </div>
-    
+    <div *ngIf="(regPapers.dirty || regPapers.touched) && regPapers.errors" class="errors">
+      <span *ngIf="regPapers.errors?.required">Registration Papers is required</span>
+    </div>
+
+
     <ion-button class="mx-10 mt-10" expand="full" type="submit" [disabled]="cmrForm.invalid">Submit</ion-button>
   </form>
+
+  <app-form-preview [invoiceDetails]="invoiceDetails" [serviceName]="serviceName" [data]="formData" [owner]="owner"
+    [service]="serviceId" *ngIf="!showForm"></app-form-preview>
 </ion-content>

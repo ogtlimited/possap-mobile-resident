@@ -14,10 +14,13 @@
 
       <ion-card-content class="pl-2 pr-16">
         <ion-list>
-          <ion-item (click)="navigate(service.id, service, 'restful')" *ngFor="let service of services">
-            <ion-avatar slot="start">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==">
-            </ion-avatar>
+          <ion-item [lines]="i === 1 ? 'none' : ''" (click)="navigate(service.Id, service, 'restful')" *ngFor="let service of services; let i = index">
+            <div slot="start">
+              <div class="abbrev" slot="start" >
+                {{service.slug}}
+              </div>
+              <!-- <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw=="> -->
+            </div>
             <ion-label class="ion-text-wrap">
               <ion-text>
                 <h5>{{service.title}}</h5>

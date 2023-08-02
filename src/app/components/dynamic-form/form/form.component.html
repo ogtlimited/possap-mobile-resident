@@ -63,7 +63,7 @@
  
          </ion-input> -->
         <div disabled="true" class="selectApiInput w-100 py-15" (click)="selectApiChange($event, control)" *ngIf="control.api">
-          <span  [ngClass]="controlApi[control.name] === control.placeholder ? 'withPlaceholder' : 'withValue' ">{{controlApi[control.name]}}</span>
+          <ion-label  [ngClass]="controlApi[control.name] === control.placeholder ? 'withPlaceholder' : 'withValue' ">{{controlApi[control.name]}}</ion-label>
         </div>
 
       </ng-container>

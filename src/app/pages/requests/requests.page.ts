@@ -25,6 +25,8 @@ export class RequestsPage implements OnInit {
     'police character certificate',
     'police character certificate diaspora',
     'police extract',
+    'escort and guard services',
+    'police escort',
   ];
   letters = '0123456789ABCDEF';
   request = [];
@@ -35,6 +37,7 @@ export class RequestsPage implements OnInit {
   selectedFilter: any;
   searchText = '';
   services = [];
+  egsAbbrev = 'ESCORT GUARD SERVICES';
   constructor(
     public confData: ConferenceData,
     private router: Router,
@@ -68,7 +71,9 @@ export class RequestsPage implements OnInit {
     console.log('entered');
     this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
       console.log(s);
-      this.services = s.ResponseObject.services.filter((v) => this.activeServices.includes(v.Name.toLowerCase()));
+      this.services = s.ResponseObject.services.filter((v) =>
+        this.activeServices.includes(v.Name.toLowerCase())
+      );
       console.log(this.services);
     });
   }
@@ -78,7 +83,7 @@ export class RequestsPage implements OnInit {
     this.loadRequest(queryParams);
   }
 
-  async loadRequest(queryParams){
+  async loadRequest(queryParams) {
     const sub = this.authS.currentUser$.subscribe((value) => {
       console.log(value);
       this.user = value;
@@ -112,13 +117,16 @@ export class RequestsPage implements OnInit {
       this.reqS.postFormData(serviceEndpoint.fetchData, body).subscribe(
         (res: any) => {
           console.log(res);
-          if (res.data.ResponseObject.Requests.length > 0) {
-            this.request = res.data.ResponseObject.Requests.map((e) => ({
-              ...e,
-              bg: this.getRandomColor(),
-            }));
-          } else {
-          }
+          //if (res.data.ResponseObject.Requests.length > 0) {
+          this.request = res.data.ResponseObject.Requests.map((e) => ({
+            ...e,
+            ServiceNameModified: e.ServiceName.toLowerCase().includes('escort')
+              ? this.egsAbbrev
+              : e.ServiceName,
+            bg: this.getRandomColor(),
+          }));
+          // } else {
+          // }
           this.loader.dismiss();
         },
         async (err) => {
@@ -149,8 +157,9 @@ export class RequestsPage implements OnInit {
   gotoDetail(id, item): void {
     console.log(id, item);
     this.router.navigate(['./details', id], {
-      queryParams: {item: JSON.stringify(item)},
-      relativeTo: this.route });
+      queryParams: { item: JSON.stringify(item) },
+      relativeTo: this.route,
+    });
   }
   favorite() {}
   share() {}
@@ -203,6 +212,4 @@ export class RequestsPage implements OnInit {
     this.selectedFilter = null;
     // this.filteredData = this.data;
   }
-
-
 }

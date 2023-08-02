@@ -9,41 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MostUsedComponent implements OnInit {
   services = [
-    {
-      title: 'Police Character Certificate',
-      subtitle: 'Apply for character certificate',
-      icon: 'CC',
-      slug: 'PCC',
-      id: 1,
-    },
-    {
-      title: 'Police Extract',
-      subtitle: 'Apply for police extract using your NIN',
-      icon: 'PCC',
-      slug: 'PE',
-      id: 2,
-    },
-    {
-      title: 'CMR',
-      subtitle: 'Apply for CMR services',
-      icon: 'EGS',
-      slug: 'CMR',
-      id: 3,
-    },
+  ];
+  mainServices = [
+    // 'ESCORT AND GUARD SERVICES',
+    'POLICE CHARACTER CERTIFICATE',
+    'POLICE EXTRACT',
   ];
   constructor(private router: Router, private possapS: PossapServicesService) {}
 
   ngOnInit() {
-    this.possapS.fetchServices().subscribe((s: any) => {
-      console.log(s.data);
+    this.possapS.fetchCoreServices().then((s: any) => {
+      console.log(s);
       // loading.dismiss();
-      this.services = s.data
-        .map((e) => ({
-          ...e,
-          title: e.name,
-          subtitle: 'Apply for ' + e.name + ' services',
-        }))
-        .slice(0, 3);
+      this.services = s.services.filter((f) => this.mainServices.includes(f.Name))
+      .map((e) => ({
+        ...e,
+        title: this.toCapital(e.Name),
+        icon: e.Name.includes('EXTRACT') ? 'PE' : 'PCC',
+        slug: e.Name.includes('EXTRACT') ? 'PE' : 'PCC',
+
+        subtitle: 'Apply for ' + this.toCapital(e.Name) + ' services',
+      }));;
+
       console.log(this.services);
     });
   }
@@ -53,5 +40,11 @@ export class MostUsedComponent implements OnInit {
     this.router.navigate(['/general-form'], {
       queryParams: { service: path, title: service.title, type },
     });
+  }
+
+  toCapital(str: string){
+    const spl = str.split(' ');
+    const result = spl.map(s => s[0].toUpperCase() + s.slice(1).toLowerCase() + ' ');
+    return result.join(' ');
   }
 }

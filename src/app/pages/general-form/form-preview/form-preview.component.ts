@@ -78,49 +78,76 @@ export class FormPreviewComponent implements OnInit {
           'Passport Number': this.data.PassportNumber,
           'Place of Issuance': this.data.PlaceOfIssuance,
           'Date of Issuance': this.data.DateOfIssuance,
+        }
+        console.log(form, 'test');
+        this.keys = Object.keys(form);
+        this.values = Object.values(form);
+      }else if (this.serviceName === 'CMR'){
+        const form = {
+          'Vehicle Make': this.data?.vehMake,
+          'Vehicle Model': this.data?.model,
+          'Vehicle Year': this.data?.year,
+          'Vehicle Color': this.data?.vehColor,
         };
         console.log(form, 'test');
         this.keys = Object.keys(form);
         this.values = Object.values(form);
-      }
+        console.log(this.serviceName);
+      };
     }
   }
 
   async generateInvoice() {
-    const headerObj = {
-      CLIENTID: environment.clientId,
-    };
-    const hashmessage = `${this.invoiceDetails.InvoiceNumber}${headerObj.CLIENTID}`;
-    const url =
-      utilityEndpoint.paymentRef + '/' + this.invoiceDetails.InvoiceNumber;
-    const body = this.globalS.computeCBSBody(
-      'get',
-      url,
-      headerObj,
-      'SIGNATURE',
-      hashmessage
-    );
-    const loading = await this.loader.create();
-    await loading.present();
-    this.reqS.postFormData(serviceEndpoint.fetchData, body).subscribe(
-      (e: any) => {
-        loading.dismiss();
-        console.log(e);
-        const invoice = {
-          ...this.invoiceDetails,
-          InvoiceId: e.data.ResponseObject,
-        };
-        this.router.navigate([
-          '/invoice',
-          { details: JSON.stringify(invoice) },
-        ]);
-      },
-      (err) => {
-        loading.dismiss();
-        this.reqFailed('Failure', 'Failed to make request');
-        console.log(err);
-      }
-    );
+    // dummy for cmr (this if statement will be removed)
+    if(this.serviceName === 'CMR'){
+      return this.router.navigate([
+        '/invoice',
+        { details: JSON.stringify({
+          InvoiceId: '3928483884',
+          AmountDue: 6000,
+          Email: 'abudawud92@gmail.com',
+          PhoneNumber: '07066565263',
+          InvoiceDescription: '(Approved Non-Refundable Application Fee)'
+        }) },
+      ]);
+    }else{
+
+      // end of cmr dummy
+      const headerObj = {
+        CLIENTID: environment.clientId,
+      };
+      const hashmessage = `${this.invoiceDetails.InvoiceNumber}${headerObj.CLIENTID}`;
+      const url =
+        utilityEndpoint.paymentRef + '/' + this.invoiceDetails.InvoiceNumber;
+      const body = this.globalS.computeCBSBody(
+        'get',
+        url,
+        headerObj,
+        'SIGNATURE',
+        hashmessage
+      );
+      const loading = await this.loader.create();
+      await loading.present();
+      this.reqS.postFormData(serviceEndpoint.fetchData, body).subscribe(
+        (e: any) => {
+          loading.dismiss();
+          console.log(e);
+          const invoice = {
+            ...this.invoiceDetails,
+            InvoiceId: e.data.ResponseObject,
+          };
+          this.router.navigate([
+            '/invoice',
+            { details: JSON.stringify(invoice) },
+          ]);
+        },
+        (err) => {
+          loading.dismiss();
+          this.reqFailed('Failure', 'Failed to make request');
+          console.log(err);
+        }
+      );
+    }
   }
 
   async reqFailed(header, msg) {

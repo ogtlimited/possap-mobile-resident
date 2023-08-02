@@ -12,6 +12,8 @@ import { UserData } from './providers/user-data';
 import { AuthService } from './core/services/auth/auth.service';
 import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 import { GlobalService } from './core/services/global/global.service';
+import { PossapServicesService } from './core/services/possap-services/possap-services.service';
+import { ServiceResponse } from './core/models/ResponseModel';
 
 @Component({
   selector: 'app-root',
@@ -48,7 +50,8 @@ export class AppComponent implements OnInit {
     private userData: UserData,
     private authService: AuthService,
     private globalS: GlobalService,
-    private appRate: AppRate
+    private appRate: AppRate,
+    private possapS: PossapServicesService,
   ) {
     // Add or remove the "dark" class based on if the media query matches
     this.initializeApp();
@@ -69,6 +72,10 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
+      console.log(s);
+      Storage.set({key: 'CBS-CORE', value : JSON.stringify(s.ResponseObject) });
+    });
     this.authService.currentUser$.subscribe((e) => {
       console.log(e);
       if (!e) {

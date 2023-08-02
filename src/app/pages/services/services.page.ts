@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { IService, ServiceResponse } from 'src/app/core/models/ResponseModel';
 import { AbbrevPipe } from 'src/app/core/pipes/abbrev.pipe';
-
+import { Preferences, Preferences as Storage } from '@capacitor/preferences';
 @Component({
   selector: 'app-services',
   templateUrl: './services.page.html',
@@ -18,24 +18,34 @@ export class ServicesPage implements OnInit {
     'police character certificate diaspora',
     'police extract',
     'escort and guard services',
+    'police escort',
   ];
   icons = ['pcc', 'pe', 'pccd'];
   infoServices = [
     {
-      title: 'SOS',
-      subtitle: 'Apply for police clearance certificate using your NIN',
-      icon: 'sos',
-      code: 'sos',
+      title: 'CMR',
+      subtitle: 'Apply for CMR services',
+      icon: 'cmr',
+      slug: 'CMR',
+      code: 'CMR',
+      id: 3,
     },
+    // {
+    //   title: 'SOS',
+    //   subtitle: 'Apply for police clearance certificate using your NIN',
+    //   icon: 'sos',
+    //   code: 'sos',
+    // },
 
-    {
-      title: 'Incident Booking',
-      subtitle: 'Apply for police clearance certificate using your NIN',
-      code: 'incidentbooking',
-      icon: 'ibooking',
-    },
+    // {
+    //   title: 'Incident Booking',
+    //   subtitle: 'Apply for police clearance certificate using your NIN',
+    //   code: 'incidentbooking',
+    //   icon: 'ibooking',
+    // },
   ];
   jsonForm: any;
+  themeMode: string;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -43,7 +53,16 @@ export class ServicesPage implements OnInit {
     private loader: LoadingController
   ) {}
 
+  ionViewWillEnter() {
+    this.loadData();
+  }
   async ngOnInit() {
+    this.loadData();
+  }
+
+  async loadData() {
+    const theme = await Preferences.get({ key: 'themeMode' });
+    this.themeMode = theme.value;
     const loading = await this.loader.create({
       message: 'Loading...',
       duration: 3000,
@@ -67,7 +86,7 @@ export class ServicesPage implements OnInit {
 
   navigate(path, title, type = '') {
     console.log(path, title);
-    if (title.includes('ESCORT')) {
+    if (title.toLowerCase().includes('escort')) {
       this.router.navigate(['/egs'], {
         queryParams: { service: path, title, type },
       });
@@ -76,5 +95,10 @@ export class ServicesPage implements OnInit {
         queryParams: { service: path, title, type },
       });
     }
+  }
+  goto(path, title, type = '') {
+    this.router.navigate(['/general-form/cmr'], {
+      queryParams: { service: path, title, type },
+    });
   }
 }

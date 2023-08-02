@@ -8,6 +8,7 @@ import { EgsPageRoutingModule } from './egs-routing.module';
 
 import { EgsPage } from './egs.page';
 import { SharedModule } from 'src/app/components/shared.module';
+import { EgsFormPreviewComponent } from './egs-form-preview/egs-form-preview.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { SharedModule } from 'src/app/components/shared.module';
     SharedModule,
     ReactiveFormsModule
   ],
-  declarations: [EgsPage]
+  declarations: [EgsPage, EgsFormPreviewComponent]
 })
 export class EgsPageModule {}

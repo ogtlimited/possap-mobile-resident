@@ -2,7 +2,7 @@ import { ModalController, LoadingController } from '@ionic/angular';
 import { RequestService } from './../../core/request/request.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { baseEndpoints } from 'src/app/core/config/endpoints';
-
+import { Preferences, Preferences as Storage } from '@capacitor/preferences';
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
@@ -15,6 +15,7 @@ export class SelectComponent implements OnInit {
   @Input() jsonFormData;
   list: any = [];
   selected = null;
+  themeMode: string;
   constructor(
     private reqS: RequestService,
     private modal: ModalController,
@@ -25,8 +26,14 @@ export class SelectComponent implements OnInit {
     const obj = {};
     this.fetchData();
   }
+  ionViewWillEnter() {
+    this.fetchData();
+  }
 
   async fetchData() {
+    const theme = await Preferences.get({ key: 'themeMode' });
+    this.themeMode = theme.value;
+    console.log(this.themeMode);
     const loading = await this.loader.create();
     await loading.present();
     try {
@@ -38,7 +45,7 @@ export class SelectComponent implements OnInit {
         .post(baseEndpoints.helper + '/' + field?.api?.path, {
           [field?.api?.body?.key]:
             this.myForm?.value[field?.api?.body?.value] || '',
-            serviceId: this.serviceId
+          serviceId: this.serviceId,
         })
         .toPromise();
       loading.dismiss();
