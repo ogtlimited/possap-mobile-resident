@@ -1,24 +1,22 @@
-import { Injectable } from '@angular/core';
-import { CanLoad, Router } from '@angular/router';
-import { Storage } from '@capacitor/storage';
- 
-export const INTRO_KEY = 'intro-seen';
- 
-@Injectable({
-  providedIn: 'root'
-})
-export class IntroGuard implements CanLoad {
- 
-  constructor(private router: Router) { }
- 
-  async canLoad(): Promise<boolean> {
-      const hasSeenIntro = await Storage.get({key: INTRO_KEY});
-      console.log(hasSeenIntro)
-      if (hasSeenIntro && (hasSeenIntro.value === 'true')) {
-        return true;
-      } else {
-        this.router.navigateByUrl('/intro', { replaceUrl:true });
-        return false;
-      }
-  }
+/* eslint-disable @typescript-eslint/naming-convention */
+import { Injectable, inject } from '@angular/core';
+import { CanActivateFn,   Router } from '@angular/router';
+import { Preferences } from '@capacitor/preferences';
+
+
+export const INTRO_KEY = 'ion_did_tutorial';
+
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+export function IntroGuard(): CanActivateFn {
+  return async () => {
+    const router = inject(Router);
+
+    const hasSeenIntro = await Preferences.get({key: INTRO_KEY});
+    console.log(hasSeenIntro, 'INTRO GUARD');
+    if (hasSeenIntro && (hasSeenIntro.value === 'true')) {
+      router.navigate(['/app', 'tabs', 'home']);
+    } else {
+      return true;
+    }
+  };
 }

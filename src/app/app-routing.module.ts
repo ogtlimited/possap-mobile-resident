@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { CheckTutorial } from './providers/check-tutorial.service';
+import { IntroGuard } from './core/guards/intro.guard';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginModule),
+      canLoad: [IntroGuard]
   },
   {
     path: 'signup',
@@ -33,12 +35,13 @@ const routes: Routes = [
     path: 'app',
     loadChildren: () =>
       import('./pages/tabs-page/tabs-page.module').then((m) => m.TabsModule),
+      canActivate: [IntroGuard]
   },
   {
     path: 'tutorial',
     loadChildren: () =>
       import('./pages/tutorial/tutorial.module').then((m) => m.TutorialModule),
-    canLoad: [CheckTutorial],
+    canActivate: [CheckTutorial],
   },
   {
     path: 'home',

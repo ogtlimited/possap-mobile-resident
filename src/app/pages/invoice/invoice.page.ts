@@ -21,7 +21,7 @@ export class InvoicePage implements OnInit {
   owner: any;
   invoice;
   isSuccess: boolean;
-  merchantKey = 'B3Du4wtqwiI6B8kNkNrF3O58';
+  merchantKey = 'B3DHDcd8HbWJJUTL1I3';
   reference;
   amount = '0';
   paymentResponse;

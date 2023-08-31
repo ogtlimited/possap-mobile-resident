@@ -44,6 +44,7 @@ export class SearchPage implements OnInit {
   }
 
   fetchData(id) {
+    console.log(id);
     this.reqS.get(baseEndpoints.requests + '/' + id).subscribe((res: any) => {
       console.log('testt', res.data);
       this.request = res.data;

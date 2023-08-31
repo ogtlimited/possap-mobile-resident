@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment.prod';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { PossapServicesService } from 'src/app/core/services/possap-services/possap-services.service';
-import { ServiceResponse } from 'src/app/core/models/ResponseModel';
+import { AxiosResponse, ServiceResponse } from 'src/app/core/models/ResponseModel';
 
 @Component({
   selector: 'app-requests',
@@ -69,9 +69,9 @@ export class RequestsPage implements OnInit {
 
   ngOnInit() {
     console.log('entered');
-    this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
+    this.possapS.fetchCBSServices().subscribe((s: AxiosResponse) => {
       console.log(s);
-      this.services = s.ResponseObject.services.filter((v) =>
+      this.services = s.data.ResponseObject.services.filter((v) =>
         this.activeServices.includes(v.Name.toLowerCase())
       );
       console.log(this.services);

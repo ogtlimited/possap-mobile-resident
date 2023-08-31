@@ -87,13 +87,16 @@ export class GeneralFormPage implements OnInit {
   ) {
     // this.serviceSubmit(this.tempData);
   }
-  ionViewWillEnter(){
+  ionViewWillEnter() {
+    this.fps.formObject$.next(null);
     this.authS.currentUser$.subscribe((user) => {
       this.owner = user;
     });
     this.globalS.statesLgas$.subscribe((e) => {
-      if(e){
-        this.ownerStateOfOrigin = e.filter((v) => v?.Name === this.owner?.SelectedStateName)[0];
+      if (e) {
+        this.ownerStateOfOrigin = e.filter(
+          (v) => v?.Name === this.owner?.SelectedStateName
+        )[0];
         console.log(this.ownerStateOfOrigin, 'STATE OF ORIGIN');
       }
     });
@@ -101,7 +104,6 @@ export class GeneralFormPage implements OnInit {
   async ngOnInit() {
     const loading = await this.loader.create();
     await loading.present();
-
 
     this.fps.formObject$.subscribe((e) => {
       // console.log(e);
@@ -122,6 +124,7 @@ export class GeneralFormPage implements OnInit {
       console.log(this.serviceId, 'SERVICEID');
       this.title = params.title;
       this.type = params.type;
+      this.openModal();
       if (params.type === 'restful') {
         this.globalS.fetchStorageObject('CBS-SERVICES').subscribe((s: any) => {
           const parsed = JSON.parse(s.value);
@@ -166,7 +169,9 @@ export class GeneralFormPage implements OnInit {
       cssClass: 'terms-modal',
       breakpoints: [0.25],
       backdropDismiss: false,
-      componentProps: {},
+      componentProps: {
+        title: this.title.toLowerCase()
+      },
     });
     modal.present();
 

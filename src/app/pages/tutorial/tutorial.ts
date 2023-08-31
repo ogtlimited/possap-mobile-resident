@@ -13,15 +13,27 @@ import Swiper from 'swiper';
 })
 export class TutorialPage {
   showSkip = true;
+  showTutorial = false;
   private slides: Swiper;
 
   constructor(
     public menu: MenuController,
     public router: Router,
     private cd: ChangeDetectorRef
-  ) {}
+  ) {
+    Storage.get({key: 'ion_did_tutorial'}).then(res => {
+      console.log(res);
+      if (res.value === 'true') {
+        this.router.navigateByUrl('/app/tabs/home', { replaceUrl: true });
+      }else{
+        this.showTutorial = true;
+      }
+    });
+
+  }
 
   startApp() {
+    console.log('tutoriaLS');
     this.router
       .navigateByUrl('/app/tabs/home', { replaceUrl: true })
       .then(() => Storage.set({key:'ion_did_tutorial', value: 'true'}));
@@ -36,12 +48,7 @@ export class TutorialPage {
     this.cd.detectChanges();
   }
 
-  ionViewWillEnter() {
-    Storage.get({key: 'ion_did_tutorial'}).then(res => {
-      if (res.value === 'true') {
-        this.router.navigateByUrl('/app/tabs/home', { replaceUrl: true });
-      }
-    });
+  ionViewDidEnter() {
 
     this.menu.enable(false);
   }

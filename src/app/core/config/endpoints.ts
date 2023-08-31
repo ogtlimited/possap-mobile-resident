@@ -5,7 +5,8 @@ export const serverBaseUrl = 'https://possapbackend-development.ogtlprojects.com
 //  export const serverBaseUrl = 'http://localhost:5000/api/v1';
 
  // export const CBSDomainUrl = 'http://pss.cbs';
-export const CBSDomainUrl = 'https://test.possap.ng';
+export const CBSDomainUrl = 'https://possap.gov.ng';
+// export const CBSDomainUrl = 'https://test.possap.ng';
 
 export const DownloadUrl = CBSDomainUrl + '/Admin/Police/Request/Details';
 export const CBSBaseUrl = CBSDomainUrl + '/api/v1/pss';

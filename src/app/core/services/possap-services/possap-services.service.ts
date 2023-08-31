@@ -1,6 +1,10 @@
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 /* eslint-disable @typescript-eslint/naming-convention */
-import { baseEndpoints, utilityEndpoint } from './../../config/endpoints';
+import {
+  baseEndpoints,
+  serviceEndpoint,
+  utilityEndpoint,
+} from './../../config/endpoints';
 import { Injectable } from '@angular/core';
 import { RequestService } from '../../request/request.service';
 import { GlobalService } from '../global/global.service';
@@ -35,13 +39,23 @@ export class PossapServicesService {
   }
   async fetchCoreServices() {
     const services = await Preferences.get({ key: 'CBS-CORE' });
-    if(services.value)
-    {
+    console.log(services);
+    if (services.value && (services.value !== 'undefined')) {
       return JSON.parse(services.value);
+    }else{
+
     }
   }
   fetchCBSServices() {
-    return this.reqS.get(utilityEndpoint.services);
+    const body = this.globalS.computeCBSBody(
+      'get',
+      utilityEndpoint.services,
+      {},
+      '',
+      '',
+      null
+    );
+    return this.reqS.postFormData(serviceEndpoint.fetchData, body);
   }
   downloadApprovedRequest(body) {
     return this.reqS.post(baseEndpoints.download, body);

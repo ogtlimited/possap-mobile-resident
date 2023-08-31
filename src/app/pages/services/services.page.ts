@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { LoadingController } from '@ionic/angular';
 import { PossapServicesService } from './../../core/services/possap-services/possap-services.service';
 import { ActivatedRoute, Router } from '@angular/router';
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit } from '@angular/core';
-import { IService, ServiceResponse } from 'src/app/core/models/ResponseModel';
+import { AxiosResponse, IService } from 'src/app/core/models/ResponseModel';
 import { AbbrevPipe } from 'src/app/core/pipes/abbrev.pipe';
 import { Preferences, Preferences as Storage } from '@capacitor/preferences';
 @Component({
@@ -20,6 +21,7 @@ export class ServicesPage implements OnInit {
     'escort and guard services',
     'police escort',
   ];
+  egsAbbrev = 'ESCORT GUARD SERVICES';
   icons = ['pcc', 'pe', 'pccd'];
   infoServices = [
     {
@@ -72,12 +74,13 @@ export class ServicesPage implements OnInit {
     loading.present();
     this.possapS.fetchServices().subscribe((schema: any) => {
       console.log(schema);
-      this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
+      this.possapS.fetchCBSServices().subscribe((s: AxiosResponse) => {
         console.log(s);
         loading.dismiss();
-        this.services = s.ResponseObject.services.filter((v) =>
+        this.services = s.data.ResponseObject.services.filter((v) =>
           this.activeServices.includes(v.Name.toLowerCase())
-        );
+        ).map(d => ({...d, ServiceNameModified: d.Name.toLowerCase().includes('escort')
+        ? this.egsAbbrev : d.Name }));
         console.log(this.services);
         this.possapS.mapSchemaToCBSID(schema, this.services);
       });

@@ -20,6 +20,7 @@ export class SearchComponent implements AfterViewChecked {
   user: any;
   routeSub: any;
   statusLog: any;
+  notFound = null;
   constructor(
     private modal: ModalController,
     private reqS: RequestService,
@@ -67,9 +68,14 @@ export class SearchComponent implements AfterViewChecked {
       .subscribe((res: any) => {
         console.log('testt', res.data);
         loading.dismiss();
-        this.request = res.data.ResponseObject;
-        this.approvers = res.data?.service?.workflow[0]?.WorkFlowApprovalLevel;
-        this.statusLog = res.data.ResponseObject.RequestStatusLog.reverse();
+        if(!res.data.Error){
+
+          this.request = res.data.ResponseObject;
+          this.approvers = res.data?.service?.workflow[0]?.WorkFlowApprovalLevel;
+          this.statusLog = res.data.ResponseObject.RequestStatusLog.reverse();
+        }else{
+          this.notFound = true;
+        }
         console.log(this.statusLog);
         // this.approvalWorkflow = [
         //   ...res.data.service.approvalWorkFlow,

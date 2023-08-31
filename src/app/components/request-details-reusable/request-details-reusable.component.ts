@@ -23,8 +23,11 @@ export class RequestDetailsReusableComponent implements OnInit {
   ngOnInit() {
     this.routeSub = this.route.queryParams.subscribe((params) => {
       console.log(params);
-      this.requestSummary = JSON.parse(params.item);
-      console.log(this.request, this.requestSummary);
+      if(params?.item){
+        this.requestSummary = JSON.parse(params.item);
+        console.log(this.request, this.requestSummary);
+
+      }
     });
     this.routeSub.unsubscribe();
     if (this.request) {

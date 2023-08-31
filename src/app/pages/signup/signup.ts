@@ -74,11 +74,11 @@ export class SignupPage implements OnInit {
         // this.router.navigate(["menu/home"]);
       },
       async (res) => {
-        console.log(res);
+        console.log(res.error);
         await loading.dismiss();
         const alert = await this.alertController.create({
-          header: res.error.message,
-          message: res.error.error,
+          header: 'Operation failed',
+          message: res.error.ResponseObject[0].ErrorMessage,
           buttons: ['OK'],
         });
 
@@ -129,8 +129,8 @@ export class SignupPage implements OnInit {
         console.log(res);
         await loading.dismiss();
         const alert = await this.alertController.create({
-          header: res.error.message,
-          message: res.error.error,
+          header: 'Operation Failed',
+          message: 'Unable to activate account',
           buttons: ['OK'],
         });
 

@@ -58,7 +58,7 @@
       <span *ngIf="ninError">Invalid ID Number</span>
     </div>
 
-    <ion-card class="pt-16 upload-btn-wrapper">
+    <!-- <ion-card class="pt-16 upload-btn-wrapper">
       <ion-card-header class="flex ion-justify-items-center ">
         <ion-title>
           <ion-icon size="large" name="upload-cloud"></ion-icon>
@@ -70,9 +70,9 @@
         <ion-label *ngIf="!fileName">Add an identification file here. <br> (max size 2mb)</ion-label>
         <ion-label *ngIf="fileName">{{fileName}}</ion-label>
       </ion-card-content>
-    </ion-card>
+    </ion-card> -->
 
-    <ion-button (click)="proceed()" class="login mt-32" type="button" expand="block">Proceed</ion-button>
+    <ion-button [disabled]=" nin.value === '' || idType.value === '' " (click)="proceed()" class="login mt-32" type="button" expand="block">Proceed</ion-button>
   </div>
   <div *ngIf="formStage === 'Two'">
 

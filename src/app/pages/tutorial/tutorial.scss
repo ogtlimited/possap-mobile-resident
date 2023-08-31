@@ -32,3 +32,13 @@ p {
     color: var(--ion-text-color, #000000);
   }
 }
+ion-grid {
+  &.center-grid {
+      position: absolute;
+      top: 40%;
+      left: 33%;
+      // transform: translate(-50%, -50%) !important;
+      display: block !important;
+      /*width: 100%;*/
+  }
+}

@@ -23,6 +23,12 @@
         </div>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="notFound && file.length !== 0" class="empty-state">
+      <ion-col class="flex ion-justify-content-center">
+        
+        Request Not Found
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
   <app-request-details-reusable [statusLog]="statusLog" [request]="request"></app-request-details-reusable>

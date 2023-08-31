@@ -3,8 +3,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { TermAndConditionsComponent } from 'src/app/components/term-and-conditions/term-and-conditions.component';
 import { baseEndpoints, egsEndpoint } from 'src/app/core/config/endpoints';
 import { IEGSFormData, IGeneric } from 'src/app/core/models/ResponseModel';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
@@ -44,6 +45,7 @@ export class EgsPage implements OnInit {
     private authS: AuthService,
     private globalS: GlobalService,
     private loader: LoadingController,
+    private modal: ModalController,
     private cdref: ChangeDetectorRef
   ) {
     this.subscription = this.authS.currentUser$.subscribe(
@@ -117,6 +119,7 @@ export class EgsPage implements OnInit {
       ...this.egsFormOne.value,
       subSubCategories: this.showSubSub ? this.subSubCategories.value : 0
     };
+    this.openModal();
     console.log(this.mainFormValue);
   }
   submitFormTwo(event) {
@@ -181,6 +184,22 @@ export class EgsPage implements OnInit {
         loading.dismiss();
       }
     );
+  }
+  async openModal() {
+    const modal = await this.modal.create({
+      component: TermAndConditionsComponent,
+      cssClass: 'terms-modal',
+      breakpoints: [0.25],
+      backdropDismiss: false,
+      componentProps: {
+        title: this.title.toLowerCase()
+      },
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    console.log(data);
   }
 
   fetchFormData() {

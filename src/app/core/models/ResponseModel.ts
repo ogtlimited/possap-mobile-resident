@@ -7,6 +7,9 @@ export interface IGenericResponse {
   ErrorCode: null;
   ResponseObject: any;
 }
+export interface AxiosResponse {
+  data: ServiceResponse;
+}
 export interface ServiceResponse {
   Error: boolean;
   ErrorCode: null;
@@ -18,6 +21,7 @@ export interface ResponseObject {
 }
 
 export interface IService {
+  ServiceNameModified: string;
   Name: string;
   Id: number;
   ServiceType: number;

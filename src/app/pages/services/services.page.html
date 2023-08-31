@@ -15,7 +15,7 @@
             <ion-col class="ion-text-wrap ion-text-center" size="4" *ngFor="let service of services; let i = index">
               <div (click)="navigate(service.Id, service.Name, 'restful')" class="icon-bg icon-bg-info py-30 w-80">
                 <!-- <ion-icon style="opacity: none" [name]=""></ion-icon> -->
-                <span>{{service.Name | abbrev}}</span>
+                <span>{{service.ServiceNameModified | abbrev}}</span>
               </div>
               <ion-label class="ion-text-wrap ion-text-center">
                 <span [ngClass]="themeMode === 'dark'? 'light' : '' ">

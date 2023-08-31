@@ -55,7 +55,7 @@
         <ion-col class="px-16 mb-8">
 
           <bank3d-payment-angular [reference]="reference" [merchantKey]="merchantKey" currencyCode="NGN"
-            [amount]="amount" [email]="invoice.Email" phone="invoice.PhoneNumber" mode="test" text="Pay Online" color="#2f4cb0"
+            [amount]="amount" [email]="invoice.Email" phone="invoice.PhoneNumber" mode="live" text="Pay Online" color="#2f4cb0"
             [style]="{'background-color':'white', 'color': '#000', 'width': '100%', 'padding': '10px'}"
             (callback)="paymentCallback($event)" (onClose)="closedPaymentModal()">
           </bank3d-payment-angular>

@@ -2,7 +2,7 @@
 import { ModalController } from '@ionic/angular';
 /* eslint-disable max-len */
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 
 @Component({
@@ -12,32 +12,65 @@ import { IonSlides } from '@ionic/angular';
 })
 export class TermAndConditionsComponent implements OnInit {
   @ViewChild('slider', { read: IonSlides }) slides: IonSlides;
+  @Input() title: string;
   slideOpts = {
     initialSlide: 0,
     speed: 400,
   };
   btnText = 'Next';
-  slideList = [
+  slideList = [];
+  pe = [
     {
       id: 1,
-      text: 'That the information supplied to the Nigeria Police Force by the Applicant in the course of this application are voluntarily made and the Applicant undertakes that they are consciously true to the best of his/her knowledge;',
+      text: 'The Nigeria Police Force reserves the right to approve or deny your request based on its guidelines or availability of resources. <br> <br> If approved, you will be required to pay a fee for this service (non-refundable application and processing).',
     },
     {
       id: 2,
-      text: 'That the Applicant shall be of full age, sound mind and does not have any impediment that precludes him/her from giving the information voluntarily to the Police;',
+      text: 'Approved request requires at least 24 hours for processing and issuance. <br> <br> Enquiries can be made through the following info@possap.gov.ng or call: 018884040.',
+    },
+  ];
+  pcc = [
+    {
+      id: 1,
+      text: 'The Nigeria Police Force reserves the right to approve or deny your request based on its guidelines or availability of resources. <br> <br> You will be required to pay a one-time non-refundable application fee and application processing fee.',
+    },
+    {
+      id: 2,
+      text: `Payments are to be made only on the POSSAP platform according to the payment invoice. No additional payment is required for biometric capturing or certificate issuance at any physical location. <br> <br>Approved request requires at least 24 hours for processing and issuance.
+      Enquiries can be made through the following info@possap.gov.ng or call: 018884040.
+      `,
+    },
+  ];
+  egs = [
+    {
+      id: 1,
+      text: `The Nigeria Police Force reserves the right to approve or deny your request based on its guidelines or availability of resources <br> <br> You will be required to pay a non-refundable application fee.
+      `,
+    },
+    {
+      id: 2,
+      text: `If approved, you will be required to pay a fee for this service (application processing). Approved request requires at least 24 hours for processing and issuance. <br> <br>
+       All Police Officers on Specialized Escort and Guard services are to be treated with utmost respect. Any complaint of mistreatment may attract appropriate penalties.`,
     },
     {
       id: 3,
-      text: 'That the information supplied to the Nigeria Police Force by the Applicant shall be permanently retained by the Nigeria Police and that the Nigeria Police Force reserves the right to, without prejudice, share/disseminate same to individual(s), Organisations, Authorities, Corporate Bodies, Government Agencies and Governments (both Foreign and Local), etc., either upon request or as the case may be without a recourse to the Applicant;',
-    },
-    {
-      id: 4,
-      text: 'That the Nigeria Police Force is not obligated to affirm/approve the application/request under any circumstances at all, as positive response to the application/request shall be predicated on factors including but not limited to urgency of the matter, availability of manpower, national security considerations and other factors as may, from time to time, be unilaterally determined by the Nigeria Police Force.',
+      text: `The Nigeria Police reserves the right to recall any deployed officer without incurring any recourse. <br> <br>
+      Enquiries can be made through the following info@possap.gov.ng or call: 018884040.`,
     },
   ];
   constructor(private _location: Location, private modal: ModalController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.title);
+    if(this.title.includes('extract')){
+      this.slideList = this.pe;
+    } else if(this.title.includes('character')){
+      this.slideList = this.pcc;
+    }
+    else{
+      this.slideList = this.egs;
+    }
+  }
 
   onEnd() {
     console.log('end');

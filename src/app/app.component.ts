@@ -13,7 +13,7 @@ import { AuthService } from './core/services/auth/auth.service';
 import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 import { GlobalService } from './core/services/global/global.service';
 import { PossapServicesService } from './core/services/possap-services/possap-services.service';
-import { ServiceResponse } from './core/models/ResponseModel';
+import { AxiosResponse, ServiceResponse } from './core/models/ResponseModel';
 
 @Component({
   selector: 'app-root',
@@ -72,9 +72,9 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.possapS.fetchCBSServices().subscribe((s: ServiceResponse) => {
-      console.log(s);
-      Storage.set({key: 'CBS-CORE', value : JSON.stringify(s.ResponseObject) });
+    this.possapS.fetchCBSServices().subscribe((s: AxiosResponse) => {
+      console.log(s.data);
+      Storage.set({key: 'CBS-CORE', value : JSON.stringify(s.data.ResponseObject) });
     });
     this.authService.currentUser$.subscribe((e) => {
       console.log(e);
@@ -95,6 +95,7 @@ export class AppComponent implements OnInit {
 
   initializeApp() {
     this.platform.ready().then(async () => {
+      console.log(this.platform.is('hybrid'));
       if (this.platform.is('hybrid')) {
         // StatusBar.hide();
         SplashScreen.hide();
@@ -129,11 +130,11 @@ export class AppComponent implements OnInit {
     this.appRate.promptForRating(true);
   }
 
-  openTutorial() {
-    this.menu.enable(false);
-    Storage.set({ key: 'ion_did_tutorial', value: 'true' });
-    this.router.navigateByUrl('/tutorial');
-  }
+  // openTutorial() {
+  //   this.menu.enable(false);
+  //   Storage.set({ key: 'ion_did_tutorial', value: 'true' });
+  //   this.router.navigateByUrl('/tutorial');
+  // }
 
   loadData() {
     this.globalS.fetchAllFormData().subscribe((res) => {

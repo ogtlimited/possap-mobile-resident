@@ -7,10 +7,11 @@
             <div class="menu-header-bg"></div>
             <div class="header-content">
               <div class="imgHolder">
-                <img src="assets/img/avatar.png" alt="" srcset="" />
+                <img width="80px" src="assets/img/avatar.png" alt="" srcset="" />
               </div>
               <ion-label>
-                <h3>{{ user?.Name || "Anonymous" }}</h3>
+                <h3 *ngIf="user?.Name">{{ user?.Name | titlecase  }}</h3>
+                <h3 *ngIf="!user?.Name">{{  "Anonymous" }}</h3>
                 <p>
                   <ion-text>{{ user?.Email || "" }}</ion-text>
                 </p>

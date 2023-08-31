@@ -1,4 +1,4 @@
-<ion-header no-border>
+<ion-header *ngIf="showTutorial" no-border>
   <ion-toolbar>
     <ion-buttons slot="end">
       <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Skip</ion-button>
@@ -6,50 +6,58 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true">
+<ion-content *ngIf="showTutorial" fullscreen="true">
   <swiper [slidesPerView]="1" (swiper)="setSwiperInstance($event)" (slideChangeTransitionStart)="onSlideChangeStart()">
     <ng-template swiperSlide>
       <div class="slide-container">
-      <img width="100px" src="assets/custom-icons/possap-icon.svg" class="slide-image" />
-      <h2 class="slide-title">
-        Welcome to
-        <b>POSSAP Mobile</b>
-      </h2>
-      <p>
-        <b>POSSAP Mobile</b> is Police Specialized Automation Services (POSSAP) Portal for handling request
-        use.
-      </p>
-    </div>
+        <img width="100px" src="assets/custom-icons/possap-icon.svg" class="slide-image" />
+        <h2 class="slide-title">
+          Welcome to
+          <b>POSSAP Mobile</b>
+        </h2>
+        <p>
+          <b>POSSAP Mobile</b> is Police Specialized Automation Services (POSSAP) Portal for handling request
+          use.
+        </p>
+      </div>
     </ng-template>
 
     <ng-template swiperSlide>
       <div class="slide-container">
-      <img src="assets/img/ica-slidebox-img-2.png" class="slide-image" />
-      <h2 class="slide-title">Request</h2>
-      <p>
-        <b>POSSAP Mobile</b> handle all request coming from POSSAP Client</p>
-        </div>
+        <img src="assets/img/certificate.svg" class="slide-image" />
+        <h2 class="slide-title">Convenience and Ease</h2>
+        <p>
+          Request and pay for police specialized services online at your convenience. You can now access police
+          specialized services from the comfort of your home, office or on the go.</p>
+      </div>
     </ng-template>
 
     <ng-template swiperSlide>
       <div class="slide-container">
-      <img src="assets/img/ica-slidebox-img-3.png" class="slide-image" />
-      <h2 class="slide-title">POSSAP Mobile Flow?</h2>
-      <p>
-        <b>POSSAP Mobile</b> is a powerful set of services and features built on top of POSSAP Clients that brings a totally new
-        level of.....</p>
-        </div>
+        <img width="80px" src="assets/img/approvedRequest.svg" class="slide-image" />
+        <h2 class="slide-title">Request</h2>
+        <p>
+          <b>POSSAP Mobile</b> handle all request coming from POSSAP Client</p>
+      </div>
     </ng-template>
+
+   
 
     <ng-template swiperSlide>
       <div class="slide-container">
-      <img src="assets/img/ica-slidebox-img-4.png" class="slide-image" />
-      <h2 class="slide-title">Ready to Play?</h2>
-      <ion-button fill="clear" (click)="startApp()">
-        Continue
-        <ion-icon slot="end" name="arrow-forward"></ion-icon>
-      </ion-button>
+        <img src="assets/img/start.svg" class="slide-image" />
+        <h2 class="slide-title">Ready to Play?</h2>
+        <ion-button fill="clear" (click)="startApp()">
+          Continue
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
       </div>
     </ng-template>
   </swiper>
+</ion-content>
+<ion-content class="ion-justify-content-center ion-align-items-center" *ngIf="!showTutorial" fullscreen="true">
+ <ion-grid class="center-grid">
+  <img width="100px" src="assets/custom-icons/possap-icon.svg"  />
+
+ </ion-grid>
 </ion-content>

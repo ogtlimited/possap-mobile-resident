@@ -10,14 +10,14 @@
     <ion-col class="ion-text-justify px-17">
 
       <ion-label class="ion-text-center s14-h16">
-        LET THE APPLICANT BEWARE:
+        Please Note:
       </ion-label>
     </ion-col>
   </ion-row>
   <ion-slides #slider (ionSlideReachEnd)="onEnd()" pager="true" [options]="slideOpts">
     <ion-slide *ngFor="let item of slideList" class="ion-text-justify px-12">
-      <ion-label>
-        {{item.text}}
+      <ion-label class="d-flex mb-18" [innerHTML]="item.text">
+     
       </ion-label>
     </ion-slide>
 
