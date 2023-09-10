@@ -1,0 +1,8 @@
+<app-header [showBack]="true" [title]="title"></app-header>
+
+
+<ion-content class="ion-no-padding">
+
+  <app-pcc-form *ngIf="showForm" (emitForm)="onSubmit($event)"></app-pcc-form>
+  <app-form-preview [isDiaspora]="isDiaspora" [invoiceDetails]="invoiceDetails" [serviceName]="title" [data]="formData" [owner]="user" [service]="serviceId" *ngIf="!showForm"></app-form-preview>
+</ion-content>

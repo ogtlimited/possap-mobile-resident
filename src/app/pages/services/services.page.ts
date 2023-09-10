@@ -73,27 +73,38 @@ export class ServicesPage implements OnInit {
 
     loading.present();
     this.possapS.fetchServices().subscribe((schema: any) => {
-      console.log(schema);
       this.possapS.fetchCBSServices().subscribe((s: AxiosResponse) => {
-        console.log(s);
         loading.dismiss();
-        this.services = s.data.ResponseObject.services.filter((v) =>
-          this.activeServices.includes(v.Name.toLowerCase())
-        ).map(d => ({...d, ServiceNameModified: d.Name.toLowerCase().includes('escort')
-        ? this.egsAbbrev : d.Name }));
-        console.log(this.services);
+        this.services = s.data.ResponseObject.services
+          .filter((v) => this.activeServices.includes(v.Name.toLowerCase()))
+          .map((d) => ({
+            ...d,
+            ServiceNameModified: d.Name.toLowerCase().includes('escort')
+              ? this.egsAbbrev
+              : d.Name,
+          }));
         this.possapS.mapSchemaToCBSID(schema, this.services);
       });
     });
   }
 
   navigate(path, title, type = '') {
-    console.log(path, title);
     if (title.toLowerCase().includes('escort')) {
       this.router.navigate(['/egs'], {
         queryParams: { service: path, title, type },
       });
-    } else {
+    }
+    else if (title.toLowerCase().includes('certificate')) {
+      this.router.navigate(['/pcc'], {
+        queryParams: { service: path, title, type },
+      });
+    }
+    else if (title.toLowerCase().includes('extract')) {
+      this.router.navigate(['/extracts'], {
+        queryParams: { service: path, title, type },
+      });
+    }
+    else {
       this.router.navigate(['/general-form'], {
         queryParams: { service: path, title, type },
       });

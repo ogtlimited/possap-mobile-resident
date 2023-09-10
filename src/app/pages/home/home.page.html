@@ -4,12 +4,12 @@
 <ion-content>
 <ion-grid>
   <ion-slides pager="false" [options]="slideOpts">
-    <ion-slide *ngFor="let speaker of speakers; let i = index">
+    <ion-slide *ngFor="let slide of slides; let i = index">
       <ion-card class="item-card" [ngStyle]="{background: getBg(i)}">
         <div class="card-overlay bg-gradient "></div>
         <ion-card-header>
-          <ion-item detail="false" lines="none" class="speaker-item pb-15"
-            routerLink="/app/tabs/speakers/speaker-details/{{speaker.id}}">
+          <ion-item detail="false" lines="none" class="speaker-item pb-10"
+            >
             <ion-label>
               <!-- <ion-badge color="warning" slot="start">POSSAP</ion-badge> -->
               <img class="logo" src="assets/custom-icons/possap-icon.svg" />
@@ -17,11 +17,14 @@
           </ion-item>
         </ion-card-header>
 
-        <ion-card-content class="pt-24 zIndex">
+        <ion-card-content class="zIndex">
 
-          <span class="ion-text-wrap slide-details">
-            You can pay for services such as Special protection services, Guards service, Police extracts etc.
-          </span>
+          <p class="ion-text-wrap slide-details text-700-bold">
+           {{slide.title}}
+          </p>
+          <p class="ion-text-wrap slide-details  pt-18">
+            {{slide.text}}
+          </p>
 
         </ion-card-content>
       </ion-card>

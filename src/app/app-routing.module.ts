@@ -107,6 +107,14 @@ const routes: Routes = [
     canLoad: [AuthGuard],
     loadChildren: () => import('./pages/egs/egs.module').then( m => m.EgsPageModule)
   },
+  {
+    path: 'pcc',
+    loadChildren: () => import('./pages/pcc/pcc.module').then( m => m.PccPageModule)
+  },
+  {
+    path: 'extracts',
+    loadChildren: () => import('./pages/extracts/extracts.module').then( m => m.ExtractsPageModule)
+  },
   // {
   //   path: 'search/:id',
   //   loadChildren: () =>

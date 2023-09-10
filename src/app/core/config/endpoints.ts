@@ -31,6 +31,7 @@ export const GoogleMapUrl =
   extractRequest: CBSBaseUrl + '/PSSExtract/submit-formdata',
   extractFormdata: CBSBaseUrl + '/PSSExtract/formdata',
   pccRequest: CBSBaseUrl + '/charactercertificate/submit-pcc-formdata',
+  pccDiasporaRequest: CBSBaseUrl + '/diasporacharactercertificate/submit-pcc-diaspora-formdata',
   pccFormdata: CBSBaseUrl + '/charactercertificate/pcc-formdata',
 };
 export const authEndpoints = {

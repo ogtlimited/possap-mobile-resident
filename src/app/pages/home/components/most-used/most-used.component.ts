@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class MostUsedComponent implements OnInit {
   services = [];
   mainServices = [
-    // 'ESCORT AND GUARD SERVICES',
+    'ESCORT AND GUARD SERVICES',
     'POLICE CHARACTER CERTIFICATE',
     'POLICE EXTRACT',
   ];
@@ -33,8 +33,16 @@ export class MostUsedComponent implements OnInit {
         .map((e) => ({
           ...e,
           title: this.toCapital(e.Name),
-          icon: e.Name.includes('EXTRACT') ? 'PE' : 'PCC',
-          slug: e.Name.includes('EXTRACT') ? 'PE' : 'PCC',
+          icon: e.Name.includes('EXTRACT')
+            ? 'PE'
+            : e.Name.includes('CHARACTER')
+            ? 'PCC'
+            : 'EGS',
+          slug: e.Name.includes('EXTRACT')
+            ? 'PE'
+            : e.Name.includes('CHARACTER')
+            ? 'PCC'
+            : 'EGS',
 
           subtitle: 'Apply for ' + this.toCapital(e.Name) + ' services',
         }));
@@ -45,7 +53,8 @@ export class MostUsedComponent implements OnInit {
 
   navigate(path, service, type = '') {
     console.log(path, service, type);
-    this.router.navigate(['/general-form'], {
+    const route = service.icon === 'EGS' ? '/egs' : '/general-form'
+    this.router.navigate([route], {
       queryParams: { service: path, title: service.title, type },
     });
   }

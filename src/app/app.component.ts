@@ -65,7 +65,6 @@ export class AppComponent implements OnInit {
   }
   getStateLGA() {
     this.globalS.getState().subscribe((states) => {
-      console.log(states);
       this.globalS.statesLgas$.next(states.data);
       Storage.set({ key: 'states', value: JSON.stringify(states.data) });
     });
@@ -73,11 +72,9 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.possapS.fetchCBSServices().subscribe((s: AxiosResponse) => {
-      console.log(s.data);
       Storage.set({key: 'CBS-CORE', value : JSON.stringify(s.data.ResponseObject) });
     });
     this.authService.currentUser$.subscribe((e) => {
-      console.log(e);
       if (!e) {
         this.user = null;
       } else {
@@ -85,9 +82,8 @@ export class AppComponent implements OnInit {
       }
     });
     this.authService.currentUser().subscribe((e) => {
-      // console.log(JSON.parse(e.value));
       if (e.value !== 'undefined') {
-        console.log(e);
+
         this.user = JSON.parse(e.value);
       }
     });
@@ -95,7 +91,6 @@ export class AppComponent implements OnInit {
 
   initializeApp() {
     this.platform.ready().then(async () => {
-      console.log(this.platform.is('hybrid'));
       if (this.platform.is('hybrid')) {
         // StatusBar.hide();
         SplashScreen.hide();
@@ -137,8 +132,6 @@ export class AppComponent implements OnInit {
   // }
 
   loadData() {
-    this.globalS.fetchAllFormData().subscribe((res) => {
-      console.log(res);
-    });
+    this.globalS.fetchAllFormData();
   }
 }

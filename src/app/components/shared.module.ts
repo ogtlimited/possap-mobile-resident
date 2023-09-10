@@ -17,6 +17,8 @@ import { RequestDetailsReusableComponent } from './request-details-reusable/requ
 import { FormPreviewComponent } from '../pages/general-form/form-preview/form-preview.component';
 import { TermAndConditionsComponent } from './term-and-conditions/term-and-conditions.component';
 import { EgsFormComponent } from './dynamic-form/egs-form/egs-form.component';
+import { PccFormComponent } from './dynamic-form/pcc-form/pcc-form.component';
+import { SelectSearchModalComponent } from './select-search-modal/select-search-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { EgsFormComponent } from './dynamic-form/egs-form/egs-form.component';
     FormPreviewComponent,
     TermAndConditionsComponent,
     EgsFormComponent,
+    PccFormComponent,
+    SelectSearchModalComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
   exports: [
@@ -48,7 +52,9 @@ import { EgsFormComponent } from './dynamic-form/egs-form/egs-form.component';
     RequestDetailsReusableComponent,
     FormPreviewComponent,
     TermAndConditionsComponent,
-    EgsFormComponent
+    EgsFormComponent,
+    PccFormComponent,
+    SelectSearchModalComponent
   ],
 })
 export class SharedModule {}

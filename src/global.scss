@@ -72,6 +72,13 @@ ion-item.forms {
   --border-radius: 16px;
   // --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
 }
+.select-search-modal {
+  --width: fit-content;
+  --min-width: 90%;
+  --height: 65% !important;
+  --border-radius: 16px;
+  // --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
 .password-modal {
   --width: fit-content;
   --min-width: 90%;

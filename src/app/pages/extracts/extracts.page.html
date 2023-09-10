@@ -1,0 +1,173 @@
+<app-header [showBack]="true" [title]="title"></app-header>
+
+<ion-content>
+
+  <form *ngIf="showForm" [formGroup]="extractForm" (ngSubmit)="onSubmit()">
+
+     <!-- SelectedCategories -->
+     <ion-item>
+      <ion-label position="stacked" for="SelectedCategories">Select Category of Extract*</ion-label>
+      <ion-select multiple="true" placeholder="Select a category " type="text" id="SelectedCategories" formControlName="SelectedCategories">
+        <ion-select-option  *ngFor="let item of ExtractCategories" [value]="item.Id">{{item.Name}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(SelectedCategories.dirty || SelectedCategories.touched) && SelectedCategories.errors"
+      class="text-danger">
+      <span *ngIf="SelectedCategories.errors?.required">
+        Selected Categories is required.
+      </span>
+
+    </div>
+    <ion-item *ngIf="SelectedCategories.value.includes(1)">
+      <ion-label position="stacked" for="lossOfDocument">Loss of Documents</ion-label>
+      <ion-select multiple="true" placeholder="Select Document Lost " type="text" id="lossOfDocument" formControlName="lossOfDocument">
+        <ion-select-option  *ngFor="let item of documentOptions" [value]="item.Id">{{item.Name}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="SelectedCategories.value.includes(2)">
+      <ion-label position="stacked" for="lossOfProperty">Loss of Property</ion-label>
+      <ion-select multiple="true" placeholder="Select Property Lost " type="text" id="lossOfProperty" formControlName="lossOfProperty">
+        <ion-select-option  *ngFor="let item of propertyOptions" [value]="item.Id">{{item.Name}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="SelectedCategories.value.includes(3)">
+      <ion-label position="stacked" for="others">Others</ion-label>
+      <ion-textarea placeholder="Others" type="text"
+        id="others" formControlName="others"></ion-textarea>
+    </ion-item>
+
+    <!-- IsIncidentReported -->
+    <ion-item>
+      <ion-label position="stacked" for="IsIncidentReported">Was incident reported at a police station?*</ion-label>
+      <ion-radio-group mode="md" formControlName="IsIncidentReported" value="false">
+        <ion-item lines="none">
+          <ion-label>Yes</ion-label>
+          <ion-radio slot="start" value="true"></ion-radio>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>No</ion-label>
+          <ion-radio slot="start" value="false"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item>
+    <div *ngIf="(IsIncidentReported.dirty || IsIncidentReported.touched) && IsIncidentReported.errors"
+      class="text-danger">
+      <span *ngIf="IsIncidentReported.errors?.required">
+        Is Incident Reported is required.
+      </span>
+
+    </div>
+      <!-- IncidentReportedDate -->
+      <ion-item *ngIf="IsIncidentReported.value === 'true'">
+        <ion-label position="stacked" for="IncidentReportedDate">Select the date the incident was reported</ion-label>
+        <ion-input type="date" id="IncidentReportedDate" formControlName="IncidentReportedDate">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="(IncidentReportedDate.dirty || IncidentReportedDate.touched) && IncidentReportedDate.errors"
+        class="text-danger">
+        <span *ngIf="IncidentReportedDate.errors?.required">
+          Incident Reported Date is required.
+        </span>
+      </div>
+
+      <!-- AffidavitFile -->
+    <ion-item>
+      <!-- <ion-label position="stacked" for="AffidavitFile">Affidavit File</ion-label> -->
+      <div (click)="selectImageSource('AffidavitFile')" class="flex flex-column my-8">
+        <ion-label class="file-label">Affidavit File*</ion-label>
+        <div class="file">
+          <ion-icon *ngIf="AffidavitFile.value === ''" name="camera"></ion-icon>
+          <img *ngIf="AffidavitFile.value !== ''" [src]="affidavitFile" alt="">
+        </div>
+      </div>
+
+    </ion-item>
+    <div *ngIf="(AffidavitFile.dirty || AffidavitFile.touched) && AffidavitFile.errors" class="text-danger">
+      <span *ngIf="AffidavitFile.errors?.required">
+        Affidavit File is required.
+      </span>
+
+    </div>
+
+    <!-- AffidavitNumber -->
+    <ion-item>
+      <ion-label position="stacked" for="AffidavitNumber">Affidavit Number</ion-label>
+      <ion-input placeholder="Enter affidavit number" type="text" id="AffidavitNumber" formControlName="AffidavitNumber">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="(AffidavitNumber.dirty || AffidavitNumber.touched) && AffidavitNumber.errors" class="text-danger">
+      <span *ngIf="AffidavitNumber.errors?.required">
+        Affidavit Number is required.
+      </span>
+
+    </div>
+    <!-- AffidavitDateOfIssuance -->
+    <ion-item>
+      <ion-label position="stacked" for="AffidavitDateOfIssuance">Affidavit Date of Issuance</ion-label>
+      <ion-input type="date" id="AffidavitDateOfIssuance" formControlName="AffidavitDateOfIssuance">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="(AffidavitDateOfIssuance.dirty || AffidavitDateOfIssuance.touched) && AffidavitDateOfIssuance.errors"
+      class="text-danger">
+      <span *ngIf="AffidavitDateOfIssuance.errors?.required">
+        Affidavit Date of Issuance is required.
+      </span>
+
+    </div>
+
+    <!-- SelectedState -->
+    <ion-item>
+      <ion-label position="stacked" for="SelectedState">State*</ion-label>
+      <ion-input (click)="openModal('Select State', StateLGAs, 'SelectedState')" placeholder="Select a State" type="text" id="SelectedState" formControlName="SelectedState">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="(SelectedState.dirty || SelectedState.touched) && SelectedState.errors" class="text-danger">
+      <span *ngIf="SelectedState.errors?.required">
+        Selected State is required.
+      </span>
+
+    </div>
+
+    <!-- SelectedStateLga -->
+    <ion-item>
+      <ion-label position="stacked" for="SelectedStateLga">Local Government Area*</ion-label>
+      <ion-input (click)="openModal('Select LGA', LGAs, 'SelectedStateLga')" placeholder="Select an LGA" type="text" id="SelectedStateLga" formControlName="SelectedStateLga">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="(SelectedStateLga.dirty || SelectedStateLga.touched) && SelectedStateLga.errors" class="text-danger">
+      <span *ngIf="SelectedStateLga.errors?.required">
+        Selected State LGA is required.
+      </span>
+
+    </div>
+
+     <!-- SelectedCommand -->
+     <ion-item>
+      <ion-label position="stacked" for="SelectedCommand">Select the Police Formation/Division*</ion-label>
+      <ion-input placeholder="Select a Command" type="text" id="SelectedCommand" formControlName="SelectedCommand">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="(SelectedCommand.dirty || SelectedCommand.touched) && SelectedCommand.errors" class="text-danger">
+      <span *ngIf="SelectedCommand.errors?.required">
+        Selected Command is required.
+      </span>
+
+    </div>
+
+
+
+    <ion-row class="px-10">
+      <ion-col>
+        <ion-button [disabled]="!extractForm.valid" expand="full" type="submit">Submit</ion-button>
+  
+      </ion-col>
+  
+    </ion-row>
+  </form>
+
+  <app-form-preview [invoiceDetails]="invoiceDetails" serviceName="POLICE EXTRACT" [data]="formData" [owner]="user" [service]="serviceId" *ngIf="!showForm"></app-form-preview>
+
+</ion-content>
