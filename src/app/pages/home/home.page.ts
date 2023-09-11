@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ConferenceData } from 'src/app/providers/conference-data';
 import { SearchComponent } from 'src/app/components/search/search.component';
+import { slideOpts } from './slideOpts';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -12,10 +13,7 @@ import { SearchComponent } from 'src/app/components/search/search.component';
 export class HomePage implements OnInit {
   speakers: any[] = [];
   searchTerm;
-  slideOpts = {
-    initialSlide: 0,
-    speed: 400,
-  };
+  slideOpts = slideOpts;
   merchantKey = 'PayzoneAPP';
   reference = 'REF-' + Math.random().toString(16).slice(2);
   amount = '500000';

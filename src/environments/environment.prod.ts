@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  mapsKey: 'AIzaSyBaY243vQzWjf8215qm6PUil8Qv8NYT-5U',
+  mapsKey: '',
   // live
   clientId: 'lnk/KxxBY/OpDm9H52937zireURisiFJU4x5X+M29PM=',
   clientSecret: 'l19U3rlfv52MBXRx3OmbsocjrXD76LSjsSm/C8Ownz0FrRtBulwZv0t2u51n',

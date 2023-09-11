@@ -12,6 +12,7 @@ import Base64 from 'crypto-js/enc-base64';
 import * as crypto from 'crypto-js';
 import { BehaviorSubject, Observable, forkJoin, from } from 'rxjs';
 import { Preferences as Storage } from '@capacitor/preferences';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,18 @@ export class GlobalService {
   ABSOLUTE_URL_REGEX = /^(?:[a-z]+:)?\/\//;
   statesLgas$: BehaviorSubject<any> = new BehaviorSubject<[]>(null);
 
-  constructor(private reqS: RequestService) {}
+  constructor(private reqS: RequestService, private toast: ToastController) {}
+
+  async presentToast(msg, position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toast.create({
+      message: msg,
+      duration: 1500,
+      position,
+      color:'primary'
+    });
+
+    await toast.present();
+  }
 
   nearestPlaces(searchText) {
     const key = environment.mapsKey;

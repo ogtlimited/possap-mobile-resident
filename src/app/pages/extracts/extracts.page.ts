@@ -282,7 +282,7 @@ export class ExtractsPage implements OnInit {
         Name: e.label.split('- ')[1],
         Id: e.value,
       }));
-      this.openModal('Select State of Origin', mapped, 'SelectedCommand');
+      this.openModal('Select State Command', mapped, 'SelectedCommand');
     }
   }
 

@@ -6,6 +6,12 @@ ion-label {
   ion-item {
     --min-height: 28px !important;
   }
+  ion-item {
+    --highlight-height: 2px;
+    --highlight-color-focused: #43e7f3;
+    --highlight-color-valid: #6f58d8;
+    --highlight-color-invalid: #f23a1a;
+  }
 
   ion-card-title{
     font-size: 18px;

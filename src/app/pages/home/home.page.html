@@ -3,7 +3,7 @@
 
 <ion-content>
 <ion-grid>
-  <ion-slides pager="false" [options]="slideOpts">
+  <ion-slides pager="true" [options]="slideOpts">
     <ion-slide *ngFor="let slide of slides; let i = index">
       <ion-card class="item-card" [ngStyle]="{background: getBg(i)}">
         <div class="card-overlay bg-gradient "></div>

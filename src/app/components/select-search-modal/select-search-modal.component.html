@@ -12,9 +12,9 @@
 <ion-content class="ion-padding">
   <ion-searchbar (ionClear)="clear()" (ionChange)="filterList()"  [(ngModel)]="term" #inputToFocus placeholder="Enter name "></ion-searchbar>
   <ion-radio-group mode="md" value="control.value">
-    <ion-item (click)="selectItem(i)" *ngFor="let i of listStore">
-      <ion-label class="text-nowrap">{{i.Name | titlecase}}</ion-label>
-      <ion-radio [value]="i.Id" slot="end"></ion-radio>
+    <ion-item  (click)="selectItem(i)" *ngFor="let i of listStore">
+      <ion-radio slot="start" [value]="i.Id" ></ion-radio>
+      {{i.Name | titlecase}}
     </ion-item>
 
   </ion-radio-group>

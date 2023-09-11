@@ -49,14 +49,14 @@
     <ion-item>
       <ion-label position="floating">Identification Number</ion-label>
       <ion-input type="text" formControlName="IdNumber"></ion-input>
-      <ion-icon *ngIf="gotNIN" class="mt-40" [color]="!ninError ? 'danger' : 'success'" name="info" size="small" slot="end"></ion-icon>
+      <ion-icon *ngIf="showVerifyIcon" class="mt-40" [color]="ninError ? 'danger' : 'success'" name="info" size="small" slot="end"></ion-icon>
     </ion-item>
     <div *ngIf="(nin.dirty || nin.touched) && nin.errors" class="errors">
       <span *ngIf="nin.errors?.required">Identification Number is required</span>
       <span *ngIf="nin.errors?.minlength">Identification Number must be 11 digit</span>
       <span *ngIf="nin.errors?.maxlength">Identification Number can not exceed 11 digit</span>
-      <span *ngIf="ninError">Invalid ID Number</span>
     </div>
+    <span class="errors" *ngIf="ninError">Invalid ID Number</span>
 
     <!-- <ion-card class="pt-16 upload-btn-wrapper">
       <ion-card-header class="flex ion-justify-items-center ">
@@ -72,13 +72,13 @@
       </ion-card-content>
     </ion-card> -->
 
-    <ion-button [disabled]=" nin.value === '' || idType.value === '' " (click)="proceed()" class="login mt-32" type="button" expand="block">Proceed</ion-button>
+    <ion-button [disabled]=" nin.value === '' || idType.value === '' || ninError" (click)="proceed()" class="login mt-32" type="button" expand="block">Proceed</ion-button>
   </div>
   <div *ngIf="formStage === 'Two'">
 
     <ion-row>
       <ion-col>
-        <ion-card *ngIf="gotNIN" class="mx-0">
+        <ion-card *ngIf="showVerifyIcon" class="mx-0">
           <div class="overlay"></div>
           <ion-card-header>
             <ion-card-title color="primary" class="ion-text-center ion-color-success">FEDERAL REPUBLIC OF NIGERIA

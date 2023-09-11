@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { PossapServicesService } from './../../core/services/possap-services/possap-services.service';
 import { ActivatedRoute, Router } from '@angular/router';
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { AxiosResponse, IService } from 'src/app/core/models/ResponseModel';
 import { AbbrevPipe } from 'src/app/core/pipes/abbrev.pipe';
 import { Preferences, Preferences as Storage } from '@capacitor/preferences';
+import { GlobalService } from 'src/app/core/services/global/global.service';
 @Component({
   selector: 'app-services',
   templateUrl: './services.page.html',
@@ -52,7 +53,8 @@ export class ServicesPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private possapS: PossapServicesService,
-    private loader: LoadingController
+    private loader: LoadingController,
+    private globalS: GlobalService
   ) {}
 
   ionViewWillEnter() {
@@ -93,26 +95,24 @@ export class ServicesPage implements OnInit {
       this.router.navigate(['/egs'], {
         queryParams: { service: path, title, type },
       });
-    }
-    else if (title.toLowerCase().includes('certificate')) {
+    } else if (title.toLowerCase().includes('certificate')) {
       this.router.navigate(['/pcc'], {
         queryParams: { service: path, title, type },
       });
-    }
-    else if (title.toLowerCase().includes('extract')) {
+    } else if (title.toLowerCase().includes('extract')) {
       this.router.navigate(['/extracts'], {
         queryParams: { service: path, title, type },
       });
-    }
-    else {
+    } else {
       this.router.navigate(['/general-form'], {
         queryParams: { service: path, title, type },
       });
     }
   }
   goto(path, title, type = '') {
-    this.router.navigate(['/general-form/cmr'], {
-      queryParams: { service: path, title, type },
-    });
+    this.globalS.presentToast('This service is currently not available', 'top');
+    // this.router.navigate(['/general-form/cmr'], {
+    //   queryParams: { service: path, title, type },
+    // });
   }
 }

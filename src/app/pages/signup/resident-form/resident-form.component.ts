@@ -21,7 +21,7 @@ export class ResidentFormComponent implements OnInit {
   @Output() emitFormValue: EventEmitter<any> = new EventEmitter();
   residentForm: FormGroup;
   hide = true;
-  gotNIN = false;
+  showVerifyIcon = false;
   ninData: any = {};
   userImage: any;
   fileName = null;
@@ -43,7 +43,7 @@ export class ResidentFormComponent implements OnInit {
     this.residentForm = this.fb.group(
       {
         TaxPayerType: ['1', [Validators.required]],
-        IdType: ['1', [Validators.required]],
+        IdType: [1, [Validators.required]],
         //identificationfile: ['', [Validators.required]],
         IdNumber: [
           '',
@@ -97,7 +97,7 @@ export class ResidentFormComponent implements OnInit {
       if (e.length === 11) {
         console.log(e);
         this.showLoading();
-        this.gotNIN = false;
+        this.showVerifyIcon = false;
         this.authS.getNIN(e).subscribe((val) => {
           this.ninData = val.data;
           console.log(this.ninData);
@@ -127,12 +127,17 @@ export class ResidentFormComponent implements OnInit {
           //this.state.disable();
           //this.phone.disable();
           //this.lga.disable();
-          this.gotNIN = true;
+          this.showVerifyIcon = true;
+          this.ninError = false;
           this.loadS.dismiss();
+        }, err => {
+          console.log(err.error.message);
+          this.ninError = true;
+          this.showVerifyIcon = true;
         });
       } else {
-        this.ninError = true;
-        this.gotNIN = false;
+       // this.ninError = true;
+        //this.showVerifyIcon = false;
       }
     });
   }

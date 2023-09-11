@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from 'src/app/core/services/global/global.service';
 
 @Component({
   selector: 'app-possap-eye',
@@ -26,7 +27,11 @@ export class PossapEyeComponent implements OnInit {
       id: 3,
     },
   ];
-  constructor(private modal: ModalController, private router: Router) {}
+  constructor(
+    private modal: ModalController,
+    private router: Router,
+    private globalS: GlobalService
+  ) {}
   ngOnInit() {}
 
   dismiss() {
@@ -36,13 +41,17 @@ export class PossapEyeComponent implements OnInit {
   navigate(path, title, type = '') {
     console.log(path);
     if (path === 'cmr') {
-      this.router.navigate(['/general-form/cmr'], {
-        queryParams: { service: path, title, type },
-      }).then(e =>  this.modal.dismiss());
-    }else {
-      this.router.navigate(['/egs'], {
-        queryParams: { service: path, title, type },
-      }).then(e =>  this.modal.dismiss());
+      this.globalS.presentToast('This service is currently not available', 'top');
+      // this.router.navigate(['/general-form/cmr'], {
+      //   queryParams: { service: path, title, type },
+      // }).then(e =>  this.modal.dismiss());
+    } else {
+      this.router
+        .navigate(['/egs'], {
+          queryParams: { service: path, title, type },
+        })
+        .then((e) => this.modal.dismiss());
     }
   }
+
 }
