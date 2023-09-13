@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -20,7 +26,6 @@ import { RequestService } from 'src/app/core/request/request.service';
 
 import { GlobalService } from 'src/app/core/services/global/global.service';
 import { SelectSearchModalComponent } from '../../select-search-modal/select-search-modal.component';
-
 
 @Component({
   selector: 'app-pcc-form',
@@ -79,10 +84,8 @@ export class PccFormComponent implements OnInit {
     private loader: LoadingController,
     private reqS: RequestService,
     private modal: ModalController,
-    private cdref: ChangeDetectorRef,
-  ) {
-
-  }
+    private cdref: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.characterCertificateForm = this.fb.group({
@@ -116,7 +119,6 @@ export class PccFormComponent implements OnInit {
       proofOfResidenceFile: [''],
     });
     this.CharacterCertificateReasonForInquiry.valueChanges.subscribe((e) => {
-
       const d = this.ReasonsForInquiryOptions.filter((c) => c.Id === e)[0];
       this.ReasonForInquiryValue.setValue(d.Name);
       this.labelForm.CharacterCertificateReasonForInquiry = d.Name;
@@ -152,7 +154,7 @@ export class PccFormComponent implements OnInit {
         },
         labelValue: {
           ...value,
-          ...this.labelForm
+          ...this.labelForm,
         },
       };
       console.log(obj);
@@ -162,22 +164,35 @@ export class PccFormComponent implements OnInit {
 
   loadData() {
     this.route.queryParams.subscribe((params) => {
-
       this.serviceId = params.service;
       this.characterCertificateForm.get('ServiceId').setValue(params.service);
       this.title = params.title;
       console.log(params);
-      if(this.title.toLowerCase().includes('diaspora')){
+      if (this.title.toLowerCase().includes('diaspora')) {
         this.isDiaspora = true;
-        this.characterCertificateForm.get('proofOfResidenceFile').setValidators([Validators.required]);
-        this.characterCertificateForm.get('SelectedCountryOfResidence').setValidators([Validators.required]);
+        this.characterCertificateForm
+          .get('proofOfResidenceFile')
+          .setValidators([Validators.required]);
+        this.characterCertificateForm
+          .get('SelectedCountryOfResidence')
+          .setValidators([Validators.required]);
         this.characterCertificateForm.updateValueAndValidity();
-      }else{
-        this.characterCertificateForm.get('SelectedState').setValidators([Validators.required]);
-        this.characterCertificateForm.get('SelectedStateOfOrigin').setValidators([Validators.required]);
-        this.characterCertificateForm.get('SelectedCommand').setValidators([Validators.required]);
-        this.characterCertificateForm.get('PreviouslyConvicted').setValidators([Validators.required]);
-        this.characterCertificateForm.get('RequestType').setValidators([Validators.required]);
+      } else {
+        this.characterCertificateForm
+          .get('SelectedState')
+          .setValidators([Validators.required]);
+        this.characterCertificateForm
+          .get('SelectedStateOfOrigin')
+          .setValidators([Validators.required]);
+        this.characterCertificateForm
+          .get('SelectedCommand')
+          .setValidators([Validators.required]);
+        this.characterCertificateForm
+          .get('PreviouslyConvicted')
+          .setValidators([Validators.required]);
+        this.characterCertificateForm
+          .get('RequestType')
+          .setValidators([Validators.required]);
         this.characterCertificateForm.updateValueAndValidity();
       }
       this.type = params.type;
@@ -207,7 +222,7 @@ export class PccFormComponent implements OnInit {
     const selectedDate = new Date(control.value);
     const currentDate = new Date();
 
-    if ((currentDate.getFullYear() - selectedDate.getFullYear()) < 14) {
+    if (currentDate.getFullYear() - selectedDate.getFullYear() < 14) {
       return { invalidBirthDate: true };
     }
 
@@ -353,30 +368,32 @@ export class PccFormComponent implements OnInit {
     await actionSheet.present();
   }
   async addImage(source: CameraSource, name) {
-    const image = await Camera.getPhoto({
-      quality: 60,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      source,
-    });
-
-    const blobData = this.b64toBlob(
-      image.base64String,
-      `image/${image.format}`
-    );
-    const formData = new FormData();
-    formData.append('documents', blobData);
-    const loading = await this.loader.create();
-    await loading.present();
-    this.reqS
-      .postFormData(baseEndpoints.cbsUpload, formData)
-      .subscribe(async (e: any) => {
-        this.characterCertificateForm.get(name).setValue(e.data);
-        this.characterCertificateForm.updateValueAndValidity();
-        this.fileNames[name] = 'data:image/jpg;base64,' + image.base64String;
-        await loading.dismiss();
-        this.cdref.detectChanges();
+    //if (await this.globalS.getCameraPermission()) {
+      const image = await Camera.getPhoto({
+        quality: 60,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+        source,
       });
+
+      const blobData = this.b64toBlob(
+        image.base64String,
+        `image/${image.format}`
+      );
+      const formData = new FormData();
+      formData.append('documents', blobData);
+      const loading = await this.loader.create();
+      await loading.present();
+      this.reqS
+        .postFormData(baseEndpoints.cbsUpload, formData)
+        .subscribe(async (e: any) => {
+          this.characterCertificateForm.get(name).setValue(e.data);
+          this.characterCertificateForm.updateValueAndValidity();
+          this.fileNames[name] = 'data:image/jpg;base64,' + image.base64String;
+          await loading.dismiss();
+          this.cdref.detectChanges();
+        });
+   // }
   }
 
   b64toBlob(b64Data, contentType = '', sliceSize = 512) {
