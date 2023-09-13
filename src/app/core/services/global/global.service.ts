@@ -13,6 +13,7 @@ import * as crypto from 'crypto-js';
 import { BehaviorSubject, Observable, forkJoin, from } from 'rxjs';
 import { Preferences as Storage } from '@capacitor/preferences';
 import { ToastController } from '@ionic/angular';
+import { Camera, PermissionStatus } from '@capacitor/camera';
 
 @Injectable({
   providedIn: 'root',
@@ -159,4 +160,24 @@ export class GlobalService {
       endDate,
     };
   }
+
+  async  getCameraPermission(): Promise<boolean> {
+    console.log('GET PERMISSION');
+    if (this.hasCameraPermission(await Camera.checkPermissions())) {
+      return true;
+    }
+
+    const result = this.hasCameraPermission(await Camera.requestPermissions({ permissions: ['camera'] }));
+    console.log('RESULT', result);
+    return result;
+  }
+
+   hasCameraPermission({ camera }: PermissionStatus): boolean {
+    switch (camera) {
+      case 'granted':
+        return true;
+    }
+    return false;
+  }
+
 }
