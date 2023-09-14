@@ -85,7 +85,7 @@
   <!-- DateOfBirth -->
   <ion-item>
     <ion-label position="stacked" for="DateOfBirth">Date of Birth</ion-label>
-    <ion-input type="date" id="DateOfBirth" formControlName="DateOfBirth"></ion-input>
+    <ion-input type="date" placeholder="Date of Birth" id="DateOfBirth" formControlName="DateOfBirth"></ion-input>
   </ion-item>
   <div *ngIf="(DateOfBirth.dirty || DateOfBirth.touched) && DateOfBirth.errors" class="errors">
     <span *ngIf="DateOfBirth.errors?.required">Date of birth is required</span>

@@ -119,7 +119,7 @@ export class PasswordFormComponent implements OnInit {
       type = 'reset';
     }
     const credentials: any = {
-      newPassword: this.passwordForm.value.confirm_password,
+      NewPassword: this.passwordForm.value.confirm_password,
       type,
     };
     if (type !== 'reset') {

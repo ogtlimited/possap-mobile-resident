@@ -3,6 +3,7 @@ import {
   authEndpoints,
   baseEndpoints,
   miscEndpoint,
+  serviceEndpoint,
 } from './../../config/endpoints';
 import { RequestService } from './../../request/request.service';
 import { Injectable } from '@angular/core';
@@ -59,22 +60,36 @@ export class AuthService {
   }
 
   login(credentials: any): Observable<any> {
-    return this.reqS.post(authEndpoints.login, credentials).pipe(
+    const body = this.globalS.computeCBSBody(
+      'post',
+      authEndpoints.login,
+      {},
+      '',
+      '',
+      credentials
+    );
+    return this.reqS.postFormData(serviceEndpoint.fetchData, body).pipe(
       switchMap((res: any) => {
         // console.log(res);
-        this.currentUser$.next(res.ResponseObject);
-        from(
-          Storage.set({
-            key: CURRENT_USER,
-            value: JSON.stringify(res.ResponseObject),
-          })
-        );
-        console.log(res.ResponseObject);
-        return of(res);
+        const obj = res.data;
+        console.log(obj);
+        if (!obj.Error) {
+          this.currentUser$.next(obj.ResponseObject);
+          from(
+            Storage.set({
+              key: CURRENT_USER,
+              value: JSON.stringify(obj.ResponseObject),
+            })
+          );
+          return of(res);
+        } else {
+          this.isAuthenticated.next(false);
+          return of(res);
+        }
       }),
       tap((res) => {
         console.log(res);
-        if (res.Error) {
+        if (res.data.Error) {
           this.isAuthenticated.next(false);
         } else {
           this.isAuthenticated.next(true);
@@ -118,17 +133,18 @@ export class AuthService {
     Token: string;
     Code: string;
   }): Observable<any> {
-    return this.reqS.post(authEndpoints.activate, credentials);
+    return this.reqS.postEncoded(authEndpoints.activate, credentials);
   }
   forgotPasswordInitiate(credentials: { email: any }): Observable<any> {
-    return this.reqS.post(authEndpoints.forgotPasswordInitiate, credentials);
+    console.log(credentials);
+    return this.reqS.postEncoded(authEndpoints.forgotPasswordInitiate, credentials);
   }
   forgotPasswordComplete(credentials: {
     email: any;
     verificationCode: any;
     password: any;
   }): Observable<any> {
-    return this.reqS.post(authEndpoints.forgotPasswordComplete, credentials);
+    return this.reqS.postEncoded(authEndpoints.forgotPasswordComplete, credentials);
   }
   changePassword(
     id: string,
@@ -152,19 +168,18 @@ export class AuthService {
   }
 
   sendResetOtp(credentials: { Email: any }): Observable<any> {
-    return this.reqS.post(authEndpoints.resetPasswordOtp, credentials);
+    return this.reqS.postEncoded(authEndpoints.resetPasswordOtp, credentials);
   }
 
   validateResetOtp(credentials: {
-    email: any;
-    code: any;
-    phone: any;
+    Token: any;
+    Code: any;
   }): Observable<any> {
-    return this.reqS.post(authEndpoints.validate, credentials);
+    return this.reqS.postEncoded(authEndpoints.activate, credentials);
   }
 
   uploadProfileImage(formData: FormData): Observable<any> {
-    return this.reqS.post(miscEndpoint.mediaUpload, formData);
+    return this.reqS.postEncoded(miscEndpoint.mediaUpload, formData);
   }
   currentUser(): Observable<any> {
     return from(Storage.get({ key: CURRENT_USER }));

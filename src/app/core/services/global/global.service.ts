@@ -1,7 +1,6 @@
 import { RequestService } from './../../request/request.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
-  GoogleMapUrl,
   baseEndpoints,
   serverBaseUrl,
   utilityEndpoint,
@@ -37,8 +36,8 @@ export class GlobalService {
 
   nearestPlaces(searchText) {
     const key = environment.mapsKey;
-    const url = GoogleMapUrl + searchText + '&inputtype=textquery&key=' + key;
-    return this.reqS.get(url);
+    // const url = GoogleMapUrl + searchText + '&inputtype=textquery&key=' + key;
+    return this.reqS.get('');
   }
 
   getUrlString(path, queryParams = {}) {

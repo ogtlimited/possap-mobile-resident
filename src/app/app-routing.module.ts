@@ -109,10 +109,12 @@ const routes: Routes = [
   },
   {
     path: 'pcc',
+    canLoad: [AuthGuard],
     loadChildren: () => import('./pages/pcc/pcc.module').then( m => m.PccPageModule)
   },
   {
     path: 'extracts',
+    canLoad: [AuthGuard],
     loadChildren: () => import('./pages/extracts/extracts.module').then( m => m.ExtractsPageModule)
   },
   // {

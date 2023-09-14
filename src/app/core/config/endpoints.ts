@@ -11,8 +11,6 @@ export const CBSDomainUrl = 'https://possap.gov.ng';
 export const DownloadUrl = CBSDomainUrl + '/Admin/Police/Request/Details';
 export const CBSBaseUrl = CBSDomainUrl + '/api/v1/pss';
 
-export const GoogleMapUrl =
-  'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=';
 
   export const baseEndpoints = {
   auth: serverBaseUrl + '/auth',

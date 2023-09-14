@@ -63,7 +63,7 @@
       <!-- IncidentReportedDate -->
       <ion-item *ngIf="IsIncidentReported.value === 'true'">
         <ion-label position="stacked" for="IncidentReportedDate">Select the date the incident was reported</ion-label>
-        <ion-input type="date" id="IncidentReportedDate" formControlName="IncidentReportedDate">
+        <ion-input type="date" placeholder="Incidence Reported Date" id="IncidentReportedDate" formControlName="IncidentReportedDate">
         </ion-input>
       </ion-item>
       <div *ngIf="(IncidentReportedDate.dirty || IncidentReportedDate.touched) && IncidentReportedDate.errors"
@@ -107,7 +107,7 @@
     <!-- AffidavitDateOfIssuance -->
     <ion-item>
       <ion-label position="stacked" for="AffidavitDateOfIssuance">Affidavit Date of Issuance</ion-label>
-      <ion-input type="date" id="AffidavitDateOfIssuance" formControlName="AffidavitDateOfIssuance">
+      <ion-input type="date" placeholder="Affidavit Date of Issuance" id="AffidavitDateOfIssuance" formControlName="AffidavitDateOfIssuance">
       </ion-input>
     </ion-item>
     <div *ngIf="(AffidavitDateOfIssuance.dirty || AffidavitDateOfIssuance.touched) && AffidavitDateOfIssuance.errors"
