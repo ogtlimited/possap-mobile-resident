@@ -7,14 +7,14 @@
 </ion-header>
 
 <ion-content *ngIf="showTutorial" fullscreen="true">
-  <swiper [slidesPerView]="1" (swiper)="setSwiperInstance($event)" (slideChangeTransitionStart)="onSlideChangeStart()">
+  <swiper #swiper [pagination]="{ clickable: true }" [slidesPerView]="1" effect="fade" (swiper)="setSwiperInstance($event)" (slideChangeTransitionStart)="onSlideChangeStart()">
     <ng-template swiperSlide>
       <div class="slide-container">
         <img width="100px" src="assets/custom-icons/possap-icon.svg" class="slide-image" />
-        <h2 class="slide-title">
+        <h3 class="slide-title">
           Welcome to
           <b>POSSAP Mobile</b>
-        </h2>
+        </h3>
         <p>
           <b>POSSAP Mobile</b> is Police Specialized Automation Services (POSSAP) Portal for handling request
           use.
@@ -24,8 +24,8 @@
 
     <ng-template swiperSlide>
       <div class="slide-container">
-        <img src="assets/img/certificate.svg" class="slide-image" />
-        <h2 class="slide-title">Convenience and Ease</h2>
+        <img src="assets/img/slide-2.png" class="slide-image" />
+        <h3 class="slide-title">Convenience and Ease</h3>
         <p>
           Request and pay for police specialized services online at your convenience. You can now access police
           specialized services from the comfort of your home, office or on the go.</p>
@@ -35,7 +35,7 @@
     <ng-template swiperSlide>
       <div class="slide-container">
         <img width="80px" src="assets/img/approvedRequest.svg" class="slide-image" />
-        <h2 class="slide-title">Request</h2>
+        <h3 class="slide-title">Request</h3>
         <p>
           <b>POSSAP Mobile</b> handle all request coming from POSSAP Client</p>
       </div>
@@ -45,8 +45,9 @@
 
     <ng-template swiperSlide>
       <div class="slide-container">
-        <img src="assets/img/start.svg" class="slide-image" />
-        <h2 class="slide-title">Ready to Play?</h2>
+        <img src="assets/img/slide-3.png" class="slide-image" />
+        <p>
+          You can now access <b>POSSAP</b> Services with ease within the POSSAP Mobile App</p>
         <ion-button fill="clear" (click)="startApp()">
           Continue
           <ion-icon slot="end" name="arrow-forward"></ion-icon>
@@ -54,6 +55,11 @@
       </div>
     </ng-template>
   </swiper>
+  <ion-row *ngIf="showNext" class="ion-justify-content-center">
+
+    <ion-button fill="clear" (click)="slideNext()"><ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
+  </ion-row>
+    <!-- <ion-button (click)="slidePrev()">Prev slide</ion-button> -->
 </ion-content>
 <ion-content class="ion-justify-content-center ion-align-items-center" *ngIf="!showTutorial" fullscreen="true">
  <ion-grid class="center-grid">

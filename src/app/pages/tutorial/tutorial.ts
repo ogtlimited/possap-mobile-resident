@@ -1,10 +1,11 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MenuController } from '@ionic/angular';
 
 import { Preferences as Storage } from '@capacitor/preferences';
 import Swiper from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
 
 @Component({
   selector: 'page-tutorial',
@@ -14,6 +15,8 @@ import Swiper from 'swiper';
 export class TutorialPage {
   showSkip = true;
   showTutorial = false;
+  @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
+  showNext = true;
   private slides: Swiper;
 
   constructor(
@@ -31,6 +34,10 @@ export class TutorialPage {
     });
 
   }
+  slideNext(){
+    this.swiper.swiperRef.slideNext(100);
+  }
+
 
   startApp() {
     console.log('tutoriaLS');
@@ -44,6 +51,11 @@ export class TutorialPage {
   }
 
   onSlideChangeStart() {
+    if(this.slides.activeIndex === 3){
+      this.showNext = false
+    }else{
+      this.showNext = true
+    }
     this.showSkip = !this.slides.isEnd;
     this.cd.detectChanges();
   }
