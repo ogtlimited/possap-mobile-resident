@@ -113,7 +113,7 @@ export class ResidentFormComponent implements OnInit {
   async openModal() {
     const modal = await this.modalController.create({
       component: PasswordFormComponent,
-      cssClass: 'fullscreen',
+      cssClass: 'select-modal',
       componentProps: {
         reset: true,
       },

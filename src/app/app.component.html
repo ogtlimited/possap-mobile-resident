@@ -132,6 +132,7 @@
 
         <ion-list lines="none">
           <ion-menu-toggle autoHide="false">
+
             <ion-item *ngIf="user" class="item" button lines="none" (click)="logout()" routerDirection="root">
               <ion-icon name="log-out-f" slot="start"></ion-icon>
               Logout
@@ -140,8 +141,17 @@
               <ion-icon name="log-in-f" slot="start"></ion-icon>
               Login
             </ion-item>
+
           </ion-menu-toggle>
         </ion-list>
+        <ion-item
+        
+          class="item"
+          routerLink="/privacy"
+          routerLinkActive="active"
+          routerDirection="root"
+          detail="false"
+        ></ion-item>
       </ion-content>
     </ion-menu>
 
