@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { UserData } from './user-data';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConferenceData {
   data: any;
@@ -66,7 +66,9 @@ export class ConferenceData {
         day.shownSessions = 0;
 
         queryText = queryText.toLowerCase().replace(/,|\.|-/g, ' ');
-        const queryWords = queryText.split(' ').filter(w => !!w.trim().length);
+        const queryWords = queryText
+          .split(' ')
+          .filter((w) => !!w.trim().length);
 
         day.groups.forEach((group: any) => {
           group.hide = true;
@@ -133,29 +135,23 @@ export class ConferenceData {
 
   getSpeakers() {
     return this.load().pipe(
-      map((data: any) => {
-        return data.speakers.sort((a: any, b: any) => {
+      map((data: any) => data.speakers.sort((a: any, b: any) => {
           const aName = a.name.split(' ').pop();
           const bName = b.name.split(' ').pop();
           return aName.localeCompare(bName);
-        });
-      })
+        }))
     );
   }
 
   getTracks() {
     return this.load().pipe(
-      map((data: any) => {
-        return data.tracks.sort();
-      })
+      map((data: any) => data.tracks.sort())
     );
   }
 
   getMap() {
     return this.load().pipe(
-      map((data: any) => {
-        return data.map;
-      })
+      map((data: any) => data.map)
     );
   }
 }

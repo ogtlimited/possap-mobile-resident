@@ -1,24 +1,43 @@
 import { RequestService } from './../../request/request.service';
 /* eslint-disable @typescript-eslint/naming-convention */
-import { GoogleMapUrl, serverBaseUrl } from './../../config/endpoints';
+import {
+  baseEndpoints,
+  serverBaseUrl,
+  utilityEndpoint,
+} from './../../config/endpoints';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import Base64 from 'crypto-js/enc-base64';
 import * as crypto from 'crypto-js';
-import { Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin, from } from 'rxjs';
 import { Preferences as Storage } from '@capacitor/preferences';
+import { ToastController } from '@ionic/angular';
+import { Camera, PermissionStatus } from '@capacitor/camera';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalService {
   ABSOLUTE_URL_REGEX = /^(?:[a-z]+:)?\/\//;
-  constructor(private reqS: RequestService) {}
+  statesLgas$: BehaviorSubject<any> = new BehaviorSubject<[]>(null);
+
+  constructor(private reqS: RequestService, private toast: ToastController) {}
+
+  async presentToast(msg, position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toast.create({
+      message: msg,
+      duration: 1500,
+      position,
+      color:'primary'
+    });
+
+    await toast.present();
+  }
 
   nearestPlaces(searchText) {
     const key = environment.mapsKey;
-    const url = GoogleMapUrl + searchText + '&inputtype=textquery&key=' + key;
-    return this.reqS.get(url);
+    // const url = GoogleMapUrl + searchText + '&inputtype=textquery&key=' + key;
+    return this.reqS.get('');
   }
 
   getUrlString(path, queryParams = {}) {
@@ -87,6 +106,10 @@ export class GlobalService {
     return Base64.stringify(hmac.finalize());
   }
 
+  getState() {
+    return this.reqS.get(baseEndpoints.helper + '/all-states');
+  }
+
   computeCBSBody(
     method,
     url,
@@ -96,7 +119,6 @@ export class GlobalService {
     body = null
   ) {
     return {
-
       requestObject: {
         body,
         headers: {
@@ -109,11 +131,52 @@ export class GlobalService {
           hashmessage,
           clientSecret: environment.clientSecret,
         },
-      }
+      },
     };
   }
 
   fetchStorageObject(key): Observable<any> {
     return from(Storage.get({ key }));
   }
+  setStorageObject(key, val): Observable<any> {
+    return from(Storage.set({ key, value: JSON.stringify(val) }));
+  }
+
+  fetchAllFormData() {
+    const response1 = this.reqS.get(baseEndpoints.extractFormdata);
+    // const response2 = this.reqS.get(baseEndpoints.pccFormdata);
+    const response3 = this.reqS.get(utilityEndpoint.countries);
+    return forkJoin([response1, response3]);
+  }
+  startEnd() {
+    const today = new Date();
+    const startDate = new Date(new Date().setDate(today.getDate() - 90)).toLocaleDateString(
+      'en-GB'
+      );
+    const endDate = new Date().toLocaleDateString('en-GB');
+    return {
+      startDate,
+      endDate,
+    };
+  }
+
+  async  getCameraPermission(): Promise<boolean> {
+    console.log('GET PERMISSION');
+    if (this.hasCameraPermission(await Camera.checkPermissions())) {
+      return true;
+    }
+
+    const result = this.hasCameraPermission(await Camera.requestPermissions({ permissions: ['camera'] }));
+    console.log('RESULT', result);
+    return result;
+  }
+
+   hasCameraPermission({ camera }: PermissionStatus): boolean {
+    switch (camera) {
+      case 'granted':
+        return true;
+    }
+    return false;
+  }
+
 }

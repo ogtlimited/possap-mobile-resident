@@ -29,3 +29,15 @@ ion-modal {
     --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
   }
+
+  ion-item{
+    ion-label{
+      white-space: normal !important;
+    }
+  }
+  .light{
+    color: #fff !important;
+  }
+  .dark{
+    color: #000 !important;
+  }

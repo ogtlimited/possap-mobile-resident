@@ -1,17 +1,23 @@
 import { environment } from './../../../environments/environment.prod';
 /* eslint-disable @typescript-eslint/naming-convention */
-export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
-// export const serverBaseUrl = 'http://localhost:3000/api/v1';
-//  export const CBSBaseUrl = 'http://pss.cbs/api/v1/pss';
-export const CBSBaseUrl = 'https://test.possap.ng/api/v1/pss';
+// export const serverBaseUrl = 'https://possap-api.ogtlprojects.com/api/v1';
+export const serverBaseUrl = 'https://possapbackend-development.ogtlprojects.com/api/v1';
+//  export const serverBaseUrl = 'http://localhost:5000/api/v1';
 
-export const GoogleMapUrl =
-  'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=';
-export const baseEndpoints = {
+ // export const CBSDomainUrl = 'http://pss.cbs';
+export const CBSDomainUrl = 'https://possap.gov.ng';
+// export const CBSDomainUrl = 'https://test.possap.ng';
+
+export const DownloadUrl = CBSDomainUrl + '/Admin/Police/Request/Details';
+export const CBSBaseUrl = CBSDomainUrl + '/api/v1/pss';
+
+
+  export const baseEndpoints = {
   auth: serverBaseUrl + '/auth',
   cbsRoutes: serverBaseUrl + '/cbs-routes',
   user: serverBaseUrl + '/users',
   upload: serverBaseUrl + '/upload',
+  download: serverBaseUrl + '/helper/download',
   cbsUpload: serverBaseUrl + '/cbs-routes/upload',
   nin: serverBaseUrl + '/helper/verifyNIN',
   eag: serverBaseUrl + '/eag',
@@ -22,9 +28,12 @@ export const baseEndpoints = {
   incidentReport: serverBaseUrl + '/incident',
   extractRequest: CBSBaseUrl + '/PSSExtract/submit-formdata',
   extractFormdata: CBSBaseUrl + '/PSSExtract/formdata',
+  pccRequest: CBSBaseUrl + '/charactercertificate/submit-pcc-formdata',
+  pccDiasporaRequest: CBSBaseUrl + '/diasporacharactercertificate/submit-pcc-diaspora-formdata',
+  pccFormdata: CBSBaseUrl + '/charactercertificate/pcc-formdata',
 };
 export const authEndpoints = {
-  login: 'https://test.possap.ng/api/v1/pss/proxyauthentication/signin',
+  login: CBSBaseUrl +  '/proxyauthentication/signin',
   signup: CBSBaseUrl + '/user/create-user',
   activate: CBSBaseUrl + '/user/verify-account-api',
   forgotPasswordInitiate: CBSBaseUrl + '/user/forgot-password-api',
@@ -38,6 +47,27 @@ export const authEndpoints = {
 
 export const utilityEndpoint = {
   services: baseEndpoints.utility + '/get-services',
+  stateLga: baseEndpoints.utility + '/get-states-lgas',
+  countries: baseEndpoints.utility + '/get-countries',
+  paymentRef: baseEndpoints.utility + '/get-payment-reference',
+  paymentNotify: baseEndpoints.utility + '/payment-notify',
+};
+export const serviceEndpoint = {
+  saveExtract: baseEndpoints.cbsRoutes + '/extract',
+  savePCC: baseEndpoints.cbsRoutes + '/pcc',
+  saveEGS: baseEndpoints.cbsRoutes + '/egs',
+  fetchData: baseEndpoints.cbsRoutes + '/fetch-data',
+
+};
+export const egsEndpoint = {
+  getTacticalSquad: CBSBaseUrl + '/pssescort/tactical-squads',
+  submitEscortFormData: CBSBaseUrl + '/pssescort/submit-escort-formdata',
+  getNextLevelCommand: CBSBaseUrl + '/pssescort/next-level-commands',
+  getStateFormation: CBSBaseUrl + '/pssescort/state-formations',
+  getFromData: CBSBaseUrl + '/pssescort/get-form-data',
+  getPSSSubCategories: CBSDomainUrl + '/p/x/get-pss-sub-categories',
+  getPSSSubSubCategories: CBSDomainUrl + '/p/x/get-pss-sub-Sub-categories',
+  getEstimate: CBSDomainUrl + '/p/get-estimate',
 };
 export const miscEndpoint = {
   mediaUpload: baseEndpoints.helper + '/uploadMedia',

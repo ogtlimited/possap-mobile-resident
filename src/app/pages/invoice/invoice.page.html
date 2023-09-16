@@ -3,16 +3,17 @@
 <ion-content>
   <div class="content" *ngIf="isSuccess; else payment">
     <div class="icon-box">
-      <ion-icon name="checkmark-circle-outline"></ion-icon>
+      <ion-icon color="primary" name="checkmark-circle-outline"></ion-icon>
     </div>
     <div class="sucess-message">
       <h5>Payment Successful</h5>
-      <p>Transaction Number: 12345678</p>
+      <P>Find below your payment reference. Please copy and store it somewhere</P>
+      <p>Transaction Number: {{reference}}</p>
     </div>
     <div>
-      <p>Amount Paid <span class="text-em">45,000 naira</span></p>
+      <p>Amount Paid <span class="text-em">{{details.AmountDue | currency:'NGN'}}</span></p>
     </div>
-    <button>Back to home</button>
+    <ion-button color="primary" expand="block" routerLink="/app/tabs/home">Back to home</ion-button>
   </div>
   <ng-template #payment>
     <ion-card>
@@ -53,8 +54,8 @@
       <ion-row>
         <ion-col class="px-16 mb-8">
 
-          <bank3d-payment-angular [reference]="generateRef()" [merchantKey]="merchantKey" currencyCode="NGN"
-            [amount]="amount" email="test@gmail.com" phone="0801234567889" mode="demo" text="Pay Online" color="#2f4cb0"
+          <bank3d-payment-angular [reference]="reference" [merchantKey]="merchantKey" currencyCode="NGN"
+            [amount]="amount" [email]="invoice.Email" phone="invoice.PhoneNumber" mode="live" text="Pay Online" color="#2f4cb0"
             [style]="{'background-color':'white', 'color': '#000', 'width': '100%', 'padding': '10px'}"
             (callback)="paymentCallback($event)" (onClose)="closedPaymentModal()">
           </bank3d-payment-angular>

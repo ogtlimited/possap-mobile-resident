@@ -7,15 +7,16 @@
             <div class="menu-header-bg"></div>
             <div class="header-content">
               <div class="imgHolder">
-                <img src="assets/img/speakers/rabbit.jpg" alt="" srcset="" />
+                <img width="80px" src="assets/img/avatar.png" alt="" srcset="" />
               </div>
               <ion-label>
-                <h3>{{ user?.fullName || "Anonymous" }}</h3>
+                <h3 *ngIf="user?.Name">{{ user?.Name | titlecase  }}</h3>
+                <h3 *ngIf="!user?.Name">{{  "Anonymous" }}</h3>
                 <p>
-                  <ion-text>{{ user?.email || "" }}</ion-text>
+                  <ion-text>{{ user?.Email || "" }}</ion-text>
                 </p>
                 <p>
-                  <ion-text>{{ user?.phone }}</ion-text>
+                  <ion-text>{{ user?.PhoneNumber }}</ion-text>
                 </p>
               </ion-label>
             </div>
@@ -131,19 +132,16 @@
 
         <ion-list lines="none">
           <ion-menu-toggle autoHide="false">
-            <ng-container *ngIf="user; then loggedIn else loggedOut"></ng-container>
-            <ng-template #loggedIn>
-              <ion-item class="item" button (click)="logout()" detail="false">
-                <ion-icon slot="start" name="log-out-f"></ion-icon>
-                <ion-label>Log out</ion-label>
-              </ion-item>
-            </ng-template>
-            <ng-template #loggedOut>
-              <ion-item class="item" routerLink="/login" detail="false">
-                <ion-icon slot="start" name="log-in-outline"></ion-icon>
-                <ion-label>Log in</ion-label>
-              </ion-item>
-            </ng-template>
+
+            <ion-item *ngIf="user" class="item" button lines="none" (click)="logout()" routerDirection="root">
+              <ion-icon name="log-out-f" slot="start"></ion-icon>
+              Logout
+            </ion-item>
+            <ion-item *ngIf="!user" class="item" button lines="none" (click)="logout()" routerDirection="root">
+              <ion-icon name="log-in-f" slot="start"></ion-icon>
+              Login
+            </ion-item>
+
           </ion-menu-toggle>
         </ion-list>
         <ion-item

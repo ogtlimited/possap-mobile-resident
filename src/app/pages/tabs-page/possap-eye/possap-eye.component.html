@@ -15,22 +15,22 @@
 
     <ion-row>
       <ion-col size="6">
-        <ion-card>
+        <ion-card  (click)="navigate('cmr', 'Central Motor Registry')">
           <ion-card-content class="ion-text-center">
             <h3>
-              <ion-icon color="primary" name="eye"></ion-icon>
+              <ion-icon color="primary" name="cmr"></ion-icon>
             </h3>
-            General Reports
+            CMR
           </ion-card-content>
         </ion-card>
       </ion-col>
       <ion-col size="6">
-        <ion-card (click)="navigate('pb', 'Police Brutality')">
+        <ion-card (click)="navigate('egs', 'Guard Services', 'restful')">
           <ion-card-content class="ion-text-center">
             <h3 class="ion-text-center">
-              <ion-icon color="primary" name="abuse"></ion-icon>
+              <ion-icon color="primary" name="egs"></ion-icon>
             </h3>
-            Police Brutality
+            Guard Services
           </ion-card-content>
         </ion-card>
       </ion-col>

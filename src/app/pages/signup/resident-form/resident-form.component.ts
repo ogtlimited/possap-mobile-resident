@@ -20,14 +20,14 @@ import { stateOptions, lgaOptions } from 'src/app/core/data/lgas';
 export class ResidentFormComponent implements OnInit {
   @Output() emitFormValue: EventEmitter<any> = new EventEmitter();
   residentForm: FormGroup;
-  hide = false;
-  gotNIN = false;
+  hide = true;
+  showVerifyIcon = false;
   ninData: any = {};
   userImage: any;
   fileName = null;
   individualOptions = IndividualIdentificationTypesOption;
   corporateOptions = CorportateIdentificationTypesOption;
-  idTypeOption = [];
+  idTypeOption = IndividualIdentificationTypesOption;
   formStage = 'One';
   ninError = false;
   allStates = stateOptions;
@@ -42,9 +42,9 @@ export class ResidentFormComponent implements OnInit {
   ngOnInit() {
     this.residentForm = this.fb.group(
       {
-        TaxPayerType: ['', [Validators.required]],
-        IdType: ['', [Validators.required]],
-        identificationfile: ['', [Validators.required]],
+        TaxPayerType: ['1', [Validators.required]],
+        IdType: [1, [Validators.required]],
+        //identificationfile: ['', [Validators.required]],
         IdNumber: [
           '',
           [
@@ -97,7 +97,7 @@ export class ResidentFormComponent implements OnInit {
       if (e.length === 11) {
         console.log(e);
         this.showLoading();
-        this.gotNIN = false;
+        this.showVerifyIcon = false;
         this.authS.getNIN(e).subscribe((val) => {
           this.ninData = val.data;
           console.log(this.ninData);
@@ -127,12 +127,17 @@ export class ResidentFormComponent implements OnInit {
           //this.state.disable();
           //this.phone.disable();
           //this.lga.disable();
-          this.gotNIN = true;
+          this.showVerifyIcon = true;
+          this.ninError = false;
           this.loadS.dismiss();
+        }, err => {
+          console.log(err.error.message);
+          this.ninError = true;
+          this.showVerifyIcon = true;
         });
       } else {
-        this.ninError = true;
-        this.gotNIN = false;
+       // this.ninError = true;
+        //this.showVerifyIcon = false;
       }
     });
   }
@@ -149,7 +154,7 @@ export class ResidentFormComponent implements OnInit {
 
   signup() {
     const formData = new FormData();
-    const nonObject = ['TaxPayerType', 'IdType', 'identificationfile'];
+    const nonObject = ['TaxPayerType', 'IdType']; // removed 'identificationfile' from array
     Object.keys(this.residentForm.controls).forEach((formControlName) => {
       if (nonObject.includes(formControlName)) {
         formData.append(
@@ -165,7 +170,6 @@ export class ResidentFormComponent implements OnInit {
     });
     console.log(this.residentForm.value);
     console.log(formData.get('TaxPayerType'));
-    console.log(formData.get('identificationfile'));
     console.log(formData.get('IdNumber'));
     console.log(formData.get('RegisterCBSUserModel.Name'));
     console.log(formData.get('RegisterCBSUserModel.Email'));

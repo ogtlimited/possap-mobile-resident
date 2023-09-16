@@ -1,3 +1,20 @@
+// .approved{
+//   width: 100vw;
+//   height: 100vh;
+//   position: relative;
+// }
+// .approved::after{
+//   position: absolute;
+//   z-index: -1;
+//   top: 0;
+//   bottom: 0;
+//   right: 0;
+//   left: 0;
+//   content: '';
+//   opacity: 0.2;
+//   --background: url('/assets/img/watermark.png') 50% 50%  no-repeat;
+// }
+
 .info {
   position: relative;
   left: 6%;

@@ -11,6 +11,9 @@ import { Preferences as Storage } from '@capacitor/preferences';
 import { UserData } from './providers/user-data';
 import { AuthService } from './core/services/auth/auth.service';
 import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
+import { GlobalService } from './core/services/global/global.service';
+import { PossapServicesService } from './core/services/possap-services/possap-services.service';
+import { AxiosResponse, ServiceResponse } from './core/models/ResponseModel';
 
 @Component({
   selector: 'app-root',
@@ -46,21 +49,31 @@ export class AppComponent implements OnInit {
     private router: Router,
     private userData: UserData,
     private authService: AuthService,
-    private toastCtrl: ToastController,
-    private appRate: AppRate
+    private globalS: GlobalService,
+    private appRate: AppRate,
+    private possapS: PossapServicesService,
   ) {
-
     // Add or remove the "dark" class based on if the media query matches
     this.initializeApp();
+    this.getStateLGA();
   }
 
   toggleDarkTheme(shouldAdd) {
     const mode = shouldAdd ? 'light' : 'dark';
-    Storage.set({key: 'themeMode', value: mode });
+    Storage.set({ key: 'themeMode', value: mode });
     document.body.classList.toggle('dark', !shouldAdd);
+  }
+  getStateLGA() {
+    this.globalS.getState().subscribe((states) => {
+      this.globalS.statesLgas$.next(states.data);
+      Storage.set({ key: 'states', value: JSON.stringify(states.data) });
+    });
   }
 
   async ngOnInit() {
+    this.possapS.fetchCBSServices().subscribe((s: AxiosResponse) => {
+      Storage.set({key: 'CBS-CORE', value : JSON.stringify(s.data.ResponseObject) });
+    });
     this.authService.currentUser$.subscribe((e) => {
       if (!e) {
         this.user = null;
@@ -69,8 +82,8 @@ export class AppComponent implements OnInit {
       }
     });
     this.authService.currentUser().subscribe((e) => {
-      // console.log(JSON.parse(e.value));
       if (e.value !== 'undefined') {
+
         this.user = JSON.parse(e.value);
       }
     });
@@ -82,14 +95,15 @@ export class AppComponent implements OnInit {
         // StatusBar.hide();
         SplashScreen.hide();
       }
-      const themeMode = await Storage.get({key: 'themeMode'});
-      if(themeMode.value){
+      const themeMode = await Storage.get({ key: 'themeMode' });
+      if (themeMode.value) {
         this.dark = themeMode.value === 'light' ? false : true;
         document.body.classList.toggle('dark', this.dark);
-      }else{
-        Storage.set({key: 'themeMode', value: 'light'});
+      } else {
+        Storage.set({ key: 'themeMode', value: 'light' });
       }
     });
+    // this.loadData();
   }
 
   logout() {
@@ -111,9 +125,13 @@ export class AppComponent implements OnInit {
     this.appRate.promptForRating(true);
   }
 
-  openTutorial() {
-    this.menu.enable(false);
-    Storage.set({ key: 'ion_did_tutorial', value: 'true' });
-    this.router.navigateByUrl('/tutorial');
+  // openTutorial() {
+  //   this.menu.enable(false);
+  //   Storage.set({ key: 'ion_did_tutorial', value: 'true' });
+  //   this.router.navigateByUrl('/tutorial');
+  // }
+
+  loadData() {
+    this.globalS.fetchAllFormData();
   }
 }

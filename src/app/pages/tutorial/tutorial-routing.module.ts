@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { TutorialPage } from './tutorial';
+import { CheckTutorial } from 'src/app/providers/check-tutorial.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: TutorialPage
+    component: TutorialPage,
+    canActivate: [CheckTutorial]
   }
 ];
 

@@ -1,0 +1,159 @@
+<ion-content>
+  <form [formGroup]="egsForm">
+    <ion-item>
+      <ion-label position="floating">Service Category</ion-label>
+      <ion-select mode="ios" formControlName="ServiceCategory" placeholder="Select service category">
+        <ion-select-option *ngFor="let i of ServiceCategoryOptions" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(ServiceCategory.dirty || ServiceCategory.touched) && ServiceCategory.errors" class="errors">
+      <span *ngIf="ServiceCategory.errors?.required">Categories is required</span>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Category Type</ion-label>
+      <ion-select mode="ios" formControlName="CategoryType" placeholder="Select category type">
+        <ion-select-option *ngFor="let i of CategoryTypeOptions" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(CategoryType.dirty || CategoryType.touched) && CategoryType.errors" class="errors">
+      <span *ngIf="CategoryType.errors?.required">Category Type is required</span>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Unit</ion-label>
+      <ion-select mode="md"  formControlName="SelectedCommandType" placeholder="Select a unit">
+        <ion-select-option *ngFor="let i of CommandTypeOptions" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(SelectedCommandType.dirty || SelectedCommandType.touched) && SelectedCommandType.errors" class="errors">
+      <span *ngIf="SelectedCommandType.errors?.required">Unit is required</span>
+    </div>
+
+    <ion-item *ngIf="showCommandTactical">
+      <ion-label position="floating">Tactical Squad</ion-label>
+      <ion-select mode="ios" interface="action-sheet" formControlName="SelectedTacticalSquad" placeholder="Select tactical squad">
+        <ion-select-option *ngFor="let i of TacticalSquadOptions" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(SelectedTacticalSquad.dirty || SelectedTacticalSquad.touched) && SelectedTacticalSquad.errors" class="errors">
+      <span *ngIf="SelectedTacticalSquad.errors?.required">Tactical Squad is required</span>
+    </div>
+    <ion-item *ngIf="showCommandTactical">
+      <ion-label position="floating">Command / Formation</ion-label>
+      <ion-select mode="md" interface="action-sheet" formControlName="SelectedCommand" placeholder="Select command">
+        <ion-select-option *ngFor="let i of CommandOptions" [value]="i.Id">{{i.Name  }}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(SelectedCommand.dirty || SelectedCommand.touched) && SelectedCommand.errors" class="errors">
+      <span *ngIf="SelectedCommand.errors?.required">Command is required</span>
+    </div>
+
+    <ion-item *ngIf="showEscortService">
+      <ion-label position="floating">Origin State</ion-label>
+      <ion-select mode="ios" formControlName="SelectedOriginState" placeholder="Select Origin State">
+        <ion-select-option *ngFor="let i of OriginStateOptions" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(SelectedOriginState.dirty || SelectedOriginState.touched) && SelectedOriginState.errors" class="errors">
+      <span *ngIf="SelectedOriginState.errors?.required">Origin State is required</span>
+    </div>
+
+    <ion-item *ngIf="showEscortService">
+      <ion-label position="floating">Origin LGA</ion-label>
+      <ion-select mode="ios" formControlName="SelectedOriginLGA" placeholder="Select Origin LGA">
+        <ion-select-option *ngFor="let i of OriginLGAOptions" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(SelectedOriginLGA.dirty || SelectedOriginLGA.touched) && SelectedOriginLGA.errors" class="errors">
+      <span *ngIf="SelectedOriginLGA.errors?.required">Origin LGA is required</span>
+    </div>
+
+    <ion-item *ngIf="showEscortService">
+      <ion-label position="floating">Address</ion-label>
+      <ion-textarea placeholder="Enter your address"  type="text" formControlName="AddressOfOriginLocation"></ion-textarea>
+    </ion-item>
+    <div *ngIf="(AddressOfOriginLocation.dirty || AddressOfOriginLocation.touched) && AddressOfOriginLocation.errors" class="errors">
+      <span *ngIf="AddressOfOriginLocation.errors?.required">Address is required</span>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Service Delivery State</ion-label>
+      <ion-select mode="ios" formControlName="SelectedState" placeholder="Select delivery state">
+        <ion-select-option *ngFor="let i of StateOptions" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(SelectedState.dirty || SelectedState.touched) && SelectedState.errors" class="errors">
+      <span *ngIf="SelectedState.errors?.required">Service Delivery State is required</span>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Service Delivery LGA</ion-label>
+      <ion-select mode="ios" formControlName="SelectedStateLGA" placeholder="Select delivery LGA">
+        <ion-select-option *ngFor="let i of LGAOptions" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+
+    </ion-item>
+    <div *ngIf="(SelectedStateLGA.dirty || SelectedStateLGA.touched) && SelectedStateLGA.errors" class="errors">
+      <span *ngIf="SelectedStateLGA.errors?.required">Service Delivery LGA is required</span>
+    </div>
+    <ion-item *ngIf="showCommandConventional">
+      <ion-label position="floating">Command / Formation</ion-label>
+      <ion-select mode="md" interface="action-sheet" formControlName="SelectedCommand" placeholder="Select command">
+        <ion-select-option *ngFor="let i of CommandOptions" [value]="i.Id">{{i.Name  }}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Address</ion-label>
+      <ion-textarea placeholder="Enter your address"  type="text" formControlName="Address"></ion-textarea>
+    </ion-item>
+    <div *ngIf="(Address.dirty || Address.touched) && Address.errors" class="errors">
+      <span *ngIf="Address.errors?.required">Address is required</span>
+    </div>
+
+
+    <ion-item>
+      <ion-label position="stacked">Start Date</ion-label>
+      <ion-input  type="date" formControlName="StartDate" ></ion-input>
+    </ion-item>
+    <div *ngIf="(StartDate.dirty || StartDate.touched) && StartDate.errors" class="errors">
+      <span *ngIf="StartDate.errors?.required">Start Date is required</span>
+      <span *ngIf="StartDate.errors?.dateValid">Start Date must be greater than today</span>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">End Date</ion-label>
+      <ion-input type="date" formControlName="EndDate" (ionBlur)="validateEndDate()"></ion-input>
+    </ion-item>
+    <div *ngIf="(EndDate.dirty || EndDate.touched) && EndDate.errors" class="errors">
+      <span *ngIf="EndDate.errors?.required">End Date is required</span>
+    </div>
+    <div *ngIf="endDateError" class="errors">
+      <span>End Date must be greater than Start Date</span>
+    </div>
+
+
+    <ion-button class="mx-10 mt-10" expand="full" (click)="onSubmit()" [disabled]="egsForm.invalid">Submit</ion-button>
+  </form>
+
+</ion-content>

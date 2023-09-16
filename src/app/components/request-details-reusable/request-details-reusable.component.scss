@@ -1,0 +1,126 @@
+// .approved{
+//   width: 100vw;
+//   height: 100vh;
+//   position: relative;
+// }
+// .approved::after{
+//   position: absolute;
+//   z-index: -1;
+//   top: 0;
+//   bottom: 0;
+//   right: 0;
+//   left: 0;
+//   content: '';
+//   opacity: 0.2;
+//   --background: url('/assets/img/watermark.png') 50% 50%  no-repeat;
+// }
+
+.info {
+    position: relative;
+    left: 6%;
+    background-image: linear-gradient(to right, #71d3b6, #eccd8f);
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 12px;
+    padding: 6px;
+    ion-label {
+      font-size: 14px;
+    }
+  }
+  
+  ion-item {
+    --background: none;
+    .notice,
+    ion-label {
+      color: #6c6e7b;
+    }
+  }
+  h2,
+  .h2C {
+    color: #474c5a;
+    font-weight: 500;
+  }
+  .notice,
+  ion-label {
+    color: #6c6e7b;
+  }
+  
+  .container {
+    margin-top: 16px;
+  }
+  
+  .step {
+    padding: 5px 15px;
+  
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  
+    background-color: cream;
+  }
+  
+  .v-stepper {
+    position: relative;
+    /*   visibility: visible; */
+  }
+  
+  /* regular step */
+  .step .circle {
+    background-color: white;
+    border: 3px solid gray;
+    border-radius: 100%;
+    width: 20px; /* +6 for border */
+    height: 20px;
+    display: inline-block;
+  }
+  
+  .step .line {
+    top: 23px;
+    left: 8px;
+    /*   height: 120px; */
+    height: 100%;
+  
+    position: absolute;
+    border-left: 3px solid gray;
+  }
+  
+  .step.completed .circle {
+    visibility: visible;
+    background-color: #2f4cb0;
+    border-color: #2f4cb0;
+  }
+  
+  .step.completed .line {
+    border-left: 3px solid #2f4cb0;
+  }
+  
+  .step.active .circle {
+    visibility: visible;
+    border-color: #2f4cb0;
+  }
+  
+  .step.empty .circle {
+    visibility: hidden;
+  }
+  
+  .step.empty .line {
+    /*     visibility: hidden; */
+    /*   height: 150%; */
+    top: 0;
+    height: 150%;
+  }
+  
+  .step:last-child .line {
+    border-left: 3px solid white;
+    z-index: -1; /* behind the circle to completely hide */
+  }
+  
+  .content {
+    margin-left: 20px;
+    display: inline-block;
+    width: 100%;
+  }
+  .d-block{
+    display: block;
+  }
+  

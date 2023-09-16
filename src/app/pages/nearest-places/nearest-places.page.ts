@@ -2,7 +2,7 @@ import { GlobalService } from './../../core/services/global/global.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
-import { Map, Control, DomUtil, ZoomAnimEvent , Layer, MapOptions, tileLayer, latLng } from 'leaflet';
+// import { Map, Control, DomUtil, ZoomAnimEvent , Layer, MapOptions, tileLayer, latLng } from 'leaflet';
 import { Location } from '@angular/common';
 import { Observable, Subscriber } from 'rxjs';
 import * as L from 'leaflet';
@@ -14,7 +14,7 @@ import * as L from 'leaflet';
 })
 
 export class NearestPlacesPage implements OnInit {
-  public map: Map;
+  public map;
   public zoom: number;
   location = 'MY MAP';
   GoogleAutocomplete: any;

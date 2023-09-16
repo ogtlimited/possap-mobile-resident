@@ -1,13 +1,18 @@
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 /* eslint-disable @typescript-eslint/naming-convention */
-import { baseEndpoints, utilityEndpoint } from './../../config/endpoints';
+import {
+  baseEndpoints,
+  serviceEndpoint,
+  utilityEndpoint,
+} from './../../config/endpoints';
 import { Injectable } from '@angular/core';
 import { RequestService } from '../../request/request.service';
 import { GlobalService } from '../global/global.service';
 import { environment } from 'src/environments/environment.prod';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, from } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
+import { EgsService } from '../egs/egs.service';
 
 const SERVICES = 'CBS-SERVICES';
 @Injectable({
@@ -20,7 +25,8 @@ export class PossapServicesService {
   constructor(
     private reqS: RequestService,
     private globalS: GlobalService,
-    private authS: AuthService
+    private authS: AuthService,
+    private egs: EgsService
   ) {
     this.subscription = this.authS.currentUser$.subscribe(
       (e) => (this.user = e)
@@ -31,8 +37,28 @@ export class PossapServicesService {
     return this.reqS.get('assets/data/services.json');
     // return this.reqS.get(baseEndpoints.service);
   }
+  async fetchCoreServices() {
+    const services = await Preferences.get({ key: 'CBS-CORE' });
+    console.log(services);
+    if (services.value && (services.value !== 'undefined')) {
+      return JSON.parse(services.value);
+    }else{
+
+    }
+  }
   fetchCBSServices() {
-    return this.reqS.get(utilityEndpoint.services);
+    const body = this.globalS.computeCBSBody(
+      'get',
+      utilityEndpoint.services,
+      {},
+      '',
+      '',
+      null
+    );
+    return this.reqS.postFormData(serviceEndpoint.fetchData, body);
+  }
+  downloadApprovedRequest(body) {
+    return this.reqS.post(baseEndpoints.download, body);
   }
   postRequest(body) {
     return this.reqS.post(baseEndpoints.requests, body);
@@ -46,9 +72,12 @@ export class PossapServicesService {
   }
 
   mapSchemaToCBSID(schema, services) {
+    console.log(schema, services);
     const fullServices = [];
     schema.forEach((e) => {
-      const index = services.findIndex((s) => s.Name === e.name);
+      const index = services.findIndex(
+        (s) => s.Name.toLowerCase() === e.name.toLowerCase()
+      );
       fullServices.push({
         ...e,
         ServiceId: services[index].Id,
@@ -59,13 +88,12 @@ export class PossapServicesService {
     return fullServices;
   }
 
-  PSSExtractProcessor(obj) {
+  PSSExtractProcessor(obj, id) {
     console.log(obj);
-    const formData = new FormData();
     const body: any = {
       SelectedSubCategories: [],
       SelectedCategoriesAndSubCategories: {},
-      ServiceId: 1,
+      ServiceId: id,
     };
     Object.keys(obj).forEach((e) => {
       if (e === '1' || e === '2') {
@@ -94,6 +122,37 @@ export class PossapServicesService {
     return this.globalS.computeCBSBody(
       'post',
       baseEndpoints.extractRequest,
+      headerObj,
+      'SIGNATURE',
+      hashString,
+      body
+    );
+  }
+  PCCProcessor(obj, id, controls) {
+    const options = controls.filter(
+      (e) => e.name === 'CharacterCertificateReasonForInquiry'
+    )[0].options;
+    console.log(obj);
+    const body: any = {
+      ServiceId: id,
+      ...obj,
+    };
+
+    body.ReasonForInquiryValue = options.filter(
+      (o) => o.key === body.CharacterCertificateReasonForInquiry
+    )[0].value;
+    console.log(body, 'PURRE');
+    const headerObj = {
+      CLIENTID: environment.clientId,
+      CBSUSERID: this.user.CBSUserId,
+      PAYERID: this.user.PayerId,
+    };
+    const hashString = `${headerObj.PAYERID}${headerObj.CLIENTID}`;
+    // const hashString = `${body.SelectedCommand}${body.ServiceId}${headerObj.PAYERID}${headerObj.CLIENTID}`;
+    console.log(baseEndpoints);
+    return this.globalS.computeCBSBody(
+      'post',
+      baseEndpoints.pccRequest,
       headerObj,
       'SIGNATURE',
       hashString,

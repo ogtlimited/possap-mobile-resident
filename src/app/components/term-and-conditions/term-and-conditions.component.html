@@ -1,0 +1,36 @@
+
+<ion-content>
+  <ion-row class="mt-12 p-10">
+    <ion-col size="12" class="ion-text-center">
+
+      <ion-label class="ion-text-justify s20-h24">
+        TERMS AND CONDITIONS
+      </ion-label>
+    </ion-col>
+    <ion-col class="ion-text-justify px-17">
+
+      <ion-label class="ion-text-center s14-h16">
+        Please Note:
+      </ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-slides #slider (ionSlideReachEnd)="onEnd()" pager="true" [options]="slideOpts">
+    <ion-slide *ngFor="let item of slideList" class="ion-text-justify px-12">
+      <ion-label class="d-flex mb-18" [innerHTML]="item.text">
+     
+      </ion-label>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col>
+      <ion-button (click)="back()"  fill="outline">Cancel</ion-button>
+    </ion-col>
+    <ion-col class="flex ion-justify-content-end">
+      <ion-button (click)="next()" *ngIf="btnText === 'Next'">Next</ion-button>
+      <ion-button (click)="accept()" *ngIf="btnText !== 'Next'">Accept</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

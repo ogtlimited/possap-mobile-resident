@@ -54,9 +54,10 @@ export class ResidentFormComponent implements OnInit {
           text: 'Submit',
           role: 'confirm',
           handler: (data) => {
+            console.log(data);
             const date = new Date();
             const payload = {
-              Email: data.email,
+              Email: data.Email,
             };
             this.authS.sendResetOtp(payload).subscribe((res: any) => {
               console.log(res);
@@ -81,9 +82,9 @@ export class ResidentFormComponent implements OnInit {
     await alert.present();
   }
   async presentModal() {
-    const userData = this.resData.data;
+    const userData = this.resData;
     this.authS.tempUserData$.next(userData);
-    console.log(userData, 'userrr');
+    console.log(userData, 'userrr', this.resData);
     const modal = await this.modalController.create({
       component: PasscodeComponent,
       cssClass: 'fullscreen',
@@ -97,13 +98,14 @@ export class ResidentFormComponent implements OnInit {
   }
 
   async doPassForm(data, otp) {
+    console.log(data, otp);
     const payload = {
-      email: data.data.email,
-      code: otp,
-      phone: data.data.phone,
+      Token: data.token,
+      Code: otp,
     };
     console.log('payload', payload);
     this.authS.validateResetOtp(payload).subscribe((res: any) => {
+      this.authS.tempUserData$.next(res.data.ResponseObject);
       this.modalController.dismiss().then(() => this.openModal());
     });
   }

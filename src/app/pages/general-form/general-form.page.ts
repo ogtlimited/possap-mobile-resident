@@ -1,7 +1,7 @@
 import { GlobalService } from 'src/app/core/services/global/global.service';
-import { baseEndpoints } from './../../core/config/endpoints';
+import { baseEndpoints, serviceEndpoint } from './../../core/config/endpoints';
 /* eslint-disable @typescript-eslint/naming-convention */
-import { TermAndConditionsComponent } from './term-and-conditions/term-and-conditions.component';
+import { TermAndConditionsComponent } from '../../components/term-and-conditions/term-and-conditions.component';
 import {
   AlertController,
   LoadingController,
@@ -19,7 +19,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { environment } from 'src/environments/environment.prod';
 import { FormProcessorService } from 'src/app/core/services/form-processor.service';
-
+import { EXTRACT, PCC, PCCD } from 'src/app/core/data/constant';
 @Component({
   selector: 'app-general-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +35,42 @@ export class GeneralFormPage implements OnInit {
   owner;
   type = '';
   serviceCharge: any;
+  serviceName = '';
+  ownerStateOfOrigin = null;
+  // tempData = {
+  //   RequestType: '1',
+  //   CharacterCertificateReasonForInquiry: '1',
+  //   SelectedCountryOfOrigin: '2',
+  //   PlaceOfBirth: 'Abuja',
+  //   DateOfBirth: '18/02/1990',
+  //   DestinationCountry: '1',
+  //   SelectedCountryOfPassport: '3',
+  //   SelectedStateOfOrigin: '2',
+  //   PassportNumber: '98899999',
+  //   PlaceOfIssuance: 'Abuja',
+  //   DateOfIssuance: '18/06/2022',
+  //   PreviouslyConvicted: 'false',
+  //   PreviousConvictionHistory: '',
+  //   passportphotographfile: '1683006479871.png',
+  //   intpassportdatapagefile: '1683006487780.png',
+  //   SelectedState: '2',
+  //   SelectedCommand: '1',
+  // };
+  tempData = {
+    1: ['2'],
+    2: null,
+    3: '',
+    SelectedCategories: ['1'],
+    IsIncidentReported: false,
+    IncidentReportedDate: '',
+    AffidavitFile: '1684361656956.png',
+    AffidavitNumber: '5678909999',
+    AffidavitDateOfIssuance: '18/05/2022',
+    SelectedState: 37,
+    SelectedStateLga: 315,
+    SelectedCommand: 939,
+  };
+  invoiceDetails: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,20 +87,32 @@ export class GeneralFormPage implements OnInit {
   ) {
     // this.serviceSubmit(this.tempData);
   }
-
+  ionViewWillEnter() {
+    this.fps.formObject$.next(null);
+    this.authS.currentUser$.subscribe((user) => {
+      this.owner = user;
+    });
+    this.globalS.statesLgas$.subscribe((e) => {
+      if (e) {
+        this.ownerStateOfOrigin = e.filter(
+          (v) => v?.Name === this.owner?.SelectedStateName
+        )[0];
+        console.log(this.ownerStateOfOrigin, 'STATE OF ORIGIN');
+      }
+    });
+  }
   async ngOnInit() {
     const loading = await this.loader.create();
     await loading.present();
 
-    this.authS.currentUser$.subscribe((user) => {
-      this.owner = user;
-    });
     this.fps.formObject$.subscribe((e) => {
-      console.log(e);
+      // console.log(e);
       if (e) {
         this.jsonFormData = {
           controls: e,
         };
+        console.log(e);
+        // this.submitForm(this.tempData);
         this.cdref.detectChanges();
         loading.dismiss();
       }
@@ -73,17 +121,20 @@ export class GeneralFormPage implements OnInit {
       // console.log(params);
 
       this.serviceId = params.service;
+      console.log(this.serviceId, 'SERVICEID');
       this.title = params.title;
       this.type = params.type;
+      this.openModal();
       if (params.type === 'restful') {
         this.globalS.fetchStorageObject('CBS-SERVICES').subscribe((s: any) => {
           const parsed = JSON.parse(s.value);
-          const obj = parsed.filter((e) => e.ServiceId === parseInt(this.serviceId, 10))[0];
-          this.fps.pEFormSchema(obj.formSchema);
-          this.cdref.detectChanges();
-          console.log(obj);
+          const obj = parsed.filter(
+            (e) => e.ServiceId === parseInt(this.serviceId, 10)
+          )[0];
+          this.fps.formProcessor(obj);
+          // console.log(obj);
+          this.serviceName = obj.name;
         });
-
       } else {
         this.reqS
           .get('assets/data/' + this.serviceId + '.json')
@@ -103,8 +154,13 @@ export class GeneralFormPage implements OnInit {
     if (this.type === 'misc') {
       await this.incidentReportSubmit(val);
     } else {
-      await this.serviceSubmit(val);
+      this.formData = val.labelValue;
+      await this.serviceSubmit(val.mainValue);
     }
+  }
+
+  previewFormat(val) {
+    return {};
   }
 
   async openModal() {
@@ -113,7 +169,9 @@ export class GeneralFormPage implements OnInit {
       cssClass: 'terms-modal',
       breakpoints: [0.25],
       backdropDismiss: false,
-      componentProps: {},
+      componentProps: {
+        title: this.title.toLowerCase()
+      },
     });
     modal.present();
 
@@ -165,14 +223,24 @@ export class GeneralFormPage implements OnInit {
   }
 
   async serviceSubmit(val) {
-    // const body = {
-    //   service: this.serviceId,
-    //   owner: this.owner.id,
-    //   formFields: [val],
-    // };
-    console.log(val);
+    let endpoint = '';
+    console.log(val, this.serviceName);
     const loading = await this.loader.create();
-    const body = this.possapS.PSSExtractProcessor(val);
+    let body = null;
+    if (this.serviceName.toLowerCase() === EXTRACT.toLowerCase()) {
+      endpoint = serviceEndpoint.saveExtract;
+
+      body = this.possapS.PSSExtractProcessor(val, this.serviceId);
+    } else if (this.serviceName.toLowerCase() === PCC.toLowerCase()) {
+      console.log('PCC', this.jsonFormData);
+      endpoint = serviceEndpoint.savePCC;
+      val.SelectedStateOfOrigin = this.ownerStateOfOrigin.Id;
+      body = this.possapS.PCCProcessor(
+        val,
+        this.serviceId,
+        this.jsonFormData.controls
+      );
+    }
     console.log(body);
     const requestOptions: any = {
       requestObject: body.requestObject,
@@ -182,17 +250,23 @@ export class GeneralFormPage implements OnInit {
     await loading.present();
 
     console.log(requestOptions);
-    this.reqS.postFormData(baseEndpoints.cbsRoutes, requestOptions).subscribe(
+    this.reqS.postFormData(endpoint, requestOptions).subscribe(
       (res: any) => {
         console.log(res);
         loading.dismiss();
-        this.formData = val;
-        // this.showForm = false;
-        this.cdref.detectChanges();
-        this.router.navigate([
-          '/invoice',
-          { details: JSON.stringify(res.data.ResponseObject) },
-        ]);
+        if (!res.data.Error) {
+          // this.formData = val;
+          // this.formData = this.tempData;
+          this.showForm = false;
+          this.invoiceDetails = res.data.ResponseObject;
+          this.cdref.detectChanges();
+        } else {
+          const error = res.data.ResponseObject;
+          this.reqFailed(
+            'Error',
+            typeof error === 'string' ? error : 'Unable to save request'
+          );
+        }
       },
       (err) => {
         loading.dismiss();

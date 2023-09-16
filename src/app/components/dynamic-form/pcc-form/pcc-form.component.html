@@ -1,0 +1,240 @@
+<form [formGroup]="characterCertificateForm" (ngSubmit)="onSubmit()">
+
+  <!-- RequestType -->
+  <ion-item *ngIf="!isDiaspora">
+    <ion-label position="stacked" for="RequestType">Request Type</ion-label>
+    <ion-select formControlName="RequestType" placeholder="Request Type">
+      <ion-select-option *ngFor="let item of RequestTypes" [value]="item.Id">{{item.Name}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <div *ngIf="(RequestType.dirty || RequestType.touched) && RequestType.errors" class="errors">
+    <span>RequestType is required</span>
+  </div>
+  <!-- CharacterCertificateReasonForInquiry -->
+  <ion-item>
+    <ion-label position="stacked" for="CharacterCertificateReasonForInquiry">Reason For Inquiry
+    </ion-label>
+    <ion-select formControlName="CharacterCertificateReasonForInquiry" placeholder="Request Type">
+      <ion-select-option *ngFor="let item of ReasonsForInquiryOptions" [value]="item.Id">{{item.Name}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <div
+    *ngIf="(CharacterCertificateReasonForInquiry.dirty || CharacterCertificateReasonForInquiry.touched) && CharacterCertificateReasonForInquiry.errors"
+    class="errors">
+    <span *ngIf="CharacterCertificateReasonForInquiry.errors?.required">Reason for inquiry is
+      required</span>
+  </div>
+
+  <!-- SelectedCountryOfOrigin -->
+  <ion-item fill="outline">
+    <ion-label position="stacked" for="SelectedCountryOfOrigin">Country of Origin</ion-label>
+    <ion-input fill="outline" placeholder="Enter the country you are from"
+      (click)="openModal('Select Country of Origin', Countries, 'SelectedCountryOfOrigin')" type="text"
+      id="SelectedCountryOfOrigin" formControlName="SelectedCountryOfOrigin"></ion-input>
+  </ion-item>
+  <div *ngIf="(SelectedCountryOfOrigin.dirty || SelectedCountryOfOrigin.touched) && SelectedCountryOfOrigin.errors"
+    class="errors">
+    <span *ngIf="SelectedCountryOfOrigin.errors?.required">Country of origin is required</span>
+  </div>
+
+  <!-- SelectedStateOfOrigin -->
+
+  <ion-item *ngIf="SelectedCountryOfOrigin.value === 'Nigeria' && !isDiaspora">
+    <ion-label position="stacked" for="SelectedStateOfOrigin">State of Origin</ion-label>
+    <ion-input placeholder="State of origin"
+      (click)="openModal('Select State of Origin', StateLGAs, 'SelectedStateOfOrigin')" type="text"
+      id="SelectedStateOfOrigin" formControlName="SelectedStateOfOrigin"></ion-input>
+  </ion-item>
+  <div *ngIf="(SelectedStateOfOrigin.dirty || SelectedStateOfOrigin.touched) && SelectedStateOfOrigin.errors"
+    class="errors">
+    <span *ngIf="SelectedStateOfOrigin.errors?.required">State of origin is required</span>
+  </div>
+
+  <!-- PlaceOfBirth -->
+  <ion-item>
+    <ion-label position="stacked" for="PlaceOfBirth">Place of Birth</ion-label>
+    <ion-input placeholder="Place of birth" type="text" id="PlaceOfBirth" formControlName="PlaceOfBirth"></ion-input>
+  </ion-item>
+  <div *ngIf="(PlaceOfBirth.dirty || PlaceOfBirth.touched) && PlaceOfBirth.errors" class="errors">
+    <span *ngIf="PlaceOfBirth.errors?.required">Place of birth is required</span>
+  </div>
+
+  <!-- DestinationCountry -->
+  <ion-item *ngIf="isDiaspora">
+    <ion-label position="stacked" for="DestinationCountry">Country of Residence*</ion-label>
+    <ion-input placeholder="Select your destination country"
+      (click)="openModal('Select Country of Residence', Countries, 'SelectedCountryOfResidence')" type="text"
+      id="DestinationCountry" formControlName="SelectedCountryOfResidence"></ion-input>
+  </ion-item>
+  <div *ngIf="(SelectedCountryOfResidence.dirty || SelectedCountryOfResidence.touched) && SelectedCountryOfResidence.errors" class="errors">
+    <span *ngIf="SelectedCountryOfResidence.errors?.required">Country of residence is required</span>
+  </div>
+  <!-- DestinationCountry -->
+  <ion-item>
+    <ion-label position="stacked" for="DestinationCountry">Destination Country</ion-label>
+    <ion-input placeholder="Select your destination country"
+      (click)="openModal('Select Destination Country ', Countries, 'DestinationCountry')" type="text"
+      id="DestinationCountry" formControlName="DestinationCountry"></ion-input>
+  </ion-item>
+  <div *ngIf="(DestinationCountry.dirty || DestinationCountry.touched) && DestinationCountry.errors" class="errors">
+    <span *ngIf="DestinationCountry.errors?.required">Destination country is required</span>
+  </div>
+
+  <!-- DateOfBirth -->
+  <ion-item>
+    <ion-label position="stacked" for="DateOfBirth">Date of Birth</ion-label>
+    <ion-input type="date" placeholder="Date of Birth" id="DateOfBirth" formControlName="DateOfBirth"></ion-input>
+  </ion-item>
+  <div *ngIf="(DateOfBirth.dirty || DateOfBirth.touched) && DateOfBirth.errors" class="errors">
+    <span *ngIf="DateOfBirth.errors?.required">Date of birth is required</span>
+    <span *ngIf="DateOfBirth.hasError('invalidBirthDate')">Please input a valid date. Date of birth cannot be more than {{minDate}}</span>
+  </div>
+
+  <!-- SelectedCountryOfPassport -->
+  <ion-item>
+    <ion-label position="stacked" for="SelectedCountryOfPassport">Country of Passport</ion-label>
+    <ion-input placeholder="Select your country of passport"
+      (click)="openModal('Select Country of Passport', Countries, 'SelectedCountryOfPassport')" type="text"
+      id="SelectedCountryOfPassport" formControlName="SelectedCountryOfPassport"></ion-input>
+  </ion-item>
+  <div
+    *ngIf="(SelectedCountryOfPassport.dirty || SelectedCountryOfPassport.touched) && SelectedCountryOfPassport.errors"
+    class="errors">
+    <span *ngIf="SelectedCountryOfPassport.errors?.required">Country of passport is required</span>
+  </div>
+
+  <!-- PassportNumber -->
+  <ion-item>
+    <ion-label position="stacked" for="PassportNumber">Passport Number</ion-label>
+    <ion-input placeholder="Passport Number" type="text" id="PassportNumber" formControlName="PassportNumber">
+    </ion-input>
+  </ion-item>
+  <div *ngIf="(PassportNumber.dirty || PassportNumber.touched) && PassportNumber.errors" class="errors">
+    <span *ngIf="PassportNumber.errors?.required">Passport No. is required</span>
+    <span *ngIf="PassportNumber.hasError('minlength')">Passport No. must be 9 characters(a letter and 8 digits)</span>
+    <span *ngIf="PassportNumber.hasError('maxlength')">Passport No. must not be more than 9 characters</span>
+  </div>
+
+  <!-- PlaceOfIssuance -->
+  <ion-item>
+    <ion-label position="stacked" for="PlaceOfIssuance">Place of Issuance</ion-label>
+    <ion-input placeholder="Place of issuance" type="text" id="PlaceOfIssuance" formControlName="PlaceOfIssuance">
+    </ion-input>
+  </ion-item>
+  <div *ngIf="(PlaceOfIssuance.dirty || PlaceOfIssuance.touched) && PlaceOfIssuance.errors" class="errors">
+    <span *ngIf="PlaceOfIssuance.errors?.required">Place of issuance is required</span>
+  </div>
+
+  <!-- DateOfIssuance -->
+  <ion-item>
+    <ion-label position="stacked" for="DateOfIssuance">Date of Issuance</ion-label>
+    <ion-input placeholder="Date of issuance" type="date" id="DateOfIssuance" formControlName="DateOfIssuance">
+    </ion-input>
+  </ion-item>
+  <div *ngIf="(DateOfIssuance.dirty || DateOfIssuance.touched) && DateOfIssuance.errors" class="errors">
+    <span *ngIf="DateOfIssuance.errors?.required">Date of issuance is required</span>
+    <span *ngIf="DateOfIssuance.hasError('invalidDate')">Please input a valid date. Date of issuance cannot be a date in the future.</span>
+  </div>
+
+  <!-- PreviouslyConvicted -->
+  <ion-item *ngIf="!isDiaspora">
+    <ion-label position="stacked" for="PreviouslyConvicted">Previously Convicted</ion-label>
+    <ion-radio-group mode="md" formControlName="PreviouslyConvicted" value="false">
+      <ion-item lines="none">
+        <ion-label>Yes</ion-label>
+        <ion-radio slot="start" value="true"></ion-radio>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>No</ion-label>
+        <ion-radio slot="start" value="false"></ion-radio>
+      </ion-item>
+
+
+
+    </ion-radio-group>
+  </ion-item>
+  <div *ngIf="(PreviouslyConvicted.dirty || PreviouslyConvicted.touched) && PreviouslyConvicted.errors" class="errors">
+    <span *ngIf="PreviouslyConvicted.errors?.required">Previously convicted is required</span>
+  </div>
+
+  <!-- PreviousConvictionHistory -->
+  <ion-item *ngIf="PreviouslyConvicted.value === 'true'">
+    <ion-label position="stacked" for="PreviousConvictionHistory">Previous Conviction History</ion-label>
+    <ion-textarea placeholder="Enter info about your previous conviction history" type="text"
+      id="PreviousConvictionHistory" formControlName="PreviousConvictionHistory"></ion-textarea>
+  </ion-item>
+  <div
+    *ngIf="(PreviousConvictionHistory.dirty || PreviousConvictionHistory.touched) && PreviousConvictionHistory.errors"
+    class="errors">
+    <span *ngIf="PreviousConvictionHistory.errors?.required">Previous conviction history is required</span>
+  </div>
+
+  <!-- File -->
+  <ion-item>
+    <div (click)="selectImageSource('passportphotographfile')" class="flex flex-column my-8">
+      <ion-label class="file-label">Upload Current Passport Photograph*</ion-label>
+      <div class="file">
+  
+        <ion-icon *ngIf="passportphotographfile.value === ''" name="camera"></ion-icon>
+        <img *ngIf="passportphotographfile.value !== ''" [src]="fileNames['passportphotographfile']" alt="">
+      </div>
+    </div>
+
+  </ion-item>
+  <ion-item>
+    <div (click)="selectImageSource('intpassportdatapagefile')" class="flex flex-column my-8">
+      <ion-label class="file-label">Upload International Passport Bio Datapage*</ion-label>
+      <div class="file">
+  
+        <ion-icon *ngIf="intpassportdatapagefile.value === ''" name="camera"></ion-icon>
+        <img *ngIf="intpassportdatapagefile.value !== ''" [src]="fileNames['intpassportdatapagefile']" alt="">
+      </div>
+    </div>
+
+  </ion-item>
+  <ion-item *ngIf="isDiaspora">
+    <div (click)="selectImageSource('proofOfResidenceFile')" class="flex flex-column my-8">
+      <ion-label class="file-label">Upload Proof of Residence*</ion-label>
+      <div class="file">
+        <ion-icon *ngIf="proofOfResidenceFile.value === ''" name="camera"></ion-icon>
+        <img *ngIf="proofOfResidenceFile.value !== ''" [src]="fileNames['proofOfResidenceFile']" alt="">
+      </div>
+    </div>
+
+  </ion-item>
+
+  <ion-row class="pl-16 mt-12">
+    <ion-label class="label-header" *ngIf="!isDiaspora">Select Police Command to Request Character Certificate</ion-label>
+  </ion-row>
+
+  <!-- SelectedState -->
+  <ion-item *ngIf="!isDiaspora">
+    <ion-label position="stacked" for="SelectedState">Select State</ion-label>
+    <ion-input placeholder="Select state for the police command"
+      (click)="openModal('Select State', StateLGAs, 'SelectedState')" type="text" id="SelectedState"
+      formControlName="SelectedState"></ion-input>
+  </ion-item>
+  <div *ngIf="(SelectedState.dirty || SelectedState.touched) && SelectedState.errors" class="errors">
+    <span *ngIf="SelectedState.errors?.required">State is required</span>
+  </div>
+
+  <!-- SelectedCommand -->
+  <ion-item *ngIf="SelectedState.value !== ''">
+    <ion-label position="stacked" for="SelectedCommand">Select Command</ion-label>
+    <ion-input readonly placeholder="Select the Formation/Division" type="text" id="SelectedCommand"
+      formControlName="SelectedCommand"></ion-input>
+  </ion-item>
+  <div *ngIf="(SelectedCommand.dirty || SelectedCommand.touched) && SelectedCommand.errors" class="errors">
+    <span *ngIf="SelectedCommand.errors?.required">Command is required</span>
+  </div>
+
+  <ion-row class="px-10">
+    <ion-col>
+      <ion-button [disabled]="!characterCertificateForm.valid" expand="full" type="submit">Submit</ion-button>
+
+    </ion-col>
+
+  </ion-row>
+</form>

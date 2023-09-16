@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-label class="ion-text-center">{{placeholder}}</ion-label>
+
+
+    <ion-button fill="clear"  slot="end" [disabled]="!selected" (click)="save()">
+      <ion-label class="light">Save</ion-label>
+    </ion-button>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-searchbar (ionClear)="clear()" (ionChange)="filterList()"  [(ngModel)]="term" #inputToFocus placeholder="Enter name "></ion-searchbar>
+  <ion-radio-group mode="md" value="control.value">
+    <ion-item  (click)="selectItem(i)" *ngFor="let i of listStore">
+      <ion-radio slot="start" [value]="i.Id" ></ion-radio>
+      {{i.Name | titlecase}}
+    </ion-item>
+
+  </ion-radio-group>
+</ion-content>

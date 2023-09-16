@@ -1,20 +1,19 @@
-import { Injectable } from '@angular/core';
-import { CanLoad, Router } from '@angular/router';
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
+/* eslint-disable @typescript-eslint/naming-convention */
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { Preferences as Storage } from '@capacitor/preferences';
-@Injectable({
-  providedIn: 'root'
-})
-export class CheckTutorial implements CanLoad {
-  constructor(private router: Router) {}
 
-  canLoad() {
-    return Storage.get({key: 'ion_did_tutorial'}).then(res => {
-      if (res) {
-        this.router.navigate(['/app', 'tabs', 'home']);
-        return false;
-      } else {
-        return true;
-      }
-    });
-  }
+export function CheckTutorial(): CanActivateFn {
+  return async () => {
+    const router = inject(Router);
+
+    const res = await Storage.get({ key: 'ion_did_tutorial' });
+    console.log(res);
+    if (res) {
+      return true;
+    } else {
+      router.navigate(['/app', 'tabs', 'home']);
+    }
+  };
 }

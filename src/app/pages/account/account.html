@@ -9,15 +9,15 @@
           Profile
         </ion-button>
       </div>
-      <ion-button (click)="presentModal('profile')" fill="clear" slot="end">
+      <!-- <ion-button (click)="presentModal('profile')" fill="clear" slot="end">
         <ion-icon color="light" name="edit-1"></ion-icon>
-      </ion-button>
+      </ion-button> -->
     </div>
     <div class="flex flex-column desc">
       <div class="flex desc">
         <ion-avatar slot="start">
-          <img [src]="avater" />
-          <label for="profile-image" class="camera">
+          <img  src="assets/img/avatar.png" />
+          <!-- <label for="profile-image" class="camera">
             <ion-icon name="camera"></ion-icon>
             <input
               (change)="onChange($event)"
@@ -25,13 +25,13 @@
               id="profile-image"
               hidden
             />
-          </label>
+          </label> -->
         </ion-avatar>
         <div class="flex user-label flex-column">
-          <ion-text class="pb-5">{{user?.fullName}}</ion-text>
-          <ion-text class="pb-5"><ion-text>{{user?.phone}}</ion-text></ion-text>
+          <ion-text class="pb-5">{{user?.Name}}</ion-text>
+          <ion-text class="pb-5"><ion-text>{{user?.PhoneNumber}}</ion-text></ion-text>
           <ion-text class="pb-5">
-            <ion-text>{{user?.email}}</ion-text></ion-text
+            <ion-text>{{user?.Email}}</ion-text></ion-text
           >
         </div>
       </div>

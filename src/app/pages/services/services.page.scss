@@ -15,6 +15,7 @@ ion-card {
 }
 
 .icon-bg {
+  // width: 80%;
   background-color: #4caf50; /* Green */
   border: none;
   color: white;
@@ -81,4 +82,13 @@ ion-card-title {
 
 .button-21:focus:not(:active) {
   box-shadow: rgba(40, 170, 255, 0.25) 0 0 0 0.125em;
+}
+.w-80{
+  width: 75%;
+}
+.light{
+  color: #fff;
+}
+.dark{
+  color: #000 !important;
 }

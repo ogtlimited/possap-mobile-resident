@@ -1,0 +1,153 @@
+<app-header [showBack]="true" [title]="title"></app-header>
+
+<ion-content>
+  <form *ngIf="step === 'one'" class="mt-64 mx-8" [formGroup]="egsFormOne" (ngSubmit)="submitFormOne()">
+    <ion-item>
+      <ion-label position="floating">Service</ion-label>
+      <ion-input type="text" formControlName="services"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Category</ion-label>
+      <ion-select mode="ios" interface="action-sheet" formControlName="subCategories" placeholder="Select Category">
+        <ion-select-option *ngFor="let i of subCategoriesOptions" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(subCategories.dirty || subCategories.touched) && subCategories.errors" class="errors">
+      <span *ngIf="subCategories.errors?.required">Categories is required</span>
+    </div>
+    <ion-item *ngIf="showSubSub">
+      <ion-label position="floating">Sub-Category</ion-label>
+      <ion-select mode="ios" interface="action-sheet" formControlName="subSubCategories"
+        placeholder="Select Sub-Category">
+        <ion-select-option *ngFor="let i of subSubCategoriesOption" [value]="i.Id">{{i.Name | titlecase}}
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+    <div *ngIf="(subSubCategories.dirty || subSubCategories.touched) && subSubCategories.errors" class="errors">
+      <span *ngIf="subSubCategories.errors?.required">Vehicle color is required</span>
+
+    </div>
+
+
+
+
+    <ion-button class="mx-10 mt-30" expand="full" type="submit" [disabled]="egsFormOne.invalid">Proceed</ion-button>
+  </form>
+  <app-egs-form [user]="user" [formData]="formData" (emitForm)="submitFormTwo($event)" *ngIf="step === 'two'">
+  </app-egs-form>
+
+  <form *ngIf="step === 'three'" class="mt-64 mx-8" [formGroup]="egsFormThree" (ngSubmit)="finalSubmit()">
+    <ion-item>
+      <ion-label position="floating">Number of Officers Required*</ion-label>
+      <ion-input type="number" formControlName="NumberOfOfficers"></ion-input>
+    </ion-item>
+    <ion-note class="pl-18 mb-20" slot="helper">Specify the number of officers required.</ion-note>
+
+    <div *ngIf="(NumberOfOfficers.dirty || NumberOfOfficers.touched) && NumberOfOfficers.errors" class="errors">
+      <span *ngIf="NumberOfOfficers.errors?.required">Input the number of officers to proceed</span>
+    </div>
+
+    <ion-row class="my-15 mx-16">
+      <ion-col>
+
+        <ion-button (click)="toggleestimateModal()" expand="block" fill="outline">Click to get an estimate</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+
+        <ion-button (click)="goToStep('two')" class="mx-10 mt-10" expand="block">Back</ion-button>
+      </ion-col>
+      <ion-col>
+
+        <ion-button class="mx-10 mt-10" expand="block" type="submit" [disabled]="egsFormThree.invalid">Proceed
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+
+  <app-egs-form-preview *ngIf="step === 'four'" [serviceName]="title" [data]="mainFormValue"
+    [formLabels]="labelValues"
+    [invoiceDetails]="invoice"
+    [owner]="user"
+    >
+  </app-egs-form-preview>
+
+  <ion-modal [isOpen]="isModalOpen" [backdropDismiss]="false" [initialBreakpoint]="0.95"
+    [breakpoints]="[0, 0.25, 0.5, 0.75, 0.95]">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <form (ngSubmit)="submitEstimate()" [formGroup]="estimateForm" class="ion-margin-top filter-form">
+          <ion-item>
+            <ion-label position="floating">State</ion-label>
+            <ion-select mode="ios" formControlName="stateId" placeholder="Select delivery state">
+              <ion-select-option *ngFor="let i of StateOptions" [value]="i.Id">{{i.Name | titlecase}}
+              </ion-select-option>
+
+            </ion-select>
+          </ion-item>
+          <div *ngIf="(SelectedState.dirty || SelectedState.touched) && SelectedState.errors" class="errors">
+            <span *ngIf="SelectedState.errors?.required">State is required</span>
+          </div>
+
+          <ion-item>
+            <ion-label position="floating">LGA</ion-label>
+            <ion-select mode="ios" formControlName="lgaId" placeholder="Select delivery LGA">
+              <ion-select-option *ngFor="let i of LGAOptions" [value]="i.Id">{{i.Name | titlecase}}
+              </ion-select-option>
+
+            </ion-select>
+
+          </ion-item>
+          <div *ngIf="(SelectedStateLGA.dirty || SelectedStateLGA.touched) && SelectedStateLGA.errors" class="errors">
+            <span *ngIf="SelectedStateLGA.errors?.required">LGA is required</span>
+          </div>
+          <ion-item>
+            <ion-label position="floating">Number of Officers Required*</ion-label>
+            <ion-input type="number" formControlName="officerQty"></ion-input>
+          </ion-item>
+          <ion-note class="pl-18 mb-20" slot="helper">Specify the number of officers required.</ion-note>
+
+          <div
+            *ngIf="(NumberOfOfficersEstimate.dirty || NumberOfOfficersEstimate.touched) && NumberOfOfficersEstimate.errors"
+            class="errors">
+            <span *ngIf="NumberOfOfficersEstimate.errors?.required">Input the number of officers to proceed</span>
+          </div>
+          <ion-item mode="md">
+            <ion-label position="stacked">From</ion-label>
+            <ion-input type="date" formControlName="startDate" placeholder="Enter text"></ion-input>
+          </ion-item>
+          <ion-item mode="md">
+            <ion-label position="stacked">To</ion-label>
+            <ion-input type="date" formControlName="endDate" placeholder="Enter text"></ion-input>
+          </ion-item>
+          <ion-card *ngIf="estimatesResponse">
+            <ion-card-header class="pb-0">
+              <ion-card-title>{{estimatesResponse.computedAmount | currency:'₦'}}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content class="m-0 pt-2">
+              <ion-note>{{estimatesResponse.estimateNote}}</ion-note>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-row class="mt-20">
+
+            <ion-col>
+              <ion-button (click)="toggleestimateModal()" fill="outline" expand="block" color="danger">Dismiss
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" type="submit" color="primary">Calculate Estimate</ion-button>
+            </ion-col>
+          </ion-row>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

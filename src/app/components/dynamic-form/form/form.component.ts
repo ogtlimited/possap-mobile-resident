@@ -40,12 +40,15 @@ import { SelectComponent } from '../../select/select.component';
 })
 export class FormComponent implements OnChanges, OnInit {
   @Input() jsonFormData: JsonFormData;
+  @Input() serviceId: string;
   @Output() emitForm: EventEmitter<any> = new EventEmitter();
   formCreated: Subject<boolean> = new Subject();
   public myForm: FormGroup;
   fileNames = {};
   message =
     'This modal example uses the modalController to present and dismiss modals.';
+  controlApi = {};
+  formLabelValues = {};
 
   constructor(
     private fb: FormBuilder,
@@ -113,6 +116,9 @@ export class FormComponent implements OnChanges, OnInit {
       if (control.type === 'file') {
         this.fileNames[control.name] = '';
       }
+      if (control.api) {
+        this.controlApi[control.name] = control.placeholder;
+      }
       this.myForm.addControl(
         control.name,
         this.fb.control(control.value, validatorsToAdd)
@@ -124,14 +130,19 @@ export class FormComponent implements OnChanges, OnInit {
 
   onSubmit() {
     const { value } = this.myForm;
-    const dateTpes = this.jsonFormData.controls.filter(e => e.type === 'date').map(t => t.name);
-    dateTpes.forEach(e => {
-      if(value[e]){
+    const dateTpes = this.jsonFormData.controls
+      .filter((e) => e.type === 'date')
+      .map((t) => t.name);
+    dateTpes.forEach((e) => {
+      if (value[e]) {
         value[e] = new Date(value[e]).toLocaleDateString('en-GB');
       }
     });
-    console.log(value);
-    this.emitForm.emit(value);
+    const obj = {
+      mainValue: value,
+      labelValue: this.formLabelValues,
+    };
+    this.emitForm.emit(obj);
   }
   canRender(name, control) {
     const field = this.jsonFormData.controls.filter((e) => e.name === name)[0];
@@ -139,7 +150,6 @@ export class FormComponent implements OnChanges, OnInit {
     if (!field.showIf) {
       return true;
     } else {
-
       if (
         typeof this.myForm.value[control?.showIf?.value] === 'string' ||
         typeof this.myForm.value[control?.showIf?.value] === 'boolean'
@@ -173,7 +183,6 @@ export class FormComponent implements OnChanges, OnInit {
       return control.options;
     } else {
       // const data = this.fetchData(control);
-      // console.log(data);
     }
   }
   async openModal(control) {
@@ -185,18 +194,53 @@ export class FormComponent implements OnChanges, OnInit {
         control,
         jsonFormData: this.jsonFormData,
         myForm: this.myForm,
+        serviceId: this.serviceId,
       },
     });
     modal.present();
 
     const { data } = await modal.onWillDismiss();
+    this.controlApi[control.name] = data.label;
+    this.formLabelValues[control.name] = data.label;
     this.myForm.patchValue({
-      [control.name]: data,
+      [control.name]: data.value,
     });
+    this.cdref.detectChanges();
   }
 
-  selectChange(control) {
+  selectApiChange(event, control) {
+    event.preventDefault();
     this.openModal(control);
+  }
+
+  setLabelValue(key, event) {
+    console.log(event);
+    this.formLabelValues = {
+      ...this.formLabelValues,
+      [key]: event.detail.value,
+    };
+  }
+  setSelectLabelValue(event, options, key) {
+    const { value } = event.detail;
+    if(Array.isArray(value)){
+      const val = [];
+      options.forEach(e => {
+        if(value.includes(e.key)){
+          val.push(e.value);
+        }
+      });
+      this.formLabelValues = {
+        ...this.formLabelValues,
+        [key]: val,
+      };
+
+    }else{
+      const v = options.filter((e) => e.key === value)[0];
+      this.formLabelValues = {
+        ...this.formLabelValues,
+        [key]: v.value,
+      };
+    }
   }
 
   async selectImageSource(name) {
@@ -235,7 +279,6 @@ export class FormComponent implements OnChanges, OnInit {
     await actionSheet.present();
   }
   async addImage(source: CameraSource, name) {
-
     const image = await Camera.getPhoto({
       quality: 60,
       allowEditing: false,
@@ -265,12 +308,7 @@ export class FormComponent implements OnChanges, OnInit {
     //   this.images.push(newImage);
     // });
   }
-  // onFileSelect(event: Event, formControlName: string) {
-  //   const file = (event.target as HTMLInputElement).files[0];
-  //   this.fileNames[formControlName] = file.name;
-  //   this.myForm.controls[formControlName].patchValue(file);
-  //   this.myForm.get(formControlName).updateValueAndValidity();
-  // }
+
   b64toBlob(b64Data, contentType = '', sliceSize = 512) {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];
